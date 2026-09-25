@@ -24,8 +24,8 @@ Mục tiêu của đồ án là thực hiện các hoạt động **bảo trì p
 | Nhánh              | Mục đích                                      | Trạng thái      |
 |--------------------|-----------------------------------------------|-----------------|
 | `main`             | Phiên bản gốc ban đầu của dự án               | ✅ Ổn định      |
-| `Refactoring`      | Thực hiện tái cấu trúc mã nguồn               |[Refactoring](Refactoring) |
-| `Design-Patterns`  | Áp dụng các Design Patterns vào hệ thống      | [Design Patterns](https://github.com/haidpm235414/DH24PM-CNPM-Nhom09/tree/Frontend/frontend) |
+| `Refactoring`      | Thực hiện tái cấu trúc mã nguồn               |[Refactoring] |
+| `Design-Patterns`  | Áp dụng các Design Patterns vào hệ thống      | [Design Patterns] |
 
 ---
 
