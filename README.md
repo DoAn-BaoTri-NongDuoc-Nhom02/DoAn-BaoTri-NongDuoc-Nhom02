@@ -23,19 +23,31 @@ Mục tiêu của đồ án là thực hiện các hoạt động **bảo trì p
 
 | Nhánh              | Mục đích                                      | Trạng thái      |
 |--------------------|-----------------------------------------------|-----------------|
-| `main`             | Phiên bản gốc ban đầu của dự án               | ✅ Ổn định      |
+| `main`             | Phiên bản gốc ban đầu của dự án               |     |
 | `Refactoring`      | Thực hiện tái cấu trúc mã nguồn               |[Refactoring] |
 | `Design-Patterns`  | Áp dụng các Design Patterns vào hệ thống      | [Design Patterns] |
 
 ---
 
 ### 1️⃣ Nhánh `main`
-> Phiên bản gốc của phần mềm Cửa hàng Nông dược
+> Phiên bản gốc và phiên bản đã chỉnh sửa 
+## 🚀 Hướng dẫn làm việc với Git
 
-- Đây là mã nguồn ban đầu chưa chỉnh sửa
-- Dùng làm cơ sở để so sánh với các phiên bản bảo trì
-- Không được commit trực tiếp các thay đổi lớn vào nhánh này
+## 🚀 Hướng dẫn làm việc với Git
 
-**Cách tải dự án từ main về máy :**
 ```bash
+# 1. Tải dự án về máy (chỉ làm 1 lần)
 git clone https://github.com/DoAn-BaoTri-NongDuoc-Nhom02/DoAn-BaoTri-NongDuoc-Nhom02.git
+cd DoAn-BaoTri-NongDuoc-Nhom02
+
+# 2. Chuyển sang nhánh cần làm việc
+git checkout Refactoring
+# hoặc: git checkout Design-Patterns
+
+# 3. Lấy code mới nhất trước khi bắt đầu sửa
+git pull
+
+# 4. Sau khi sửa xong, đẩy code lên GitHub
+git add .
+git commit -m "Mô tả những gì đã làm"
+git push
