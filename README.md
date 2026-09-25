@@ -32,9 +32,6 @@ Mục tiêu của đồ án là thực hiện các hoạt động **bảo trì p
 ### 1️⃣ Nhánh `main`
 > Phiên bản gốc và phiên bản đã chỉnh sửa 
 ## 🚀 Hướng dẫn làm việc với Git
-
-## 🚀 Hướng dẫn làm việc với Git
-
 ```bash
 # 1. Tải dự án về máy (chỉ làm 1 lần)
 git clone https://github.com/DoAn-BaoTri-NongDuoc-Nhom02/DoAn-BaoTri-NongDuoc-Nhom02.git
