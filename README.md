@@ -16,7 +16,7 @@ Mục tiêu của đồ án là thực hiện các hoạt động **bảo trì p
 - Tái cấu trúc mã nguồn (Refactoring)
 - Áp dụng các mẫu thiết kế (Design Patterns)
 - Sửa lỗi và cải tiến chức năng
-
+- Tham khảo trên web: https://refactoring.guru/
 ---
 
 ## 🌿 Cấu trúc các nhánh (Branches)
