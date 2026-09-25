@@ -36,6 +36,6 @@ Mục tiêu của đồ án là thực hiện các hoạt động **bảo trì p
 - Dùng làm cơ sở để so sánh với các phiên bản bảo trì
 - Không được commit trực tiếp các thay đổi lớn vào nhánh này
 
-**Cách chuyển sang nhánh main:**
+**Cách Tải dự án về máy:**
 ```bash
-git checkout main
+git clone https://github.com/DoAn-BaoTri-NongDuoc-Nhom02/DoAn-BaoTri-NongDuoc-Nhom02.git
