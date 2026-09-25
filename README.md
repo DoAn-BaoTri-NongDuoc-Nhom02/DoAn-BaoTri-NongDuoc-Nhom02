@@ -23,18 +23,14 @@ Mục tiêu của đồ án là thực hiện các hoạt động **bảo trì p
 
 | Nhánh              | Mục đích                                      | Trạng thái      |
 |--------------------|-----------------------------------------------|-----------------|
-| `main`             | Phiên bản gốc ban đầu của dự án               | ✅ Ổn định      |
-| `Refactoring`      | Thực hiện tái cấu trúc mã nguồn               | 🔄 Đang thực hiện |
-| `Design-Patterns`  | Áp dụng các Design Patterns vào hệ thống      | 🔄 Đang thực hiện |
+| `main`             | Phiên bản gốc ban đầu của dự án               |      |
+| `Refactoring`      | Thực hiện tái cấu trúc mã nguồn               |  |
+| `Design-Patterns`  | Áp dụng các Design Patterns vào hệ thống      |  |
 
 ---
 
 ### 1️⃣ Nhánh `main`
-> Phiên bản gốc của phần mềm Cửa hàng Nông dược
-
-- Đây là mã nguồn ban đầu chưa chỉnh sửa
-- Dùng làm cơ sở để so sánh với các phiên bản bảo trì
-- Không được commit trực tiếp các thay đổi lớn vào nhánh này
+> Phiên bản gốc của phần mềm Cửa hàng Nông dược và Phiên bản đã cập nhật
 
 **Cách Tải dự án về máy:**
 ```bash
