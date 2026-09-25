@@ -1,0 +1,52 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\FULL \u0110\u1ED2 \u00C1N\\Thi\u1EBFt k\u1EBF \u0026 Ph\u00E1t tri\u1EC3n \u0026 B\u1EA3o tr\u00EC (th\u1EA7y Nh\u00E0n)\\Cuahang_Nongduoc\\Cuahang_Nongduoc\\Cuahang Nongduoc\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E7305AF2-08AC-442F-97CE-9326B33046AA}|CuahangNongduoc.csproj|d:\\full \u0111\u1ED3 \u00E1n\\thi\u1EBFt k\u1EBF \u0026 ph\u00E1t tri\u1EC3n \u0026 b\u1EA3o tr\u00EC (th\u1EA7y nh\u00E0n)\\cuahang_nongduoc\\cuahang_nongduoc\\cuahang nongduoc\\frmbansi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E7305AF2-08AC-442F-97CE-9326B33046AA}|CuahangNongduoc.csproj|solutionrelative:frmbansi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E7305AF2-08AC-442F-97CE-9326B33046AA}|CuahangNongduoc.csproj|d:\\full \u0111\u1ED3 \u00E1n\\thi\u1EBFt k\u1EBF \u0026 ph\u00E1t tri\u1EC3n \u0026 b\u1EA3o tr\u00EC (th\u1EA7y nh\u00E0n)\\cuahang_nongduoc\\cuahang_nongduoc\\cuahang nongduoc\\frmbanle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E7305AF2-08AC-442F-97CE-9326B33046AA}|CuahangNongduoc.csproj|solutionrelative:frmbanle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "frmBanSi.cs [Design]",
+              "DocumentMoniker": "D:\\FULL \u0110\u1ED2 \u00C1N\\Thi\u1EBFt k\u1EBF \u0026 Ph\u00E1t tri\u1EC3n \u0026 B\u1EA3o tr\u00EC (th\u1EA7y Nh\u00E0n)\\Cuahang_Nongduoc\\Cuahang_Nongduoc\\Cuahang Nongduoc\\frmBanSi.cs",
+              "RelativeDocumentMoniker": "frmBanSi.cs",
+              "ToolTip": "D:\\FULL \u0110\u1ED2 \u00C1N\\Thi\u1EBFt k\u1EBF \u0026 Ph\u00E1t tri\u1EC3n \u0026 B\u1EA3o tr\u00EC (th\u1EA7y Nh\u00E0n)\\Cuahang_Nongduoc\\Cuahang_Nongduoc\\Cuahang Nongduoc\\frmBanSi.cs [Design]",
+              "RelativeToolTip": "frmBanSi.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-25T05:49:36.18Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "frmBanLe.cs [Design]",
+              "DocumentMoniker": "D:\\FULL \u0110\u1ED2 \u00C1N\\Thi\u1EBFt k\u1EBF \u0026 Ph\u00E1t tri\u1EC3n \u0026 B\u1EA3o tr\u00EC (th\u1EA7y Nh\u00E0n)\\Cuahang_Nongduoc\\Cuahang_Nongduoc\\Cuahang Nongduoc\\frmBanLe.cs",
+              "RelativeDocumentMoniker": "frmBanLe.cs",
+              "ToolTip": "D:\\FULL \u0110\u1ED2 \u00C1N\\Thi\u1EBFt k\u1EBF \u0026 Ph\u00E1t tri\u1EC3n \u0026 B\u1EA3o tr\u00EC (th\u1EA7y Nh\u00E0n)\\Cuahang_Nongduoc\\Cuahang_Nongduoc\\Cuahang Nongduoc\\frmBanLe.cs [Design]",
+              "RelativeToolTip": "frmBanLe.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-25T05:49:32.918Z",
+              "EditorCaption": " [Design]"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
