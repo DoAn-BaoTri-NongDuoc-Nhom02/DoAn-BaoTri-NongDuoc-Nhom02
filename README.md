@@ -8,7 +8,7 @@ Hệ thống quản lý **Cửa hàng Nông dược** được xây dựng bằn
 
 Mục tiêu của đồ án là thực hiện các hoạt động **bảo trì phần mềm** trên hệ thống có sẵn, bao gồm:
 - Tham khảo trên web: https://refactoring.guru/
-## 🌿 Cấu trúc các nhánh (Branches)
+##  Cấu trúc các nhánh (Branches)
 | Nhánh              | Mục đích                                      | Trạng thái      |
 |--------------------|-----------------------------------------------|-----------------|
 | `main`             | KHÔNG ĐỤNG VÀO -> chỉ chứa dự án góc and dự án hoàn chỉnh              |     |
@@ -19,7 +19,7 @@ Mục tiêu của đồ án là thực hiện các hoạt động **bảo trì p
 1. Mở SQL Server Management Studio
 2. Chạy file `Database/CuahangNongDuoc.sql` để tạo database và các bảng
 3. Sửa lại chuỗi kết nối trong `App.config` cho đúng với máy bạn (nếu cần)
-## 🚀 Hướng dẫn làm việc với Git
+##  Hướng dẫn làm việc với Git
 ```bash
 # 1. Tải dự án về máy (chỉ làm 1 lần)
 git clone https://github.com/DoAn-BaoTri-NongDuoc-Nhom02/DoAn-BaoTri-NongDuoc-Nhom02.git
