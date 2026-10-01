@@ -24,8 +24,8 @@ Mục tiêu của đồ án là thực hiện các hoạt động **bảo trì p
 | Nhánh              | Mục đích                                      | Trạng thái      |
 |--------------------|-----------------------------------------------|-----------------|
 | `main`             | Phiên bản gốc ban đầu của dự án               |     |
-| `Refactoring`      | Thực hiện tái cấu trúc mã nguồn               |[Refactoring] |
-| `Design-Patterns`  | Áp dụng các Design Patterns vào hệ thống      | [Design Patterns] |
+| `Develop`      | Thực hiện tái cấu trúc mã nguồn               |[Refactoring] |
+| `[Tên]->'lưu ý branches cá nhân phải `  | Áp dụng các Design Patterns vào hệ thống      | [Design Patterns] |
 
 ---
 
