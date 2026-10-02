@@ -15,7 +15,7 @@ Mục tiêu của đồ án là thực hiện các hoạt động **bảo trì p
 | `Develop`          | Thực hiện tái cấu trúc mã nguồn (down về trước khi làm Và Pull request từ nhánh cá nhân sau khi làm xong| |
 | `[Tên]->'lưu ý branches cá nhân phải link Soure về Develop`  | Up dự án đã làm vào nhánh cá nhân và Pull request vào Develop    |
 ## Hướng dẫn cài đặt Database
-
+from nằm trong UI còn code csdl nằm foder Database
 1. Mở SQL Server Management Studio
 2. Chạy file `Database/CuahangNongDuoc.sql` để tạo database và các bảng
 3. Sửa lại chuỗi kết nối trong `App.config` cho đúng với máy bạn (nếu cần)
