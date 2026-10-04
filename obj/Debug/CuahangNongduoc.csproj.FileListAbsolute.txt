@@ -1,0 +1,253 @@
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.csprojResolveAssemblyReference.cache
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuChi.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmPhieuChi.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmLyDoChi.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmBanSi.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDanhsachPhieuBanSi.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDanhsachPhieuBanLe.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmBanLe.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDaiLy.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDanhsachPhieuNhap.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDoanhThu.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDonViTinh.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDunoKhachhang.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInDunoKhachHang.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuBan.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuNhap.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmKhachHang.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmMain.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmNhaCungCap.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmNhapHang.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuThanhToan.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSanPham.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSanphamHethan.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSoLuongBan.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSoLuongTon.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmThanhToan.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmThongtinCuahang.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmThongtinLienhe.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuBanLe.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuChi.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuNhap.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuThu.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.Properties.Resources.resources
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.csproj.GenerateResource.Cache
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.exe
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.pdb
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\bin\Debug\CuahangNongduoc.exe
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\bin\Debug\CuahangNongduoc.pdb
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\bin\Debug\Microsoft.ReportViewer.Common.dll
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\bin\Debug\Microsoft.ReportViewer.WinForms.dll
+D:\TeachingAGU\BaoTriPhanMem\Cuahang_Nongduoc\Cuahang Nongduoc\bin\Debug\Microsoft.ReportViewer.WinForms.xml
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\bin\Debug\CuahangNongduoc.exe
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\bin\Debug\CuahangNongduoc.pdb
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\bin\Debug\Microsoft.ReportViewer.WinForms.xml
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.csproj.AssemblyReference.cache
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuChi.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmPhieuChi.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmLyDoChi.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmBanSi.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDanhsachPhieuBanSi.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDanhsachPhieuBanLe.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmBanLe.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDaiLy.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDanhsachPhieuNhap.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDoanhThu.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDonViTinh.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDunoKhachhang.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInDunoKhachHang.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuBan.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuNhap.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmKhachHang.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmMain.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmNhaCungCap.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmNhapHang.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuThanhToan.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSanPham.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSanphamHethan.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSoLuongBan.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSoLuongTon.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmThanhToan.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmThongtinCuahang.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmThongtinLienhe.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuBanLe.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuChi.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuNhap.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuThu.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.Properties.Resources.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.csproj.GenerateResource.cache
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.csproj.CoreCompileInputs.cache
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangN.B1970924.Up2Date
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.exe
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang_Nongduoc\Cuahang_Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.pdb
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\bin\Debug\CuahangNongduoc.exe
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\bin\Debug\CuahangNongduoc.pdb
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\bin\Debug\Microsoft.ReportViewer.WinForms.xml
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.csproj.AssemblyReference.cache
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuChi.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmPhieuChi.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmLyDoChi.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmBanSi.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDanhsachPhieuBanSi.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDanhsachPhieuBanLe.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmBanLe.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDaiLy.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDanhsachPhieuNhap.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDoanhThu.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDonViTinh.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDunoKhachhang.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInDunoKhachHang.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuBan.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuNhap.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmKhachHang.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmMain.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmNhaCungCap.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmNhapHang.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuThanhToan.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSanPham.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSanphamHethan.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSoLuongBan.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSoLuongTon.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmThanhToan.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmThongtinCuahang.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmThongtinLienhe.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuBanLe.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuChi.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuNhap.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuThu.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.Properties.Resources.resources
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.csproj.GenerateResource.cache
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.csproj.CoreCompileInputs.cache
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangN.B1970924.Up2Date
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.exe
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.pdb
+D:\FULL ĐỒ ÁN\Thiết kế & Phát triển & Bảo trì (thầy Nhàn)\Cuahang Nongduoc\bin\Debug\CuahangNongduoc.exe.config
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\bin\Debug\CuahangNongduoc.exe.config
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\bin\Debug\CuahangNongduoc.exe
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\bin\Debug\CuahangNongduoc.pdb
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.csproj.AssemblyReference.cache
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.UI.frmDangNhap.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuChi.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmPhieuChi.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmLyDoChi.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmBanSi.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDanhsachPhieuBanSi.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDanhsachPhieuBanLe.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmBanLe.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDaiLy.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDanhsachPhieuNhap.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDoanhThu.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDonViTinh.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDunoKhachhang.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInDunoKhachHang.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuBan.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuNhap.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmKhachHang.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmMain.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmNhaCungCap.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmNhapHang.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuThanhToan.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSanPham.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSanphamHethan.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSoLuongBan.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSoLuongTon.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmThanhToan.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmThongtinCuahang.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmThongtinLienhe.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuBanLe.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuChi.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuNhap.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuThu.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.Properties.Resources.resources
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.csproj.GenerateResource.cache
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.csproj.CoreCompileInputs.cache
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangN.B1970924.Up2Date
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.exe
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.pdb
+D:\Trí\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.UI.frmQuanLyTaiKhoan.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\bin\Debug\CuahangNongduoc.exe.config
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\bin\Debug\CuahangNongduoc.exe
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\bin\Debug\CuahangNongduoc.pdb
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.csproj.AssemblyReference.cache
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.UI.frmDangNhap.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuChi.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmPhieuChi.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmLyDoChi.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmBanSi.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDanhsachPhieuBanSi.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDanhsachPhieuBanLe.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmBanLe.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDaiLy.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDanhsachPhieuNhap.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDoanhThu.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDonViTinh.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDunoKhachhang.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInDunoKhachHang.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuBan.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuNhap.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmKhachHang.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmMain.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmNhaCungCap.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmNhapHang.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuThanhToan.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.UI.frmQuanLyTaiKhoan.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSanPham.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSanphamHethan.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSoLuongBan.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSoLuongTon.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmThanhToan.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmThongtinCuahang.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmThongtinLienhe.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuBanLe.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuChi.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuNhap.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuThu.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.Properties.Resources.resources
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.csproj.GenerateResource.cache
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.csproj.CoreCompileInputs.cache
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangN.B1970924.Up2Date
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.exe
+D:\Download\DoAn-BaoTri-NongDuoc-Nhom02-Develop\DoAn-BaoTri-NongDuoc-Nhom02-Develop\Cuahang Nongduoc\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.pdb
+D:\Download\Cuahang Nongduoc\bin\Debug\CuahangNongduoc.exe.config
+D:\Download\Cuahang Nongduoc\bin\Debug\CuahangNongduoc.exe
+D:\Download\Cuahang Nongduoc\bin\Debug\CuahangNongduoc.pdb
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.csproj.AssemblyReference.cache
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.UI.frmDangNhap.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuChi.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmPhieuChi.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmLyDoChi.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmBanSi.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDanhsachPhieuBanSi.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDanhsachPhieuBanLe.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmBanLe.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDaiLy.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDanhsachPhieuNhap.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDoanhThu.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDonViTinh.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmDunoKhachhang.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInDunoKhachHang.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuBan.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuNhap.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmKhachHang.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmMain.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmNhaCungCap.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmNhapHang.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmInPhieuThanhToan.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.UI.frmQuanLyTaiKhoan.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSanPham.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSanphamHethan.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSoLuongBan.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmSoLuongTon.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmThanhToan.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmThongtinCuahang.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmThongtinLienhe.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuBanLe.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuChi.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuNhap.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.frmTimPhieuThu.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.Properties.Resources.resources
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.csproj.GenerateResource.cache
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.csproj.CoreCompileInputs.cache
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangN.B1970924.Up2Date
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.exe
+D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.pdb
