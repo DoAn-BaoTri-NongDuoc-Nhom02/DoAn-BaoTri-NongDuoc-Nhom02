@@ -27,7 +27,7 @@ git clone -b Develop --single-branch https://github.com/DoAn-BaoTri-NongDuoc-Nho
 Sau khi xong, dự án sẽ nằm ở:
 
 ```
-C:\Users\asus\DoAn-BaoTri-NongDuoc-Nhom02
+C:\...\...\DoAn-BaoTri-NongDuoc-Nhom02
 ```
 
 Vào thư mục dự án:
