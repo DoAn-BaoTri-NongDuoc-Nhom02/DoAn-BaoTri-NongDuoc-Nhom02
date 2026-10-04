@@ -26,7 +26,7 @@ git clone https://github.com/DoAn-BaoTri-NongDuoc-Nhom02/DoAn-BaoTri-NongDuoc-Nh
 cd DoAn-BaoTri-NongDuoc-Nhom02
 
 # 2. Chuyển sang nhánh cần làm việc
-git checkout Refactoring
+git checkout (nhan-ca-nhan)
 # hoặc: git checkout Design-Patterns
 
 # 3. Lấy code mới nhất trước khi bắt đầu sửa
