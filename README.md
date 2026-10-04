@@ -1,8 +1,6 @@
-DoAn-BaoTri-NongDuoc-Nhom02
-DoAn-BaoTri-NongDuoc-Nhom02
-
-
 # Đồ án Bảo trì Phần mềm - Cửa hàng Nông dược
+**Nhóm 02**  
+**Môn:** Thiết kế & Phát triển & Bảo trì phần mềm  
 Mục tiêu của đồ án là thực hiện các hoạt động **bảo trì phần mềm** trên hệ thống có sẵn, bao gồm:
 - Tham khảo trên web: https://refactoring.guru/
 ##  Cấu trúc các nhánh (Branches)
@@ -66,7 +64,3 @@ bash
 git remote add origin <URL-GitHub>  # Liên kết với kho GitHub (chỉ làm lần đầu)
 git pull origin hoang-minh --rebase # Kéo code mới từ GitHub về để tránh lỗi lệch commit
 git push origin hoang-minh          # Đẩy code từ máy lên nhánh cá nhân trên GitHub```
-
-Use Control + Shift + m to toggle the tab key moving focus. Alternatively, use esc then tab to move to the next interactive element on the page.
-Không có tệp nào được chọn
-Attach files by dragging & dropping, selecting or pasting them.
