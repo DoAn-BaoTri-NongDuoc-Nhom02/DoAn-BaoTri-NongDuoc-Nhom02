@@ -33,6 +33,15 @@ git checkout Refactoring
 git pull
 
 # 4. Sau khi sửa xong, đẩy code lên GitHub
-git add .
-git commit -m "Mô tả những gì đã làm"
-git push
+1. Làm việc dưới máy (Local)
+bash
+git init                           # Khởi tạo Git cho dự án (chỉ làm lần đầu)
+git checkout -b hoang-minh         # Tạo và chuyển sang nhánh cá nhân mới
+git add .                          # Thêm tất cả file thay đổi vào hàng chờ
+git commit -m "Nội dung thay đổi"  # Lưu lại phiên bản code hiện tại
+Use code with caution.
+2. Đồng bộ và đẩy lên GitHub (Remote)
+bash
+git remote add origin <URL-GitHub>  # Liên kết với kho GitHub (chỉ làm lần đầu)
+git pull origin hoang-minh --rebase # Kéo code mới từ GitHub về để tránh lỗi lệch commit
+git push origin hoang-minh          # Đẩy code từ máy lên nhánh cá nhân trên GitHub
