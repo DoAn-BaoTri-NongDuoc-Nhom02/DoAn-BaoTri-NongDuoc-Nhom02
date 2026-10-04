@@ -56,9 +56,9 @@ git checkout Develop
 git pull origin Develop
 ```
 
-# 4. Sau khi sửa xong, đẩy code lên GitHub
+### 4. Sau khi sửa xong, đẩy code lên GitHub
 1. Làm việc dưới máy (Local)
-bash
+```bash
 git init                           # Khởi tạo Git cho dự án (chỉ làm lần đầu)
 git checkout -b hoang-minh         # Tạo và chuyển sang nhánh cá nhân mới
 git add .                          # Thêm tất cả file thay đổi vào hàng chờ
@@ -68,4 +68,4 @@ git commit -m "Nội dung thay đổi"  # Lưu lại phiên bản code hiện t�
 bash
 git remote add origin <URL-GitHub>  # Liên kết với kho GitHub (chỉ làm lần đầu)
 git pull origin hoang-minh --rebase # Kéo code mới từ GitHub về để tránh lỗi lệch commit
-git push origin hoang-minh          # Đẩy code từ máy lên nhánh cá nhân trên GitHub
+git push origin hoang-minh          # Đẩy code từ máy lên nhánh cá nhân trên GitHub```
