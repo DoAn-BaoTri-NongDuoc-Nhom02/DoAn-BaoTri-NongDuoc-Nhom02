@@ -21,16 +21,40 @@ from nằm trong UI còn code csdl nằm foder Database
 3. Sửa lại chuỗi kết nối trong `App.config` cho đúng với máy bạn (nếu cần)
 ##  Hướng dẫn làm việc với Git
 ```bash
-# 1. Tải dự án về máy (chỉ làm 1 lần)
-git clone https://github.com/DoAn-BaoTri-NongDuoc-Nhom02/DoAn-BaoTri-NongDuoc-Nhom02.git
+### 1. Tải dự án về máy lần đầu (chỉ lấy nhánh Develop)
+
+Mở **PowerShell** hoặc **Git Bash**, chạy lệnh:
+
+```powershell
+git clone -b Develop --single-branch https://github.com/DoAn-BaoTri-NongDuoc-Nhom02/DoAn-BaoTri-NongDuoc-Nhom02.git
+```
+
+Sau khi xong, dự án sẽ nằm ở:
+
+```
+C:\Users\asus\DoAn-BaoTri-NongDuoc-Nhom02
+```
+
+Vào thư mục dự án:
+
+```powershell
 cd DoAn-BaoTri-NongDuoc-Nhom02
+```
 
-# 2. Chuyển sang nhánh cần làm việc
-git checkout (nhan-ca-nhan)
-# hoặc: git checkout Design-Patterns
+---
 
-# 3. Lấy code mới nhất trước khi bắt đầu sửa
-git pull
+### 2. Cập nhật code mới nhất từ nhánh Develop (khi đã có sẵn trên máy)
+
+```powershell
+# 1. Vào thư mục dự án
+cd C:\Users\asus\DoAn-BaoTri-NongDuoc-Nhom02
+
+# 2. Chuyển sang nhánh Develop
+git checkout Develop
+
+# 3. Lấy code mới nhất từ GitHub
+git pull origin Develop
+```
 
 # 4. Sau khi sửa xong, đẩy code lên GitHub
 1. Làm việc dưới máy (Local)
