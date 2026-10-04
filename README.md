@@ -1,11 +1,6 @@
 # Đồ án Bảo trì Phần mềm - Cửa hàng Nông dược
 **Nhóm 02**  
 **Môn:** Thiết kế & Phát triển & Bảo trì phần mềm  
-Hệ thống quản lý **Cửa hàng Nông dược** được xây dựng bằng công nghệ:
-- Ngôn ngữ: **C#**
-- Giao diện: **Windows Forms**
-- Cơ sở dữ liệu: **SQL Server**
-
 Mục tiêu của đồ án là thực hiện các hoạt động **bảo trì phần mềm** trên hệ thống có sẵn, bao gồm:
 - Tham khảo trên web: https://refactoring.guru/
 ##  Cấu trúc các nhánh (Branches)
