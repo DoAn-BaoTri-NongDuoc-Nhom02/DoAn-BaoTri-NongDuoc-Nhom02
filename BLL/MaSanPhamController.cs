@@ -102,7 +102,8 @@ namespace CuahangNongduoc.Controller
 
         public void HienThiDataGridViewComboBox(DataGridViewComboBoxColumn cmb)
         {
-            cmb.DataSource = factory.DanhsachMaSanPham();
+            // Lấy cả lô đã hết hàng để các phiếu bán cũ vẫn hiện đúng mã lô.
+            cmb.DataSource = factory.DanhsachTatCaMaSanPham();
             cmb.DisplayMember = "ID";
             cmb.ValueMember = "ID";
             cmb.DataPropertyName = "ID_MA_SAN_PHAM";

@@ -49,16 +49,120 @@ namespace CuahangNongduoc.DataLayer
         {
             m_Ds.Rows.Add(row);
         }
-       public bool Save()
+
+        /// <summary>Tổng số lượng theo từng lô của các dòng mới thêm vào phiếu nhưng chưa lưu.</summary>
+        public IDictionary<String, int> SoLuongChuaLuu()
         {
+            Dictionary<String, int> ds = new Dictionary<String, int>();
             foreach (DataRow row in m_Ds.Rows)
             {
                 if (row.RowState == DataRowState.Added)
                 {
-                    CuahangNongduoc.DataLayer.MaSanPhanFactory.CapNhatSoLuong(Convert.ToString(row["ID_MA_SAN_PHAM"]), -Convert.ToInt32(row["SO_LUONG"]));
+                    String lo = Convert.ToString(row["ID_MA_SAN_PHAM"]);
+                    int sl = Convert.ToInt32(row["SO_LUONG"]);
+                    int cu;
+                    ds.TryGetValue(lo, out cu);
+                    ds[lo] = cu + sl;
                 }
             }
-            return m_Ds.ExecuteNoneQuery() > 0;
+            return ds;
+        }
+
+        /// <summary>Dòng mới (chưa lưu) của lô này trong phiếu, null nếu chưa có.</summary>
+        public DataRow TimDongChuaLuu(String idLo)
+        {
+            foreach (DataRow row in m_Ds.Rows)
+            {
+                if (row.RowState == DataRowState.Added && Convert.ToString(row["ID_MA_SAN_PHAM"]) == idLo)
+                    return row;
+            }
+            return null;
+        }
+
+        /// <summary>Phiếu đã có dòng được lưu trước đó cho lô này chưa (khóa chính là phiếu + lô).</summary>
+        public bool DaCoDongDaLuu(String idLo)
+        {
+            foreach (DataRow row in m_Ds.Rows)
+            {
+                if (row.RowState != DataRowState.Added && row.RowState != DataRowState.Deleted
+                    && row.RowState != DataRowState.Detached && Convert.ToString(row["ID_MA_SAN_PHAM"]) == idLo)
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Kiểm tra các dòng mới không làm tồn kho âm. hoanTra: số lượng sắp được hoàn kho theo từng lô
+        /// (các dòng bị xóa khỏi phiếu khi sửa), có thể null. Ném TonKhoException nếu thiếu hàng.
+        /// </summary>
+        public void KiemTraTonKho(IDictionary<String, int> hoanTra)
+        {
+            foreach (KeyValuePair<String, int> kv in SoLuongChuaLuu())
+            {
+                int ton = CuahangNongduoc.DataLayer.MaSanPhanFactory.LaySoLuong(kv.Key);
+                int hoan = 0;
+                if (hoanTra != null)
+                    hoanTra.TryGetValue(kv.Key, out hoan);
+                if (ton + hoan < kv.Value)
+                {
+                    throw new TonKhoException("Lô '" + kv.Key + "' không đủ hàng: cần " + kv.Value +
+                        ", chỉ còn " + (ton + hoan) + ".");
+                }
+            }
+        }
+
+        public bool Save()
+        {
+            // Kiểm tra trước toàn bộ để không trừ dở dang một phần.
+            KiemTraTonKho(null);
+
+            List<KeyValuePair<String, int>> daTru = new List<KeyValuePair<String, int>>();
+            try
+            {
+                foreach (KeyValuePair<String, int> kv in SoLuongChuaLuu())
+                {
+                    CuahangNongduoc.DataLayer.MaSanPhanFactory.CapNhatSoLuong(kv.Key, -kv.Value);
+                    daTru.Add(kv);
+                }
+            }
+            catch
+            {
+                HoanKho(daTru);
+                throw;
+            }
+
+            bool ok;
+            try
+            {
+                ok = m_Ds.ExecuteNoneQuery() > 0;
+            }
+            catch
+            {
+                HoanKho(daTru);
+                throw;
+            }
+
+            if (!ok && daTru.Count > 0)
+            {
+                HoanKho(daTru);
+                throw new TonKhoException("Không lưu được chi tiết phiếu bán. Số lượng kho đã được hoàn lại.");
+            }
+            return ok;
+        }
+
+        static void HoanKho(List<KeyValuePair<String, int>> daTru)
+        {
+            foreach (KeyValuePair<String, int> kv in daTru)
+            {
+                try
+                {
+                    CuahangNongduoc.DataLayer.MaSanPhanFactory.CapNhatSoLuong(kv.Key, kv.Value);
+                }
+                catch
+                {
+                    // Hoàn kho là cố gắng tối đa; lỗi gốc mới là lỗi cần báo.
+                }
+            }
         }
     }
 }

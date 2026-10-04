@@ -17,6 +17,7 @@ namespace CuahangNongduoc
         MaSanPhamController ctrlMaSanPham = new MaSanPhamController();
         PhieuBanController ctrlPhieuBan = new PhieuBanController();
         ChiTietPhieuBanController ctrlChiTiet = new ChiTietPhieuBanController();
+        XuatKhoController ctrlXuatKho = new XuatKhoController();
         IList<MaSanPham> deleted = new List<MaSanPham>();
 
 
@@ -39,6 +40,9 @@ namespace CuahangNongduoc
 
         private void frmNhapHang_Load(object sender, EventArgs e)
         {
+
+            // Cấu hình xuất kho: FIFO thì hệ thống tự phân lô, chỉ định thì cho chọn lô.
+            cmbMaSanPham.Enabled = (CauHinhKho.PhuongPhapXuatKho == PhuongPhapXuatKho.ChiDinh);
 
             ctrlSanPham.HienthiAutoComboBox(cmbSanPham);
             ctrlMaSanPham.HienThiDataGridViewComboBox(colMaSanPham);
@@ -84,11 +88,23 @@ namespace CuahangNongduoc
                 cmbMaSanPham.SelectedIndexChanged -= new EventHandler(cmbMaSanPham_SelectedIndexChanged);
                 ctrlMSP.HienThiAutoComboBox(cmbSanPham.SelectedValue.ToString(), cmbMaSanPham);
                 cmbMaSanPham.SelectedIndexChanged += new EventHandler(cmbMaSanPham_SelectedIndexChanged);
+
+                // Lô đầu danh sách (hạn dùng gần nhất) được chọn sẵn: cập nhật giá/thông tin ngay.
+                cmbMaSanPham_SelectedIndexChanged(cmbMaSanPham, EventArgs.Empty);
             }
         }
 
         void cmbMaSanPham_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (cmbMaSanPham.SelectedValue == null)
+            {
+                // Sản phẩm hết hàng: không còn lô nào để hiển thị.
+                numDonGia.Value = 0;
+                txtGiaNhap.Text = "";
+                txtGiaXuat.Text = "";
+                return;
+            }
+
             MaSanPhamController ctrl = new MaSanPhamController();
             MaSanPham masp = ctrl.LayMaSanPham(cmbMaSanPham.SelectedValue.ToString());
             numDonGia.Value = masp.SanPham.GiaBanSi;
@@ -96,38 +112,98 @@ namespace CuahangNongduoc
             txtGiaBanSi.Text = masp.SanPham.GiaBanSi.ToString("#,###0");
             txtGiaBanLe.Text = masp.SanPham.GiaBanLe.ToString("#,###0");
             txtGiaBQGQ.Text = masp.SanPham.DonGiaNhap.ToString("#,###0");
+            txtGiaXuat.Text = ctrlXuatKho.TinhGiaXuat(masp).ToString("#,###0");
 
 
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            bool chiDinh = (CauHinhKho.PhuongPhapXuatKho == PhuongPhapXuatKho.ChiDinh);
 
-            if (cmbMaSanPham.SelectedValue == null)
+            if (cmbSanPham.SelectedValue == null)
             {
-                MessageBox.Show("Vui lòng chon Mã sản phẩm !", "Phieu Nhap", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Vui lòng chọn Sản phẩm !", "Phieu Ban Si", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (chiDinh && cmbMaSanPham.SelectedValue == null)
+            {
+                MessageBox.Show("Vui lòng chọn Mã sản phẩm !", "Phieu Ban Si", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else if (numSoLuong.Value <= 0)
             {
-                MessageBox.Show("Vui lòng nhập Số lượng !", "Phieu Nhap", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Vui lòng nhập Số lượng !", "Phieu Ban Si", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else if (numDonGia.Value * numSoLuong.Value != numThanhTien.Value)
             {
-                MessageBox.Show("Thành tiền sai!", "Phieu Nhap", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Thành tiền sai!", "Phieu Ban Si", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                numTongTien.Value += numThanhTien.Value;
-                DataRow row = ctrlChiTiet.NewRow();
-                row["ID_MA_SAN_PHAM"] = cmbMaSanPham.SelectedValue;
-                row["ID_PHIEU_BAN"] = txtMaPhieu.Text;
-                row["DON_GIA"] = numDonGia.Value;
-                row["SO_LUONG"] = numSoLuong.Value;
-                row["THANH_TIEN"] = numThanhTien.Value;
-                ctrlChiTiet.Add(row);
+                try
+                {
+                    ThemDongChiTiet(chiDinh);
+                }
+                catch (TonKhoException ex)
+                {
+                    MessageBox.Show(ex.Message, "Phieu Ban Si", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+        }
 
+        // Thêm hàng vào phiếu: FIFO thì tách theo từng lô (hạn dùng gần nhất trước), chỉ định thì đúng lô đã chọn.
+        // Số lượng các dòng đã có trong phiếu (chưa lưu) được tính vào để không bán vượt tồn.
+        void ThemDongChiTiet(bool chiDinh)
+        {
+            int soLuong = (int)numSoLuong.Value;
+            IDictionary<String, int> daChon = ctrlChiTiet.SoLuongDangChon();
+
+            IList<PhanBoLo> phanBo;
+            if (chiDinh)
+                phanBo = ctrlXuatKho.PhanLoChiDinh(cmbMaSanPham.SelectedValue.ToString(), soLuong, daChon);
+            else
+                phanBo = ctrlXuatKho.PhanLoFIFO(cmbSanPham.SelectedValue.ToString(), soLuong, daChon);
+
+            // Khóa chính chi tiết là (phiếu, lô): không thêm trùng vào dòng đã lưu trước đó.
+            foreach (PhanBoLo pb in phanBo)
+            {
+                if (ctrlChiTiet.DaCoDongDaLuu(pb.Lo.Id))
+                {
+                    throw new TonKhoException("Lô '" + pb.Lo.Id + "' đã có trong phiếu đã lưu. " +
+                        "Hãy xóa dòng đó rồi thêm lại với số lượng mới.");
+                }
             }
 
+            foreach (PhanBoLo pb in phanBo)
+            {
+                DataRow dong = ctrlChiTiet.TimDongChuaLuu(pb.Lo.Id);
+                if (dong != null)
+                {
+                    // Cùng lô đã có dòng chưa lưu: gộp số lượng.
+                    int sl = Convert.ToInt32(dong["SO_LUONG"]) + pb.SoLuong;
+                    dong["SO_LUONG"] = sl;
+                    dong["THANH_TIEN"] = numDonGia.Value * sl;
+                }
+                else
+                {
+                    DataRow row = ctrlChiTiet.NewRow();
+                    row["ID_MA_SAN_PHAM"] = pb.Lo.Id;
+                    row["ID_PHIEU_BAN"] = txtMaPhieu.Text;
+                    row["DON_GIA"] = numDonGia.Value;
+                    row["SO_LUONG"] = pb.SoLuong;
+                    row["THANH_TIEN"] = numDonGia.Value * pb.SoLuong;
+                    ctrlChiTiet.Add(row);
+                }
+            }
+            numTongTien.Value += numThanhTien.Value;
+        }
+
+        // Dòng vừa thêm (chưa lưu) chưa trừ kho nên khi xóa không được hoàn kho.
+        void GhiNhanXoaDong(DataRowView row)
+        {
+            if (row.Row.RowState != DataRowState.Added)
+            {
+                deleted.Add(new MaSanPham(Convert.ToString(row["ID_MA_SAN_PHAM"]), Convert.ToInt32(row["SO_LUONG"])));
+            }
         }
 
         private void numDonGia_ValueChanged(object sender, EventArgs e)
@@ -143,24 +219,58 @@ namespace CuahangNongduoc
         private void toolLuu_Click(object sender, EventArgs e)
         {
             bindingNavigatorPositionItem.Focus();
-            this.Luu();
+            if (!this.Luu())
+                return;
             status = Controll.Normal;
            
         }
-        void Luu()
+        // Trả về false nếu chưa lưu được (thiếu hàng, trùng mã phiếu...): phiếu vẫn ở trạng thái đang soạn.
+        bool Luu()
         {
-            if (status == Controll.AddNew)
+            if (!KiemTraTruocKhiLuu())
+                return false;
+
+            try
             {
-                ThemMoi();
-            }
-            else
-            {
+                if (status == Controll.AddNew)
+                {
+                    return ThemMoi();
+                }
                 CapNhat();
+                return true;
+            }
+            catch (TonKhoException ex)
+            {
+                MessageBox.Show(ex.Message, "Phieu Ban Si", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
             }
         }
+
+        // Kiểm tra tồn kho cho các dòng mới TRƯỚC khi ghi bất cứ thứ gì (phiếu, chi tiết, kho).
+        bool KiemTraTruocKhiLuu()
+        {
+            IDictionary<String, int> hoanTra = new Dictionary<String, int>();
+            foreach (MaSanPham masp in deleted)
+            {
+                int cu;
+                hoanTra.TryGetValue(masp.Id, out cu);
+                hoanTra[masp.Id] = cu + masp.SoLuong;
+            }
+
+            try
+            {
+                ctrlChiTiet.KiemTraTonKho(hoanTra);
+                return true;
+            }
+            catch (TonKhoException ex)
+            {
+                MessageBox.Show(ex.Message, "Phieu Ban Si", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+        }
+
         void CapNhat()
         {
-
             foreach (MaSanPham masp in deleted)
             {
                 CuahangNongduoc.DataLayer.MaSanPhanFactory.CapNhatSoLuong(masp.Id, masp.SoLuong);
@@ -170,10 +280,18 @@ namespace CuahangNongduoc
             ctrlChiTiet.Save();
 
             ctrlPhieuBan.Update();
-
         }
-        void ThemMoi()
+
+        bool ThemMoi()
         {
+            PhieuBanController ctrl = new PhieuBanController();
+
+            if (ctrl.LayPhieuBan(txtMaPhieu.Text) != null)
+            {
+                MessageBox.Show("Mã Phiếu bán này đã tồn tại !", "Phieu Nhap", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
             DataRow row = ctrlPhieuBan.NewRow();
             row["ID"] = txtMaPhieu.Text;
             row["ID_KHACH_HANG"] = cmbKhachHang.SelectedValue;
@@ -183,13 +301,6 @@ namespace CuahangNongduoc
             row["CON_NO"] = numConNo.Value;
             ctrlPhieuBan.Add(row);
 
-            PhieuBanController ctrl = new PhieuBanController();
-
-            if (ctrl.LayPhieuBan(txtMaPhieu.Text) != null)
-            {
-                MessageBox.Show("Mã Phiếu bán này đã tồn tại !", "Phieu Nhap", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
             if (ThamSo.LaSoNguyen(txtMaPhieu.Text))
             {
                 long so = Convert.ToInt64(txtMaPhieu.Text);
@@ -202,7 +313,7 @@ namespace CuahangNongduoc
             ctrlPhieuBan.Save();
 
             ctrlChiTiet.Save();
-
+            return true;
         }
 
         private void toolLuu_Them_Click(object sender, EventArgs e)
@@ -222,7 +333,7 @@ namespace CuahangNongduoc
                 BindingSource bs = ((BindingSource)dgvDanhsachSP.DataSource);
                 DataRowView row = (DataRowView)bs.Current;
                 numTongTien.Value -= Convert.ToInt64(row["THANH_TIEN"]);
-                deleted.Add(new MaSanPham(Convert.ToString(row["ID_MA_SAN_PHAM"]), Convert.ToInt32(row["SO_LUONG"])));
+                GhiNhanXoaDong(row);
                 bs.RemoveCurrent();
                 
             }
@@ -239,7 +350,7 @@ namespace CuahangNongduoc
                 BindingSource bs = ((BindingSource)dgvDanhsachSP.DataSource);
                 DataRowView row = (DataRowView)bs.Current;
                 numTongTien.Value -= Convert.ToInt64(row["THANH_TIEN"]);
-                deleted.Add(new MaSanPham(Convert.ToString( row["ID_MA_SAN_PHAM"]), Convert.ToInt32(row["SO_LUONG"])) );
+                GhiNhanXoaDong(row);
             }
         }
 
@@ -291,7 +402,8 @@ namespace CuahangNongduoc
             {
                 if (MessageBox.Show("Bạn có muốn lưu lại Phiếu bán này không?", "Phieu Ban Le", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    this.Luu();
+                    if (!this.Luu())
+                        return;   // chưa lưu được: ở lại để người dùng sửa
                 }
 
             }

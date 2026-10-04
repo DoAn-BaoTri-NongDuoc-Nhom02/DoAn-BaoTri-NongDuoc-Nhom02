@@ -479,6 +479,10 @@
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="Utils\ThamSo.cs" />
+    <Compile Include="Utils\CauHinhKho.cs" />
+    <Compile Include="Utils\PhienDangNhap.cs" />
+    <Compile Include="UI\frmDoiMatKhau.cs" />
+    <Compile Include="BLL\XuatKhoController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\save.png" />

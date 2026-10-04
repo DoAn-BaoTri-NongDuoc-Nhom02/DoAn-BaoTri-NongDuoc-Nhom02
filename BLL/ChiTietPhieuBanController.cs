@@ -34,6 +34,28 @@ namespace CuahangNongduoc.Controller
             factory.Save();
         }
 
+        /// <summary>Số lượng từng lô (mã lô -> số lượng) đã nằm trong phiếu đang soạn nhưng chưa lưu.</summary>
+        public IDictionary<String, int> SoLuongDangChon()
+        {
+            return factory.SoLuongChuaLuu();
+        }
+
+        public DataRow TimDongChuaLuu(String idLo)
+        {
+            return factory.TimDongChuaLuu(idLo);
+        }
+
+        public bool DaCoDongDaLuu(String idLo)
+        {
+            return factory.DaCoDongDaLuu(idLo);
+        }
+
+        /// <summary>Ném TonKhoException nếu các dòng mới làm tồn kho âm (xem ChiTietPhieuBanFactory).</summary>
+        public void KiemTraTonKho(IDictionary<String, int> hoanTra)
+        {
+            factory.KiemTraTonKho(hoanTra);
+        }
+
 
         public IList<ChiTietPhieuBan> ChiTietPhieuBan(String idPhieuBan)
         {

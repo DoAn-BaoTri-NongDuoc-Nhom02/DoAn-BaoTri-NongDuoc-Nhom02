@@ -13,15 +13,27 @@ namespace CuahangNongduoc
 {
     public partial class frmMain : Form
     {
-        private NguoiDung _nguoiDung;  
+        private NguoiDung _nguoiDung;
+        private bool _dangXuat = false;
+
+        /// <summary>True nếu form đóng vì người dùng chọn Đăng xuất (frmDangNhap sẽ hiện lại).</summary>
+        public bool DaDangXuat
+        {
+            get { return _dangXuat; }
+        }
+
         public frmMain(NguoiDung nd)
         {
             InitializeComponent();
             _nguoiDung = nd;
+            if (PhienDangNhap.NguoiDungHienTai == null)
+                PhienDangNhap.BatDau(nd);
         }
         public frmMain()
         {
             InitializeComponent();
+            // Không có tham số: lấy người đang đăng nhập từ phiên dùng chung (null -> form tự đóng ở frmMain_Load).
+            _nguoiDung = PhienDangNhap.NguoiDungHienTai;
         }
         frmDonViTinh DonViTinh = null;
 
@@ -67,13 +79,26 @@ namespace CuahangNongduoc
             //    this.Close();
             //}
 
-            DataService.OpenConnection();
-
-            if (_nguoiDung != null)
+            if (!DataService.OpenConnection())
             {
-                this.Text = "Cửa hàng Nông dược - Xin chào: " + _nguoiDung.HoTen + " (" + _nguoiDung.TenVaiTro + ")";
-                PhanQuyenTheoVaiTro();   // Gọi phân quyền
+                MessageBox.Show("Không thể kết nối dữ liệu!", "Cua hang Nong duoc", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+                return;
             }
+
+            // Chưa đăng nhập thì không cho vào (trước đây _nguoiDung = null sẽ hiện ra toàn bộ menu).
+            if (_nguoiDung == null)
+            {
+                MessageBox.Show("Bạn chưa đăng nhập!", "Cua hang Nong duoc", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.Close();
+                return;
+            }
+
+            this.Text = "Cửa hàng Nông dược - Xin chào: " + _nguoiDung.HoTen + " (" + _nguoiDung.TenVaiTro + ")";
+            TaoMucTaiKhoan();
+            TaoThanhTrangThai();
+            PhanQuyenTheoVaiTro();   // Gọi phân quyền
+            PhanQuyenTaskPane();
 
         }
         frmSanPham SanPham = null;
@@ -444,6 +469,79 @@ namespace CuahangNongduoc
                     break;
             }
         }
+
+        // Thanh chức năng bên trái (task pane) phải theo đúng quyền của menu, nếu không người dùng
+        // bật "Thanh chức năng" là vào được các form đã bị ẩn khỏi menu.
+        private void PhanQuyenTaskPane()
+        {
+            itemDaiLy.Visible = mnuDaiLy.Visible;
+            itemKhachHang.Visible = mnuKhachHang.Visible;
+            itemSanPham.Visible = mnuSanPham.Visible;
+            itemNhaCungCap.Visible = mnuNhaCungCap.Visible;
+            itemQuanLyTaiKhoan.Visible = mnuQuanLyTaiKhoan.Visible;
+
+            itemNhapHang.Visible = mnuNhapHang.Visible;
+            itemBanSi.Visible = mnuBanHangDL.Visible;
+            itemBanLe.Visible = mnuBanHangKH.Visible;
+            itemThanhToan.Visible = mnuThanhtoan.Visible;
+            itemPhieuChi.Visible = mnuPhieuChi.Visible;
+
+            itemTonghopDoanhthu.Visible = mnuSoLuongBan.Visible;
+            itemTonKho.Visible = mnuBaocaoSoluongton.Visible;
+            taskItem1.Visible = mnuSanphamHethan.Visible;
+
+            expando1.Visible = itemDaiLy.Visible || itemKhachHang.Visible || itemSanPham.Visible
+                || itemNhaCungCap.Visible || itemQuanLyTaiKhoan.Visible;
+            expando2.Visible = itemNhapHang.Visible || itemBanSi.Visible || itemBanLe.Visible
+                || itemThanhToan.Visible || itemPhieuChi.Visible;
+            expando3.Visible = itemTonghopDoanhthu.Visible || itemTonKho.Visible || taskItem1.Visible;
+        }
+
+        // Thêm "Đổi mật khẩu" và "Đăng xuất" vào menu Hệ thống (menu này luôn hiện với mọi vai trò).
+        private void TaoMucTaiKhoan()
+        {
+            ToolStripMenuItem mnuDoiMatKhau = new ToolStripMenuItem("Đổi mật khẩu");
+            mnuDoiMatKhau.Click += new EventHandler(mnuDoiMatKhau_Click);
+
+            ToolStripMenuItem mnuDangXuat = new ToolStripMenuItem("Đăng xuất");
+            mnuDangXuat.Click += new EventHandler(mnuDangXuat_Click);
+
+            mnuHeThong.DropDownItems.Insert(0, mnuDoiMatKhau);
+            mnuHeThong.DropDownItems.Insert(1, mnuDangXuat);
+            mnuHeThong.DropDownItems.Insert(2, new ToolStripSeparator());
+        }
+
+        // Thanh trạng thái phía dưới: người đăng nhập, vai trò, giờ đăng nhập.
+        private void TaoThanhTrangThai()
+        {
+            ToolStripStatusLabel lblNguoiDung = new ToolStripStatusLabel();
+            lblNguoiDung.Text = "Người dùng: " + _nguoiDung.HoTen + " (" + _nguoiDung.TenDangNhap + ")"
+                + "   |   Vai trò: " + _nguoiDung.TenVaiTro
+                + "   |   Đăng nhập lúc: " + PhienDangNhap.ThoiDiemDangNhap.ToString("HH:mm dd/MM/yyyy");
+
+            StatusStrip thanhTrangThai = new StatusStrip();
+            thanhTrangThai.Items.Add(lblNguoiDung);
+            this.Controls.Add(thanhTrangThai);
+        }
+
+        private void mnuDoiMatKhau_Click(object sender, EventArgs e)
+        {
+            using (frmDoiMatKhau frm = new frmDoiMatKhau())
+            {
+                frm.ShowDialog(this);
+            }
+        }
+
+        private void mnuDangXuat_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có chắc muốn đăng xuất?", "Đăng xuất",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                _dangXuat = true;
+                this.Close();
+            }
+        }
+
         frmQuanLyTaiKhoan QuanLyTK = null;
         private void mnuQuanLyTaiKhoan_Click(object sender, EventArgs e)
         {

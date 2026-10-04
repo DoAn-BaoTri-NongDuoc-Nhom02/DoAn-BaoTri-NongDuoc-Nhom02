@@ -78,10 +78,24 @@ namespace CuahangNongduoc.UI
                                 MessageBoxIcon.Information);
 
                 // Mở form chính
+                PhienDangNhap.BatDau(nd);
                 frmMain frm = new frmMain(nd);
                 this.Hide();
                 frm.ShowDialog();
-                this.Close();
+
+                bool dangXuat = frm.DaDangXuat;
+                PhienDangNhap.KetThuc();
+                if (dangXuat)
+                {
+                    // Đăng xuất: quay lại màn hình đăng nhập cho người khác dùng.
+                    txtMatKhau.Clear();
+                    this.Show();
+                    txtMatKhau.Focus();
+                }
+                else
+                {
+                    this.Close();
+                }
             }
         }
     }
