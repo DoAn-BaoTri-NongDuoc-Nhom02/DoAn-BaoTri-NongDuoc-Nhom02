@@ -42,7 +42,7 @@ cd DoAn-BaoTri-NongDuoc-Nhom02
 
 ```powershell
 # 1. Vào thư mục dự án
-cd C:\Users\asus\DoAn-BaoTri-NongDuoc-Nhom02
+cd C:\...\...\DoAn-BaoTri-NongDuoc-Nhom02
 
 # 2. Chuyển sang nhánh Develop
 git checkout Develop
