@@ -39,7 +39,7 @@ git init                           # Khởi tạo Git cho dự án (chỉ làm l
 git checkout -b hoang-minh         # Tạo và chuyển sang nhánh cá nhân mới
 git add .                          # Thêm tất cả file thay đổi vào hàng chờ
 git commit -m "Nội dung thay đổi"  # Lưu lại phiên bản code hiện tại
-Use code with caution.
+
 2. Đồng bộ và đẩy lên GitHub (Remote)
 bash
 git remote add origin <URL-GitHub>  # Liên kết với kho GitHub (chỉ làm lần đầu)
