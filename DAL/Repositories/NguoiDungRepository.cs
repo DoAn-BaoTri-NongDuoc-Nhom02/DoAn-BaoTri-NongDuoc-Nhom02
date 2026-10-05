@@ -157,6 +157,37 @@ WHERE nd.TEN_DANG_NHAP = @user AND nd.MAT_KHAU = @pass
             }
         }
 
+        /// <summary>Mật khẩu hiện tại của tài khoản có đúng là "matKhau" không (cùng cách so sánh với DangNhap).</summary>
+        public bool KiemTraMatKhau(int id, string matKhau)
+        {
+            using (var conn = DbHelper.GetConnection())
+            {
+                conn.Open();
+                string sql = "SELECT COUNT(*) FROM NGUOI_DUNG WHERE ID = @id AND MAT_KHAU = @pass AND TRANG_THAI = 1";
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@pass", matKhau);
+                    return (int)cmd.ExecuteScalar() > 0;
+                }
+            }
+        }
+
+        public bool DoiMatKhau(int id, string matKhauMoi)
+        {
+            using (var conn = DbHelper.GetConnection())
+            {
+                conn.Open();
+                string sql = "UPDATE NGUOI_DUNG SET MAT_KHAU = @pass WHERE ID = @id";
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@pass", matKhauMoi);
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+        }
+
         public bool KiemTraTenDangNhapTonTai(string tenDangNhap, int idBoQua = 0)
         {
             using (var conn = DbHelper.GetConnection())

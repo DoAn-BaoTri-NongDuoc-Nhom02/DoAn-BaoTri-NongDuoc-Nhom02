@@ -61,6 +61,8 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txtGiaBQGQ = new System.Windows.Forms.TextBox();
+            this.txtGiaXuat = new System.Windows.Forms.TextBox();
+            this.lblGiaXuat = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.txtGiaBanLe = new System.Windows.Forms.TextBox();
             this.txtGiaBanSi = new System.Windows.Forms.TextBox();
@@ -415,6 +417,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.txtGiaXuat);
+            this.groupBox3.Controls.Add(this.lblGiaXuat);
             this.groupBox3.Controls.Add(this.txtGiaBQGQ);
             this.groupBox3.Controls.Add(this.label15);
             this.groupBox3.Controls.Add(this.txtGiaBanLe);
@@ -425,7 +429,7 @@
             this.groupBox3.Controls.Add(this.label12);
             this.groupBox3.Location = new System.Drawing.Point(242, 16);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(191, 128);
+            this.groupBox3.Size = new System.Drawing.Size(191, 154);
             this.groupBox3.TabIndex = 61;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Thông tin sản phẩm";
@@ -439,6 +443,25 @@
             this.txtGiaBQGQ.Size = new System.Drawing.Size(109, 20);
             this.txtGiaBQGQ.TabIndex = 60;
             this.txtGiaBQGQ.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // txtGiaXuat
+            // 
+            this.txtGiaXuat.BackColor = System.Drawing.Color.White;
+            this.txtGiaXuat.Location = new System.Drawing.Point(75, 129);
+            this.txtGiaXuat.Name = "txtGiaXuat";
+            this.txtGiaXuat.ReadOnly = true;
+            this.txtGiaXuat.Size = new System.Drawing.Size(109, 20);
+            this.txtGiaXuat.TabIndex = 63;
+            this.txtGiaXuat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // lblGiaXuat
+            // 
+            this.lblGiaXuat.AutoSize = true;
+            this.lblGiaXuat.Location = new System.Drawing.Point(7, 132);
+            this.lblGiaXuat.Name = "lblGiaXuat";
+            this.lblGiaXuat.Size = new System.Drawing.Size(48, 13);
+            this.lblGiaXuat.TabIndex = 64;
+            this.lblGiaXuat.Text = "Giá xuất";
             // 
             // label15
             // 
@@ -930,6 +953,8 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox txtGiaBQGQ;
+        private System.Windows.Forms.TextBox txtGiaXuat;
+        private System.Windows.Forms.Label lblGiaXuat;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox txtGiaBanLe;
         private System.Windows.Forms.TextBox txtGiaBanSi;

@@ -64,6 +64,31 @@ namespace CuahangNongduoc.BLL.Service
             return "Cập nhật thất bại!";
         }
 
+        public const int DO_DAI_MAT_KHAU_TOI_THIEU = 4;
+
+        /// <summary>Tự đổi mật khẩu của chính mình. Trả về "OK" hoặc thông báo lỗi.</summary>
+        public string DoiMatKhau(int id, string matKhauCu, string matKhauMoi, string xacNhan)
+        {
+            if (string.IsNullOrEmpty(matKhauCu) || string.IsNullOrEmpty(matKhauMoi) || string.IsNullOrEmpty(xacNhan))
+                return "Vui lòng nhập đầy đủ thông tin!";
+
+            if (matKhauMoi != xacNhan)
+                return "Xác nhận mật khẩu mới không khớp!";
+
+            if (matKhauMoi.Length < DO_DAI_MAT_KHAU_TOI_THIEU)
+                return "Mật khẩu mới phải có ít nhất " + DO_DAI_MAT_KHAU_TOI_THIEU + " ký tự!";
+
+            if (matKhauMoi == matKhauCu)
+                return "Mật khẩu mới phải khác mật khẩu hiện tại!";
+
+            if (!_repo.KiemTraMatKhau(id, matKhauCu))
+                return "Mật khẩu hiện tại không đúng!";
+
+            if (_repo.DoiMatKhau(id, matKhauMoi))
+                return "OK";
+            return "Đổi mật khẩu thất bại!";
+        }
+
         public string Xoa(int id)
         {
             if (id == 1)

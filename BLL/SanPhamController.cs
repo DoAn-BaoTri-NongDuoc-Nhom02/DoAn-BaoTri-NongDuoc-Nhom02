@@ -69,20 +69,33 @@ namespace CuahangNongduoc.Controller
 
             
         }
+        /// <summary>
+        /// Ghi nhận một lần nhập hàng vào sản phẩm: luôn cộng so_luong vào SAN_PHAM.SO_LUONG,
+        /// và tính lại giá nhập bình quân gia quyền (làm tròn đến đồng, không cắt cụt).
+        /// </summary>
         public void CapNhatGiaNhap(String id, long gia_moi ,long so_luong)
         {
+            if (so_luong <= 0)
+                return;
+
             DataTable tbl = factory.LaySanPham(id);
             if (tbl.Rows.Count > 0)
             {
-                long tong_so = Convert.ToInt32(tbl.Rows[0]["SO_LUONG"]);
+                long tong_so = Convert.ToInt64(tbl.Rows[0]["SO_LUONG"]);
                 long tong_gia = Convert.ToInt64(tbl.Rows[0]["DON_GIA_NHAP"]);
-                if (tong_gia != gia_moi)
+                long so_moi = tong_so + so_luong;
+
+                // Chưa có tồn (hoặc tồn <= 0) thì giá bình quân chính là giá của lần nhập này.
+                if (tong_so <= 0 || tong_gia == gia_moi)
                 {
-                    long thanh_tien = gia_moi * so_luong + tong_gia * tong_so;
-                    tong_so += so_luong;
-                    tbl.Rows[0]["DON_GIA_NHAP"] = thanh_tien / tong_so;
-                    tbl.Rows[0]["SO_LUONG"] = tong_so;
+                    tbl.Rows[0]["DON_GIA_NHAP"] = gia_moi;
                 }
+                else
+                {
+                    decimal thanh_tien = (decimal)gia_moi * so_luong + (decimal)tong_gia * tong_so;
+                    tbl.Rows[0]["DON_GIA_NHAP"] = (long)Math.Round(thanh_tien / so_moi, MidpointRounding.AwayFromZero);
+                }
+                tbl.Rows[0]["SO_LUONG"] = so_moi;
                 factory.Save();
             }
 
@@ -128,7 +141,8 @@ namespace CuahangNongduoc.Controller
                 sp.GiaBanSi = Convert.ToInt64(row["GIA_BAN_SI"]);
                 sp.DonViTinh = ctrlDVT.LayDVT(Convert.ToInt32(row["ID_DON_VI_TINH"]));
                 slt.SanPham = sp;
-                slt.SoLuong = Convert.ToInt32(row["SO_LUONG_TON"]);
+                // Sản phẩm chưa có lô nào (LEFT JOIN) thì SUM là NULL -> tồn = 0.
+                slt.SoLuong = row["SO_LUONG_TON"] == DBNull.Value ? 0 : Convert.ToInt32(row["SO_LUONG_TON"]);
                 ds.Add(slt);
             }
             return ds;
