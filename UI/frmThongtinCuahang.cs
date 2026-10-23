@@ -15,6 +15,7 @@ namespace CuahangNongduoc
         private void frmThongtinCuahang_Load(object sender, EventArgs e)
         {
             this.Text = "Thông tin cửa hàng";
+            AnStatusStrip();
 
             CuahangNongduoc.BusinessObject.CuaHang ch = ThamSo.LayCuaHang();
             txtTenCuaHang.Text = ch.TenCuaHang != null ? ch.TenCuaHang : "";
@@ -170,5 +171,16 @@ namespace CuahangNongduoc
                 return "";
             return txt.Text.Trim();
         }
+        private void AnStatusStrip()
+        {
+            for (int i = this.Controls.Count - 1; i >= 0; i--)
+            {
+                if (this.Controls[i] is StatusStrip)
+                {
+                    this.Controls.RemoveAt(i);
+                }
+            }
+        }
+
     }
 }

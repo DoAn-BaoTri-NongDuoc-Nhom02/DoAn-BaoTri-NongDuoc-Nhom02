@@ -46,7 +46,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(12, 64);
+            this.label2.Location = new System.Drawing.Point(12, 49);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(121, 20);
@@ -57,7 +57,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(12, 112);
+            this.label3.Location = new System.Drawing.Point(12, 103);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(82, 20);
@@ -68,7 +68,7 @@
             // 
             this.chkHienMatKhau.AutoSize = true;
             this.chkHienMatKhau.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkHienMatKhau.Location = new System.Drawing.Point(323, 158);
+            this.chkHienMatKhau.Location = new System.Drawing.Point(153, 147);
             this.chkHienMatKhau.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.chkHienMatKhau.Name = "chkHienMatKhau";
             this.chkHienMatKhau.Size = new System.Drawing.Size(128, 23);
@@ -80,10 +80,10 @@
             // btnDangNhap
             // 
             this.btnDangNhap.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDangNhap.Location = new System.Drawing.Point(99, 216);
+            this.btnDangNhap.Location = new System.Drawing.Point(77, 185);
             this.btnDangNhap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnDangNhap.Name = "btnDangNhap";
-            this.btnDangNhap.Size = new System.Drawing.Size(119, 34);
+            this.btnDangNhap.Size = new System.Drawing.Size(122, 47);
             this.btnDangNhap.TabIndex = 4;
             this.btnDangNhap.Text = "Đăng nhập";
             this.btnDangNhap.UseVisualStyleBackColor = true;
@@ -91,38 +91,40 @@
             // 
             // btnThoat
             // 
+            this.btnThoat.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnThoat.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnThoat.ForeColor = System.Drawing.Color.Red;
-            this.btnThoat.Location = new System.Drawing.Point(289, 216);
+            this.btnThoat.Location = new System.Drawing.Point(299, 185);
             this.btnThoat.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnThoat.Name = "btnThoat";
-            this.btnThoat.Size = new System.Drawing.Size(119, 34);
-            this.btnThoat.TabIndex = 5;
+            this.btnThoat.Size = new System.Drawing.Size(122, 47);
+            this.btnThoat.TabIndex = 4;
             this.btnThoat.Text = "Thoát";
             this.btnThoat.UseVisualStyleBackColor = true;
             this.btnThoat.Click += new System.EventHandler(this.btnThoat_Click);
             // 
             // txtDangNhap
             // 
-            this.txtDangNhap.Location = new System.Drawing.Point(175, 64);
+            this.txtDangNhap.Location = new System.Drawing.Point(153, 49);
             this.txtDangNhap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtDangNhap.Name = "txtDangNhap";
-            this.txtDangNhap.Size = new System.Drawing.Size(276, 24);
+            this.txtDangNhap.Size = new System.Drawing.Size(298, 24);
             this.txtDangNhap.TabIndex = 1;
             // 
             // txtMatKhau
             // 
-            this.txtMatKhau.Location = new System.Drawing.Point(175, 112);
+            this.txtMatKhau.Location = new System.Drawing.Point(153, 103);
             this.txtMatKhau.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtMatKhau.Name = "txtMatKhau";
             this.txtMatKhau.PasswordChar = '*';
-            this.txtMatKhau.Size = new System.Drawing.Size(276, 24);
+            this.txtMatKhau.Size = new System.Drawing.Size(298, 24);
             this.txtMatKhau.TabIndex = 2;
+            this.txtMatKhau.TextChanged += new System.EventHandler(this.txtMatKhau_TextChanged);
             // 
             // PicLogo
             // 
             this.PicLogo.Image = global::CuahangNongduoc.Properties.Resources.logo_login;
-            this.PicLogo.Location = new System.Drawing.Point(92, 14);
+            this.PicLogo.Location = new System.Drawing.Point(78, 2);
             this.PicLogo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.PicLogo.Name = "PicLogo";
             this.PicLogo.Size = new System.Drawing.Size(344, 195);
@@ -132,7 +134,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.BackColor = System.Drawing.Color.Gainsboro;
+            this.groupBox1.BackColor = System.Drawing.Color.MistyRose;
             this.groupBox1.Controls.Add(this.txtDangNhap);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtMatKhau);
@@ -140,21 +142,23 @@
             this.groupBox1.Controls.Add(this.chkHienMatKhau);
             this.groupBox1.Controls.Add(this.btnThoat);
             this.groupBox1.Controls.Add(this.btnDangNhap);
-            this.groupBox1.Location = new System.Drawing.Point(15, 215);
+            this.groupBox1.Location = new System.Drawing.Point(1, 215);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox1.Size = new System.Drawing.Size(499, 287);
+            this.groupBox1.Size = new System.Drawing.Size(491, 255);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin đăng nhập";
             // 
             // frmDangNhap
             // 
+            this.AcceptButton = this.btnDangNhap;
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(531, 521);
+            this.CancelButton = this.btnThoat;
+            this.ClientSize = new System.Drawing.Size(493, 471);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.PicLogo);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

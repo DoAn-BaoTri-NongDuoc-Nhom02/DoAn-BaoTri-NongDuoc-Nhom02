@@ -31,13 +31,20 @@ namespace CuahangNongduoc.DataLayer
             cmd.Parameters.Add("id", OleDbType.VarChar, 50).Value = sp;
             m_Ds.Load(cmd);
 
+            // DataService.Load nuot loi: bao ra de biet nguyen nhan that (thuong la sai kieu cot ID_PHIEU_NHAP)
+            if (LastError.Length > 0)
+                throw new Exception("Khong doc duoc chi tiet phieu nhap: " + LastError);
+
+            if (m_Ds.Columns.Count == 0)
+                LoadSchema();
+
             return m_Ds;
         }
 
         public DataTable LaySanPham(String idMaSanPham)
         {
             OleDbCommand cmd = new OleDbCommand("SELECT SP.* FROM SAN_PHAM SP INNER JOIN MA_SAN_PHAM MSP ON SP.ID = MSP.ID_SAN_PHAM WHERE MSP.ID = @id");
-            cmd.Parameters.Add("id", OleDbType.VarChar,50).Value = idMaSanPham;
+            cmd.Parameters.Add("id", OleDbType.VarChar, 50).Value = idMaSanPham;
             m_Ds.Load(cmd);
             return m_Ds;
         }
@@ -45,7 +52,7 @@ namespace CuahangNongduoc.DataLayer
         public DataTable LayMaSanPham(String idMaSanPham)
         {
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM MA_SAN_PHAM MSP WHERE MSP.ID = @id");
-            cmd.Parameters.Add("id", OleDbType.VarChar,50).Value = idMaSanPham;
+            cmd.Parameters.Add("id", OleDbType.VarChar, 50).Value = idMaSanPham;
             m_Ds.Load(cmd);
             return m_Ds;
         }
@@ -130,12 +137,62 @@ namespace CuahangNongduoc.DataLayer
             ds.ExecuteNoneQuery(upd);
         }
 
+        /// <summary>
+        /// Bao dam bang co day du cot truoc khi tao dong moi
+        /// (loi "Column 'ID_SAN_PHAM' does not belong to table").
+        /// </summary>
+        private void DamBaoCoCauTruc()
+        {
+            if (m_Ds.Columns.Count > 0) return;
+
+            LoadSchema();
+            if (m_Ds.Columns.Count == 0)
+                throw new Exception("Khong doc duoc cau truc bang MA_SAN_PHAM. Hay kiem tra file CSDL (cuahang.dll) va ten bang/cot.");
+        }
+
+        // Doc loi cuoi cung cua DataService neu ban DataService co thuoc tinh LastError, khong co thi tra ve rong
+        // (khong gay loi bien dich du DataService la ban nao).
+        public String LastError
+        {
+            get
+            {
+                System.Reflection.PropertyInfo p = typeof(DataService).GetProperty("LastError");
+                if (p == null) return "";
+                object v = p.GetValue(m_Ds, null);
+                return v == null ? "" : Convert.ToString(v);
+            }
+        }
+
+        /// <summary>
+        /// Nap TOAN BO bang MA_SAN_PHAM (giong cach form Khach hang / Dai ly nap ca bang roi loc tren man hinh).
+        /// Loc theo phieu nhap lam tren BindingSource nen khong con phu thuoc kieu cot ID_PHIEU_NHAP.
+        /// </summary>
+        public DataTable TaiBangChiTiet()
+        {
+            OleDbCommand cmd = new OleDbCommand("SELECT * FROM MA_SAN_PHAM");
+            m_Ds.Load(cmd);
+
+            if (LastError.Length > 0)
+                throw new Exception("Khong doc duoc bang MA_SAN_PHAM: " + LastError);
+            if (m_Ds.Columns.Count == 0)
+                throw new Exception("Khong doc duoc bang MA_SAN_PHAM (bang khong co cot nao). Hay kiem tra file CSDL.");
+
+            return m_Ds;
+        }
+
+        public bool CoThayDoi()
+        {
+            return m_Ds.GetChanges() != null;
+        }
+
         public DataRow NewRow()
         {
+            DamBaoCoCauTruc();
             return m_Ds.NewRow();
         }
         public void Add(DataRow row)
         {
+            DamBaoCoCauTruc();
             m_Ds.Rows.Add(row);
         }
         public bool Save()

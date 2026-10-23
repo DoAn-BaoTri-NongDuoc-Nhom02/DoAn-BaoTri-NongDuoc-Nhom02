@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
@@ -30,6 +30,19 @@ namespace CuahangNongduoc.DataLayer
         public bool Save()
         {
             return m_Ds.ExecuteNoneQuery() > 0;
+        }
+
+        /// <summary>
+        /// Có phiếu chi nào đang dùng lý do này không. Dùng DataService riêng
+        /// để không ghi đè bảng m_Ds đang gắn với lưới.
+        /// </summary>
+        public bool DaSuDung(long id)
+        {
+            DataService ds = new DataService();
+            OleDbCommand cmd = new OleDbCommand("SELECT TOP 1 ID FROM PHIEU_CHI WHERE ID_LY_DO_CHI = ?");
+            cmd.Parameters.Add("@id", OleDbType.Integer).Value = (int)id;
+            ds.Load(cmd);
+            return ds.Rows.Count > 0;
         }
     }
 }

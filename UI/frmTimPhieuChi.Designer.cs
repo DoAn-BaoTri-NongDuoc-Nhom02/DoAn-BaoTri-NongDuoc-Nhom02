@@ -75,7 +75,7 @@
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 35);
             this.btnOK.TabIndex = 14;
-            this.btnOK.Text = "Đồng ý";
+            this.btnOK.Text = "Tìm kiếm";
             this.btnOK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnOK.UseVisualStyleBackColor = true;
             // 
@@ -95,7 +95,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(55, 13);
             this.label2.TabIndex = 12;
-            this.label2.Text = "Ngày mua";
+            this.label2.Text = "Ngày chi";
             // 
             // frmTimPhieuChi
             // 
@@ -113,7 +113,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "frmTimPhieuChi";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Tim Phieu Chi";
+            this.Text = "Tìm Phiếu Chi";
             this.Load += new System.EventHandler(this.frmTimPhieuChi_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

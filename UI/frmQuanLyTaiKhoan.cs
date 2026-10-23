@@ -22,6 +22,7 @@ namespace CuahangNongduoc.UI
 
         private void frmQuanLyTaiKhoan_Load(object sender, EventArgs e)
         {
+            UiTheme.Apply(this);
             LoadVaiTro();
             LoadDanhSach();
             ClearForm();

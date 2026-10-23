@@ -1,4 +1,4 @@
-namespace CuahangNongduoc
+﻿namespace CuahangNongduoc
 {
     partial class frmSoLuongBan
     {
@@ -75,7 +75,7 @@ namespace CuahangNongduoc
             this.groupBox1.Size = new System.Drawing.Size(217, 95);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Xem theo th�ng/n�m";
+            this.groupBox1.Text = "Xem theo tháng/năm";
             // 
             // numNam
             // 
@@ -94,7 +94,7 @@ namespace CuahangNongduoc
             this.numNam.Size = new System.Drawing.Size(64, 20);
             this.numNam.TabIndex = 13;
             this.numNam.Value = new decimal(new int[] {
-            2007,
+            2026,
             0,
             0,
             0});
@@ -106,7 +106,7 @@ namespace CuahangNongduoc
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(29, 13);
             this.label3.TabIndex = 12;
-            this.label3.Text = "N�m";
+            this.label3.Text = "Năm";
             // 
             // cmbThang
             // 
@@ -138,8 +138,8 @@ namespace CuahangNongduoc
             this.btnXemThang.Name = "btnXemThang";
             this.btnXemThang.Size = new System.Drawing.Size(97, 24);
             this.btnXemThang.TabIndex = 10;
-            this.btnXemThang.Text = "Xem th�ng";
-            this.btnXemThang.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnXemThang.Text = "Xem tháng";
+            this.btnXemThang.Text = "Xem tháng";
             this.btnXemThang.UseVisualStyleBackColor = true;
             this.btnXemThang.Click += new System.EventHandler(this.btnXemThang_Click);
             // 
@@ -150,7 +150,7 @@ namespace CuahangNongduoc
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(38, 13);
             this.label2.TabIndex = 9;
-            this.label2.Text = "Th�ng";
+            this.label2.Text = "Tháng";
             // 
             // groupBox2
             // 
@@ -162,7 +162,7 @@ namespace CuahangNongduoc
             this.groupBox2.Size = new System.Drawing.Size(190, 95);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Xem theo ng�y";
+            this.groupBox2.Text = "Xem theo ngày";
             // 
             // dtNgay
             // 
@@ -181,8 +181,8 @@ namespace CuahangNongduoc
             this.btnXemNgay.Name = "btnXemNgay";
             this.btnXemNgay.Size = new System.Drawing.Size(80, 24);
             this.btnXemNgay.TabIndex = 7;
-            this.btnXemNgay.Text = "Xem";
-            this.btnXemNgay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnXemNgay.Text = "Xem ngày";
+            this.btnXemNgay.Text = "Xem ngày";
             this.btnXemNgay.UseVisualStyleBackColor = true;
             this.btnXemNgay.Click += new System.EventHandler(this.btnXemNgay_Click);
             // 
@@ -193,7 +193,7 @@ namespace CuahangNongduoc
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(32, 13);
             this.label1.TabIndex = 5;
-            this.label1.Text = "Ng�y";
+            this.label1.Text = "Ngày";
             // 
             // panel2
             // 
@@ -229,7 +229,7 @@ namespace CuahangNongduoc
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmSoLuongBan";
-            this.Text = "SO LUONG BAN";
+            this.Text = "Số lượng bán";
             this.Load += new System.EventHandler(this.frmSoLuongBan_Load);
             this.panel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);

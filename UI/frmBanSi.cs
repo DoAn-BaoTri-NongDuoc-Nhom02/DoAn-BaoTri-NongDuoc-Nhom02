@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,11 +23,19 @@ namespace CuahangNongduoc
 
         Controll status = Controll.Normal;
 
+        // PM-20: luu gia tri bo sung — KHONG doi layout form (nhap qua Dialog khi Luu)
+        private long m_ChietKhau = 0, m_PhiVC = 0, m_HanMucNo = 0;
+        private decimal m_VAT = 0;
+        private string m_GhiChu = "", m_SoHDVAT = "", m_TrangThai = "Nháp", m_DieuKhoan = "Trả ngay";
+        private int m_LoaiGia = 1; // 0=nhap, 1=si, 2=le
+
+
         public frmBanSi()
         {
             InitializeComponent();
-            
             status = Controll.AddNew;
+            this.dgvDanhsachSP.DataError -= this.dgvDanhsachSP_DataError;
+            this.dgvDanhsachSP.DataError += this.dgvDanhsachSP_DataError;
         }
 
 
@@ -40,6 +48,9 @@ namespace CuahangNongduoc
 
         private void frmNhapHang_Load(object sender, EventArgs e)
         {
+            this.dgvDanhsachSP.DataError -= this.dgvDanhsachSP_DataError;
+            this.dgvDanhsachSP.DataError += this.dgvDanhsachSP_DataError;
+            ThemCotLuoiPM20(); // Ten SP + Chiet khau (chi luoi, khong doi layout form)
 
             // Cấu hình xuất kho: FIFO thì hệ thống tự phân lô, chỉ định thì cho chọn lô.
             cmbMaSanPham.Enabled = (CauHinhKho.PhuongPhapXuatKho == PhuongPhapXuatKho.ChiDinh);
@@ -56,6 +67,7 @@ namespace CuahangNongduoc
             bindingNavigator.BindingSource.CurrentChanged += new EventHandler(BindingSource_CurrentChanged);
             
             ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, txtMaPhieu.Text);
+            DamBaoComboMaSanPhamHopLe();
 
 
             if (status == Controll.AddNew)
@@ -75,6 +87,7 @@ namespace CuahangNongduoc
             if (status == Controll.Normal)
             {
                 ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, txtMaPhieu.Text);
+                DamBaoComboMaSanPhamHopLe();
             }
         }
 
@@ -107,7 +120,9 @@ namespace CuahangNongduoc
 
             MaSanPhamController ctrl = new MaSanPhamController();
             MaSanPham masp = ctrl.LayMaSanPham(cmbMaSanPham.SelectedValue.ToString());
-            numDonGia.Value = masp.SanPham.GiaBanSi;
+            if (m_LoaiGia == 0) numDonGia.Value = masp.SanPham.DonGiaNhap;
+            else if (m_LoaiGia == 2) numDonGia.Value = masp.SanPham.GiaBanLe;
+            else numDonGia.Value = masp.SanPham.GiaBanSi;
             txtGiaNhap.Text = masp.GiaNhap.ToString("#,###0");
             txtGiaBanSi.Text = masp.SanPham.GiaBanSi.ToString("#,###0");
             txtGiaBanLe.Text = masp.SanPham.GiaBanLe.ToString("#,###0");
@@ -195,6 +210,16 @@ namespace CuahangNongduoc
                 }
             }
             numTongTien.Value += numThanhTien.Value;
+            try
+            {
+                if (dgvDanhsachSP.Columns.Contains("colTenSanPham") && dgvDanhsachSP.Rows.Count > 0)
+                {
+                    DataGridViewRow last = dgvDanhsachSP.Rows[dgvDanhsachSP.Rows.Count - 1];
+                    if (last != null && !last.IsNewRow)
+                        last.Cells["colTenSanPham"].Value = cmbSanPham.Text;
+                }
+            }
+            catch { }
         }
 
         // Dòng vừa thêm (chưa lưu) chưa trừ kho nên khi xóa không được hoàn kho.
@@ -218,11 +243,18 @@ namespace CuahangNongduoc
 
         private void toolLuu_Click(object sender, EventArgs e)
         {
-            bindingNavigatorPositionItem.Focus();
-            if (!this.Luu())
+            // PM-20: hop thoai thong tin them — form chinh khong doi design
+            NhapThongTinThemPM20();
+            if (MessageBox.Show("Xác nhận lưu phiếu bán sỉ?", "Bán sỉ",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 return;
-            status = Controll.Normal;
-           
+            ApDungTongTienPM20();
+            if (Luu())
+            {
+                m_TrangThai = "Đã lưu";
+                status = Controll.Normal;
+                this.Allow(false);
+            }
         }
         // Trả về false nếu chưa lưu được (thiếu hàng, trùng mã phiếu...): phiếu vẫn ở trạng thái đang soạn.
         bool Luu()
@@ -296,9 +328,18 @@ namespace CuahangNongduoc
             row["ID"] = txtMaPhieu.Text;
             row["ID_KHACH_HANG"] = cmbKhachHang.SelectedValue;
             row["NGAY_BAN"] = dtNgayLapPhieu.Value.Date;
+            ApDungTongTienPM20();
             row["TONG_TIEN"] = numTongTien.Value;
             row["DA_TRA"] = numDaTra.Value;
             row["CON_NO"] = numConNo.Value;
+            TrySet(row, "CHIET_KHAU", m_ChietKhau);
+            TrySet(row, "PHI_VAN_CHUYEN", m_PhiVC);
+            TrySet(row, "VAT", m_VAT);
+            TrySet(row, "GHI_CHU", m_GhiChu ?? "");
+            TrySet(row, "TRANG_THAI", m_TrangThai ?? "Nháp");
+            TrySet(row, "SO_HD_VAT", m_SoHDVAT ?? "");
+            TrySet(row, "DIEU_KHOAN_TT", m_DieuKhoan ?? "");
+            TrySet(row, "HAN_MUC_NO", m_HanMucNo);
             ctrlPhieuBan.Add(row);
 
             if (ThamSo.LaSoNguyen(txtMaPhieu.Text))
@@ -323,12 +364,13 @@ namespace CuahangNongduoc
             txtMaPhieu.Text = ThamSo.LayMaPhieuBan().ToString();
             numTongTien.Value = 0;
             ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, txtMaPhieu.Text);
+            DamBaoComboMaSanPhamHopLe();
             this.Allow(true);
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Phieu Ban Le", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Bán sỉ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 BindingSource bs = ((BindingSource)dgvDanhsachSP.DataSource);
                 DataRowView row = (DataRowView)bs.Current;
@@ -341,7 +383,7 @@ namespace CuahangNongduoc
 
         private void dgvDanhsachSP_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
-            if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Phieu Ban Le", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Bán sỉ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
                 e.Cancel = true;
             }
@@ -377,6 +419,7 @@ namespace CuahangNongduoc
 
         private void dgvDanhsachSP_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
+            e.ThrowException = false;
             e.Cancel = true;
         }
 
@@ -416,7 +459,7 @@ namespace CuahangNongduoc
              if (view != null)
              {
 
-                 if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Phieu Ban Si", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                 if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Bán sỉ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                  {
                      ChiTietPhieuBanController ctrl = new ChiTietPhieuBanController();
                      IList<ChiTietPhieuBan> ds = ctrl.ChiTietPhieuBan(view["ID"].ToString());
@@ -452,6 +495,192 @@ namespace CuahangNongduoc
             ctrlSanPham.HienthiAutoComboBox(cmbSanPham);
         }
         
+
+
+        // ========== PM-20: logic only, khong doi Designer/layout ==========
+        void ThemCotLuoiPM20()
+        {
+            try
+            {
+                if (!dgvDanhsachSP.Columns.Contains("colTenSanPham"))
+                {
+                    DataGridViewTextBoxColumn colTen = new DataGridViewTextBoxColumn();
+                    colTen.Name = "colTenSanPham";
+                    colTen.HeaderText = "Tên sản phẩm";
+                    colTen.ReadOnly = true;
+                    colTen.Width = 140;
+                    int idx = 1;
+                    for (int i = 0; i < dgvDanhsachSP.Columns.Count; i++)
+                        if (dgvDanhsachSP.Columns[i].Name == "colMaSanPham") { idx = i + 1; break; }
+                    dgvDanhsachSP.Columns.Insert(idx, colTen);
+                }
+                if (!dgvDanhsachSP.Columns.Contains("colChietKhauDong"))
+                {
+                    DataGridViewTextBoxColumn colCK = new DataGridViewTextBoxColumn();
+                    colCK.Name = "colChietKhauDong";
+                    colCK.HeaderText = "Chiết khấu";
+                    colCK.Width = 80;
+                    dgvDanhsachSP.Columns.Add(colCK);
+                }
+            }
+            catch { }
+        }
+
+        void NhapThongTinThemPM20()
+        {
+            using (Form dlg = new Form())
+            {
+                dlg.Text = "Thông tin thêm — Bán sỉ";
+                dlg.FormBorderStyle = FormBorderStyle.FixedDialog;
+                dlg.StartPosition = FormStartPosition.CenterParent;
+                dlg.MaximizeBox = false;
+                dlg.MinimizeBox = false;
+                int y = 12;
+                Label L(string tx) { return new Label { Text = tx, Left = 12, Top = y, AutoSize = true }; }
+                ComboBox cGia = new ComboBox { Left = 130, Top = y - 2, Width = 220, DropDownStyle = ComboBoxStyle.DropDownList };
+                cGia.Items.AddRange(new object[] { "Giá nhập", "Giá sỉ", "Giá lẻ" });
+                cGia.SelectedIndex = m_LoaiGia;
+                dlg.Controls.Add(L("Loại giá:")); dlg.Controls.Add(cGia); y += 28;
+
+                NumericUpDown nCK = new NumericUpDown { Left = 130, Top = y - 2, Width = 220, Maximum = 999999999, ThousandsSeparator = true, Value = m_ChietKhau };
+                dlg.Controls.Add(L("Chiết khấu:")); dlg.Controls.Add(nCK); y += 28;
+
+                NumericUpDown nPhi = new NumericUpDown { Left = 130, Top = y - 2, Width = 220, Maximum = 999999999, ThousandsSeparator = true, Value = m_PhiVC };
+                dlg.Controls.Add(L("Phí VC / phụ thu:")); dlg.Controls.Add(nPhi); y += 28;
+
+                NumericUpDown nVAT = new NumericUpDown { Left = 130, Top = y - 2, Width = 220, Maximum = 100, DecimalPlaces = 1, Value = m_VAT };
+                dlg.Controls.Add(L("VAT %:")); dlg.Controls.Add(nVAT); y += 28;
+
+                ComboBox cDK = new ComboBox { Left = 130, Top = y - 2, Width = 220, DropDownStyle = ComboBoxStyle.DropDownList };
+                cDK.Items.AddRange(new object[] { "Trả ngay", "Công nợ 7 ngày", "Công nợ 30 ngày" });
+                int idk = cDK.Items.IndexOf(m_DieuKhoan); cDK.SelectedIndex = idk >= 0 ? idk : 0;
+                dlg.Controls.Add(L("ĐK thanh toán:")); dlg.Controls.Add(cDK); y += 28;
+
+                NumericUpDown nHM = new NumericUpDown { Left = 130, Top = y - 2, Width = 220, Maximum = 999999999, ThousandsSeparator = true, Value = m_HanMucNo };
+                dlg.Controls.Add(L("Hạn mức nợ:")); dlg.Controls.Add(nHM); y += 28;
+
+                TextBox tGC = new TextBox { Left = 130, Top = y - 2, Width = 220, Text = m_GhiChu };
+                dlg.Controls.Add(L("Ghi chú GH/TT:")); dlg.Controls.Add(tGC); y += 28;
+
+                TextBox tHD = new TextBox { Left = 130, Top = y - 2, Width = 220, Text = m_SoHDVAT };
+                dlg.Controls.Add(L("Số HĐ VAT:")); dlg.Controls.Add(tHD); y += 28;
+
+                ComboBox cTT = new ComboBox { Left = 130, Top = y - 2, Width = 220, DropDownStyle = ComboBoxStyle.DropDownList };
+                cTT.Items.AddRange(new object[] { "Nháp", "Đã lưu", "Hủy" });
+                int ix = cTT.Items.IndexOf(m_TrangThai); cTT.SelectedIndex = ix >= 0 ? ix : 0;
+                dlg.Controls.Add(L("Trạng thái:")); dlg.Controls.Add(cTT); y += 36;
+
+                Button ok = new Button { Text = "OK", DialogResult = DialogResult.OK, Left = 180, Top = y, Width = 80 };
+                Button bo = new Button { Text = "Bỏ qua", DialogResult = DialogResult.Cancel, Left = 270, Top = y, Width = 80 };
+                dlg.Controls.Add(ok); dlg.Controls.Add(bo);
+                dlg.AcceptButton = ok; dlg.CancelButton = bo;
+                dlg.ClientSize = new Size(400, y + 50);
+
+                if (dlg.ShowDialog(this) != DialogResult.OK) return;
+                m_LoaiGia = cGia.SelectedIndex;
+                m_ChietKhau = (long)nCK.Value;
+                m_PhiVC = (long)nPhi.Value;
+                m_VAT = nVAT.Value;
+                m_DieuKhoan = cDK.Text ?? "Trả ngay";
+                m_HanMucNo = (long)nHM.Value;
+                m_GhiChu = tGC.Text ?? "";
+                m_SoHDVAT = tHD.Text ?? "";
+                m_TrangThai = cTT.Text ?? "Nháp";
+            }
+        }
+
+        void ApDungTongTienPM20()
+        {
+            try
+            {
+                long tienHang = 0;
+                BindingSource bs = dgvDanhsachSP.DataSource as BindingSource;
+                if (bs != null)
+                {
+                    foreach (object item in bs)
+                    {
+                        System.Data.DataRowView rv = item as System.Data.DataRowView;
+                        if (rv == null) continue;
+                        try { tienHang += Convert.ToInt64(rv["THANH_TIEN"]); } catch { }
+                    }
+                }
+                else
+                {
+                    try { tienHang = (long)numTongTien.Value; } catch { }
+                }
+                decimal baseAmt = tienHang - m_ChietKhau + m_PhiVC;
+                if (baseAmt < 0) baseAmt = 0;
+                numTongTien.Value = (long)Math.Round(baseAmt * (1 + m_VAT / 100m), 0);
+                try { numConNo.Value = numTongTien.Value - numDaTra.Value; } catch { }
+            }
+            catch { }
+        }
+
+        void DamBaoComboMaSanPhamHopLe()
+        {
+            try
+            {
+                if (colMaSanPham == null) return;
+                try { ctrlMaSanPham.HienThiDataGridViewComboBox(colMaSanPham); } catch { }
+                System.Data.DataTable srcTbl = colMaSanPham.DataSource as System.Data.DataTable;
+                if (srcTbl == null) return;
+                System.Collections.Generic.List<string> coSan = new System.Collections.Generic.List<string>();
+                foreach (System.Data.DataRow r in srcTbl.Rows)
+                {
+                    try
+                    {
+                        string sid = Convert.ToString(r["ID"]);
+                        if (sid != null && sid.Length > 0 && !coSan.Contains(sid)) coSan.Add(sid);
+                    }
+                    catch { }
+                }
+                System.Collections.Generic.List<string> canThem = new System.Collections.Generic.List<string>();
+                BindingSource bs = dgvDanhsachSP.DataSource as BindingSource;
+                if (bs != null)
+                {
+                    foreach (object item in bs)
+                    {
+                        System.Data.DataRowView rv = item as System.Data.DataRowView;
+                        if (rv == null) continue;
+                        try
+                        {
+                            string id = Convert.ToString(rv["ID_MA_SAN_PHAM"]);
+                            if (id != null && id.Length > 0 && !coSan.Contains(id) && !canThem.Contains(id))
+                                canThem.Add(id);
+                        }
+                        catch { }
+                    }
+                }
+                for (int i = 0; i < canThem.Count; i++)
+                {
+                    try
+                    {
+                        System.Data.DataRow nr = srcTbl.NewRow();
+                        if (srcTbl.Columns.Contains("ID")) nr["ID"] = canThem[i];
+                        srcTbl.Rows.Add(nr);
+                    }
+                    catch { }
+                }
+                if (canThem.Count > 0)
+                {
+                    colMaSanPham.DataSource = null;
+                    colMaSanPham.DisplayMember = "ID";
+                    colMaSanPham.ValueMember = "ID";
+                    colMaSanPham.DataSource = srcTbl;
+                }
+            }
+            catch { }
+        }
+
+        static void TrySet(DataRow row, string col, object val)
+        {
+            try
+            {
+                if (row.Table.Columns.Contains(col))
+                    row[col] = val ?? DBNull.Value;
+            }
+            catch { }
+        }
 
      }
 }

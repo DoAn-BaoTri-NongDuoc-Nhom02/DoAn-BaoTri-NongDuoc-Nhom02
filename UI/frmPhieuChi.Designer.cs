@@ -289,12 +289,15 @@
             this.bindingNavigatorMoveNextItem,
             this.bindingNavigatorMoveLastItem,
             this.bindingNavigatorSeparator2,
+            this.toolStripSeparator1,
             this.toolAdd,
             this.toolDelete,
             this.toolSave,
             this.toolStripSeparator1,
-            this.toolIn,
-            this.toolTimKiem});
+            this.toolTimKiem,
+            this.toolStripSeparator1,
+            this.toolIn
+            });
             this.bindingNavigator.Location = new System.Drawing.Point(3, 16);
             this.bindingNavigator.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.bindingNavigator.MoveLastItem = this.bindingNavigatorMoveLastItem;
@@ -320,7 +323,7 @@
             this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
             this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
             this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(23, 43);
-            this.bindingNavigatorMoveFirstItem.Text = "Move first";
+            this.bindingNavigatorMoveFirstItem.Text = "";
             // 
             // bindingNavigatorMovePreviousItem
             // 
@@ -329,7 +332,7 @@
             this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
             this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
             this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(23, 43);
-            this.bindingNavigatorMovePreviousItem.Text = "Move previous";
+            this.bindingNavigatorMovePreviousItem.Text = "";
             // 
             // bindingNavigatorSeparator
             // 
@@ -357,7 +360,7 @@
             this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
             this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
             this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(23, 43);
-            this.bindingNavigatorMoveNextItem.Text = "Move next";
+            this.bindingNavigatorMoveNextItem.Text = "";
             // 
             // bindingNavigatorMoveLastItem
             // 
@@ -366,7 +369,7 @@
             this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
             this.bindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true;
             this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(23, 43);
-            this.bindingNavigatorMoveLastItem.Text = "Move last";
+            this.bindingNavigatorMoveLastItem.Text = "";
             // 
             // bindingNavigatorSeparator2
             // 
@@ -378,6 +381,7 @@
             this.toolAdd.Image = global::CuahangNongduoc.Properties.Resources.add;
             this.toolAdd.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolAdd.Name = "toolAdd";
+            this.toolAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
             this.toolAdd.RightToLeftAutoMirrorImage = true;
             this.toolAdd.Size = new System.Drawing.Size(42, 43);
             this.toolAdd.Text = "Thêm";
@@ -389,9 +393,10 @@
             this.toolDelete.Image = global::CuahangNongduoc.Properties.Resources.remove;
             this.toolDelete.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolDelete.Name = "toolDelete";
+            this.toolDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
             this.toolDelete.RightToLeftAutoMirrorImage = true;
             this.toolDelete.Size = new System.Drawing.Size(43, 43);
-            this.toolDelete.Text = "  Xóa  ";
+            this.toolDelete.Text = "Xóa";
             this.toolDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolDelete.Click += new System.EventHandler(this.toolDelete_Click);
             // 
@@ -401,8 +406,9 @@
             this.toolSave.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolSave.Name = "toolSave";
+            this.toolSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
             this.toolSave.Size = new System.Drawing.Size(43, 43);
-            this.toolSave.Text = "  Lưu  ";
+            this.toolSave.Text = "Lưu";
             this.toolSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolSave.Click += new System.EventHandler(this.toolSave_Click);
             // 
@@ -417,8 +423,9 @@
             this.toolIn.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolIn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolIn.Name = "toolIn";
+            this.toolIn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
             this.toolIn.Size = new System.Drawing.Size(55, 43);
-            this.toolIn.Text = "Trang in";
+            this.toolIn.Text = "In";
             this.toolIn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolIn.Click += new System.EventHandler(this.toolIn_Click);
             // 
@@ -428,6 +435,7 @@
             this.toolTimKiem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolTimKiem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolTimKiem.Name = "toolTimKiem";
+            this.toolTimKiem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
             this.toolTimKiem.Size = new System.Drawing.Size(61, 43);
             this.toolTimKiem.Text = "Tìm kiếm";
             this.toolTimKiem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;

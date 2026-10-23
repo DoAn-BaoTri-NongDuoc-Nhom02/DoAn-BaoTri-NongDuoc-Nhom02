@@ -29,102 +29,160 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmThongtinLienhe));
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.btnOK = new System.Windows.Forms.Button();
+            this.lblNhom1 = new System.Windows.Forms.Label();
+            this.lblDiaChi1 = new System.Windows.Forms.Label();
+            this.lblDienThoai1 = new System.Windows.Forms.Label();
+            this.lblDienThoai2 = new System.Windows.Forms.Label();
+            this.lblDiaChi2 = new System.Windows.Forms.Label();
+            this.lblNhom2 = new System.Windows.Forms.Label();
+            this.btnDong = new System.Windows.Forms.Button();
+            this.lblWeb1 = new System.Windows.Forms.Label();
+            this.lblEmail2 = new System.Windows.Forms.Label();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
-            // label1
+            // lblNhom1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label1.Location = new System.Drawing.Point(37, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(248, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "1. Cửa hàng Thương mại - Vi tính Lan Huệ";
+            this.lblNhom1.AutoSize = true;
+            this.lblNhom1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.lblNhom1.Location = new System.Drawing.Point(49, 9);
+            this.lblNhom1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblNhom1.Name = "lblNhom1";
+            this.lblNhom1.Size = new System.Drawing.Size(314, 17);
+            this.lblNhom1.TabIndex = 0;
+            this.lblNhom1.Text = "1. Cửa hàng Thương mại - Vi tính Lan Huệ";
             // 
-            // label2
+            // lblDiaChi1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(54, 44);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(369, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Địa chỉ: Nguyễn Công Nhân, Thị trấn Tân Châu, Huyện Tân Châu, An Giang";
+            this.lblDiaChi1.AutoSize = true;
+            this.lblDiaChi1.Location = new System.Drawing.Point(72, 42);
+            this.lblDiaChi1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDiaChi1.Name = "lblDiaChi1";
+            this.lblDiaChi1.Size = new System.Drawing.Size(448, 16);
+            this.lblDiaChi1.TabIndex = 1;
+            this.lblDiaChi1.Text = "Địa chỉ: Nguyễn Công Nhân, Thị trấn Tân Châu, Huyện Tân Châu, An Giang";
             // 
-            // label3
+            // lblDienThoai1
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(54, 68);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(127, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Điện thoại: 0946.457.234";
+            this.lblDienThoai1.AutoSize = true;
+            this.lblDienThoai1.Location = new System.Drawing.Point(72, 71);
+            this.lblDienThoai1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDienThoai1.Name = "lblDienThoai1";
+            this.lblDienThoai1.Size = new System.Drawing.Size(148, 16);
+            this.lblDienThoai1.TabIndex = 2;
+            this.lblDienThoai1.Text = "Điện thoại: 0946 457 234";
             // 
-            // label4
+            // lblDienThoai2
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(54, 151);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(127, 13);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Điện thoại: 0919.113.501";
+            this.lblDienThoai2.AutoSize = true;
+            this.lblDienThoai2.Location = new System.Drawing.Point(72, 186);
+            this.lblDienThoai2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDienThoai2.Name = "lblDienThoai2";
+            this.lblDienThoai2.Size = new System.Drawing.Size(148, 16);
+            this.lblDienThoai2.TabIndex = 5;
+            this.lblDienThoai2.Text = "Điện thoại: 0919 113 501";
             // 
-            // label5
+            // lblDiaChi2
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(54, 127);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(380, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Địa chỉ: Bộ môn Tin học - Đại học An Giang - 25, Võ Thị Sáu, TP.LX, An Giang";
+            this.lblDiaChi2.AutoSize = true;
+            this.lblDiaChi2.Location = new System.Drawing.Point(72, 156);
+            this.lblDiaChi2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDiaChi2.Name = "lblDiaChi2";
+            this.lblDiaChi2.Size = new System.Drawing.Size(297, 16);
+            this.lblDiaChi2.TabIndex = 4;
+            this.lblDiaChi2.Text = "Địa chỉ: 25 Võ Thị Sáu, TP. Long Xuyên, An Giang";
             // 
-            // label6
+            // lblNhom2
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label6.Location = new System.Drawing.Point(37, 101);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(100, 13);
-            this.label6.TabIndex = 3;
-            this.label6.Text = "2. Trần Văn Tèo";
+            this.lblNhom2.AutoSize = true;
+            this.lblNhom2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.lblNhom2.Location = new System.Drawing.Point(49, 124);
+            this.lblNhom2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblNhom2.Name = "lblNhom2";
+            this.lblNhom2.Size = new System.Drawing.Size(282, 17);
+            this.lblNhom2.TabIndex = 3;
+            this.lblNhom2.Text = "2. Bộ môn Tin học – Đại học An Giang";
             // 
-            // btnOK
+            // btnDong
             // 
-            this.btnOK.Image = global::CuahangNongduoc.Properties.Resources.Ok;
-            this.btnOK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnOK.Location = new System.Drawing.Point(179, 179);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(74, 31);
-            this.btnOK.TabIndex = 8;
-            this.btnOK.Text = "Ok";
-            this.btnOK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnOK.UseVisualStyleBackColor = true;
-            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            this.btnDong.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnDong.BackColor = System.Drawing.Color.FromArgb(232, 245, 233);
+            this.btnDong.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDong.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnDong.Location = new System.Drawing.Point(250, 280);
+            this.btnDong.Margin = new System.Windows.Forms.Padding(4);
+            this.btnDong.Name = "btnDong";
+            this.btnDong.Size = new System.Drawing.Size(100, 36);
+            this.btnDong.TabIndex = 8;
+            this.btnDong.Text = "Đóng";
+            this.btnDong.UseVisualStyleBackColor = false;
+            this.btnDong.Click += new System.EventHandler(this.btnDong_Click);
+            // 
+            // lblWeb1
+            // 
+            this.lblWeb1.AutoSize = true;
+            this.lblWeb1.Location = new System.Drawing.Point(292, 104);
+            this.lblWeb1.Name = "lblWeb1";
+            this.lblWeb1.Size = new System.Drawing.Size(150, 16);
+            this.lblWeb1.TabIndex = 10;
+            this.lblWeb1.Text = "Website: www.lanhue.vn";
+            // 
+            // lblEmail2
+            // 
+            this.lblEmail2.AutoSize = true;
+            this.lblEmail2.Location = new System.Drawing.Point(72, 217);
+            this.lblEmail2.Name = "lblEmail2";
+            this.lblEmail2.Size = new System.Drawing.Size(0, 16);
+            this.lblEmail2.TabIndex = 11;
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(75, 91);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(163, 16);
+            this.linkLabel1.TabIndex = 12;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Email: lanhue@email.com";
+            // 
+            // linkLabel2
+            // 
+            this.linkLabel2.AutoSize = true;
+            this.linkLabel2.Location = new System.Drawing.Point(75, 217);
+            this.linkLabel2.Name = "linkLabel2";
+            this.linkLabel2.Size = new System.Drawing.Size(162, 16);
+            this.linkLabel2.TabIndex = 13;
+            this.linkLabel2.TabStop = true;
+            this.linkLabel2.Text = "Email: tinhoc@agu.edu.vn";
             // 
             // frmThongtinLienhe
             // 
-            this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AcceptButton = this.btnDong;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(437, 222);
-            this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.ClientSize = new System.Drawing.Size(527, 303);
+            this.Controls.Add(this.linkLabel2);
+            this.Controls.Add(this.linkLabel1);
+            this.Controls.Add(this.lblEmail2);
+            this.Controls.Add(this.lblWeb1);
+            this.Controls.Add(this.btnDong);
+            this.Controls.Add(this.lblDienThoai2);
+            this.Controls.Add(this.lblDiaChi2);
+            this.Controls.Add(this.lblNhom2);
+            this.Controls.Add(this.lblDienThoai1);
+            this.Controls.Add(this.lblDiaChi1);
+            this.Controls.Add(this.lblNhom1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmThongtinLienhe";
-            this.Text = "THONG TIN LIEN HE";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Thông tin liên hệ";
+            this.Load += new System.EventHandler(this.frmThongtinLienhe_Load_1);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -132,12 +190,16 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.Label lblNhom1;
+        private System.Windows.Forms.Label lblDiaChi1;
+        private System.Windows.Forms.Label lblDienThoai1;
+        private System.Windows.Forms.Label lblDienThoai2;
+        private System.Windows.Forms.Label lblDiaChi2;
+        private System.Windows.Forms.Label lblNhom2;
+        private System.Windows.Forms.Button btnDong;
+        private System.Windows.Forms.Label lblWeb1;
+        private System.Windows.Forms.Label lblEmail2;
+        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel linkLabel2;
     }
 }

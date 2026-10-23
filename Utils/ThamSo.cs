@@ -101,9 +101,10 @@ namespace CuahangNongduoc
             ds.Load(new OleDbCommand("SELECT TEN_CUA_HANG, DIA_CHI, DIEN_THOAI FROM THAM_SO"));
             if (ds.Rows.Count > 0)
             {
-                ch.TenCuaHang = ds.Rows[0]["TEN_CUA_HANG"].ToString();
-                ch.DiaChi = ds.Rows[0]["DIA_CHI"].ToString();
-                ch.DienThoai = ds.Rows[0]["DIEN_THOAI"].ToString();
+                ch.TenCuaHang = Convert.ToString(ds.Rows[0]["TEN_CUA_HANG"]);
+                ch.DiaChi = Convert.ToString(ds.Rows[0]["DIA_CHI"]);
+                ch.DienThoai = Convert.ToString(ds.Rows[0]["DIEN_THOAI"]);
+                // Neu ten bi loi font (C?a...), de trong form Thong tin cua hang go lai "Cửa hàng Nông dược An Giang" roi Luu.
             }
             return ch;
         }
@@ -111,9 +112,9 @@ namespace CuahangNongduoc
         {
             DataService ds = new DataService();
             OleDbCommand cmd = new OleDbCommand("UPDATE THAM_SO SET TEN_CUA_HANG = @ten_cua_hang, DIA_CHI = @dia_chi, DIEN_THOAI = @dien_thoai ");
-            cmd.Parameters.Add("@ten_cua_hang", OleDbType.VarChar).Value = ten_cua_hang;
-            cmd.Parameters.Add("@dia_chi", OleDbType.VarChar).Value = dia_chi;
-            cmd.Parameters.Add("@dien_thoai", OleDbType.VarChar).Value = dien_thoai;
+            cmd.Parameters.Add("@ten_cua_hang", OleDbType.VarWChar).Value = ten_cua_hang ?? "";
+            cmd.Parameters.Add("@dia_chi", OleDbType.VarWChar).Value = dia_chi ?? "";
+            cmd.Parameters.Add("@dien_thoai", OleDbType.VarWChar).Value = dien_thoai ?? "";
 
             ds.ExecuteNoneQuery(cmd);
         }

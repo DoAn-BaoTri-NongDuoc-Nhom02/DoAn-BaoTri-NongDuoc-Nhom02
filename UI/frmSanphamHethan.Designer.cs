@@ -1,4 +1,4 @@
-﻿namespace CuahangNongduoc
+﻿﻿namespace CuahangNongduoc
 {
     partial class frmSanphamHethan
     {
@@ -120,7 +120,7 @@
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmSanphamHethan";
-            this.Text = "SAN PHAM HET HAN";
+            this.Text = "Sản phẩm hết hạn";
             this.Load += new System.EventHandler(this.frmSanphamHethan_Load);
             ((System.ComponentModel.ISupportInitialize)(this.MaSanPhamBindingSource)).EndInit();
             this.panel1.ResumeLayout(false);

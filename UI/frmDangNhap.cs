@@ -11,6 +11,7 @@ namespace CuahangNongduoc.UI
 {
     public partial class frmDangNhap : Form
     {
+        
         public frmDangNhap()
         {
             InitializeComponent();
@@ -97,6 +98,11 @@ namespace CuahangNongduoc.UI
                     this.Close();
                 }
             }
+        }
+
+        private void txtMatKhau_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

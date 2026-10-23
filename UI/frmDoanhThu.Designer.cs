@@ -1,4 +1,4 @@
-﻿namespace CuahangNongduoc
+﻿﻿namespace CuahangNongduoc
 {
     partial class frmDoanhThu
     {
@@ -104,7 +104,7 @@
             this.numericUpDown1.Size = new System.Drawing.Size(64, 20);
             this.numericUpDown1.TabIndex = 7;
             this.numericUpDown1.Value = new decimal(new int[] {
-            2007,
+            2026,
             0,
             0,
             0});
@@ -229,7 +229,7 @@
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmDoanhThu";
-            this.Text = "DOANH THU";
+            this.Text = "Doanh thu";
             this.Load += new System.EventHandler(this.frmDoanhThu_Load);
             this.panel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);

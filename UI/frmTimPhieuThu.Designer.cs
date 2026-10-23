@@ -58,7 +58,7 @@
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 35);
             this.btnOK.TabIndex = 10;
-            this.btnOK.Text = "Đồng ý";
+            this.btnOK.Text = "Tìm kiếm";
             this.btnOK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnOK.UseVisualStyleBackColor = true;
             // 
@@ -113,7 +113,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "frmTimPhieuThu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Tim Phieu Thu";
+            this.Text = "Tìm Phiếu Thu";
             this.Load += new System.EventHandler(this.frmTimPhieuThu_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

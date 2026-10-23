@@ -26,6 +26,11 @@
           <DataField>GiaNhap</DataField>
           <rd:TypeName>System.Int64</rd:TypeName>
         </Field>
+        
+        <Field Name="TenSanPham">
+          <DataField>TenSanPham</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="Id">
           <DataField>Id</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -89,7 +94,7 @@
                         <BorderStyle>
                           <Default>Solid</Default>
                         </BorderStyle>
-                        <FontFamily>Times New Roman</FontFamily>
+                        <FontFamily>Tahoma</FontFamily>
                         <TextAlign>Center</TextAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -110,7 +115,7 @@
                         <BorderStyle>
                           <Default>Solid</Default>
                         </BorderStyle>
-                        <FontFamily>Times New Roman</FontFamily>
+                        <FontFamily>Tahoma</FontFamily>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -118,7 +123,7 @@
                       </Style>
                       <ZIndex>6</ZIndex>
                       <CanGrow>true</CanGrow>
-                      <Value>=Fields!SanPham.Value.TenSanPham</Value>
+                      <Value>=Fields!TenSanPham.Value</Value>
                     </Textbox>
                   </ReportItems>
                 </TableCell>
@@ -130,7 +135,7 @@
                         <BorderStyle>
                           <Default>Solid</Default>
                         </BorderStyle>
-                        <FontFamily>Times New Roman</FontFamily>
+                        <FontFamily>Tahoma</FontFamily>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -150,7 +155,7 @@
                         <BorderStyle>
                           <Default>Solid</Default>
                         </BorderStyle>
-                        <FontFamily>Times New Roman</FontFamily>
+                        <FontFamily>Tahoma</FontFamily>
                         <Format>#,###0</Format>
                         <TextAlign>Right</TextAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -172,7 +177,7 @@
                         <BorderStyle>
                           <Default>Solid</Default>
                         </BorderStyle>
-                        <FontFamily>Times New Roman</FontFamily>
+                        <FontFamily>Tahoma</FontFamily>
                         <Format>#,###0</Format>
                         <TextAlign>Right</TextAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -194,7 +199,7 @@
                         <BorderStyle>
                           <Default>Solid</Default>
                         </BorderStyle>
-                        <FontFamily>Times New Roman</FontFamily>
+                        <FontFamily>Tahoma</FontFamily>
                         <Format>#,###0</Format>
                         <TextAlign>Right</TextAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -216,7 +221,7 @@
                         <BorderStyle>
                           <Default>Solid</Default>
                         </BorderStyle>
-                        <FontFamily>Times New Roman</FontFamily>
+                        <FontFamily>Tahoma</FontFamily>
                         <Format>dd/MM/yyyy</Format>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -237,7 +242,7 @@
                         <BorderStyle>
                           <Default>Solid</Default>
                         </BorderStyle>
-                        <FontFamily>Times New Roman</FontFamily>
+                        <FontFamily>Tahoma</FontFamily>
                         <Format>dd/MM/yyyy</Format>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -266,7 +271,7 @@
                         <BorderStyle>
                           <Default>Solid</Default>
                         </BorderStyle>
-                        <FontFamily>Times New Roman</FontFamily>
+                        <FontFamily>Tahoma</FontFamily>
                         <FontWeight>700</FontWeight>
                         <TextAlign>Center</TextAlign>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -289,7 +294,7 @@
                         <BorderStyle>
                           <Default>Solid</Default>
                         </BorderStyle>
-                        <FontFamily>Times New Roman</FontFamily>
+                        <FontFamily>Tahoma</FontFamily>
                         <FontWeight>700</FontWeight>
                         <TextAlign>Center</TextAlign>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -312,7 +317,7 @@
                         <BorderStyle>
                           <Default>Solid</Default>
                         </BorderStyle>
-                        <FontFamily>Times New Roman</FontFamily>
+                        <FontFamily>Tahoma</FontFamily>
                         <FontWeight>700</FontWeight>
                         <TextAlign>Center</TextAlign>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -335,7 +340,7 @@
                         <BorderStyle>
                           <Default>Solid</Default>
                         </BorderStyle>
-                        <FontFamily>Times New Roman</FontFamily>
+                        <FontFamily>Tahoma</FontFamily>
                         <FontWeight>700</FontWeight>
                         <TextAlign>Center</TextAlign>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -358,7 +363,7 @@
                         <BorderStyle>
                           <Default>Solid</Default>
                         </BorderStyle>
-                        <FontFamily>Times New Roman</FontFamily>
+                        <FontFamily>Tahoma</FontFamily>
                         <FontWeight>700</FontWeight>
                         <TextAlign>Center</TextAlign>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -381,7 +386,7 @@
                         <BorderStyle>
                           <Default>Solid</Default>
                         </BorderStyle>
-                        <FontFamily>Times New Roman</FontFamily>
+                        <FontFamily>Tahoma</FontFamily>
                         <FontWeight>700</FontWeight>
                         <TextAlign>Center</TextAlign>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -404,7 +409,7 @@
                         <BorderStyle>
                           <Default>Solid</Default>
                         </BorderStyle>
-                        <FontFamily>Times New Roman</FontFamily>
+                        <FontFamily>Tahoma</FontFamily>
                         <FontWeight>700</FontWeight>
                         <TextAlign>Center</TextAlign>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -428,7 +433,7 @@ sản xuất</Value>
                         <BorderStyle>
                           <Default>Solid</Default>
                         </BorderStyle>
-                        <FontFamily>Times New Roman</FontFamily>
+                        <FontFamily>Tahoma</FontFamily>
                         <FontWeight>700</FontWeight>
                         <TextAlign>Center</TextAlign>
                         <VerticalAlign>Middle</VerticalAlign>

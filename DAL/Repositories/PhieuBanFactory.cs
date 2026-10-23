@@ -21,6 +21,14 @@ namespace CuahangNongduoc.DataLayer
             return m_Ds;
         }
 
+        public DataTable TimPhieuBanTheoKhach(String idKh)
+        {
+            OleDbCommand cmd = new OleDbCommand("SELECT * FROM PHIEU_BAN WHERE ID_KHACH_HANG=@kh ORDER BY NGAY_BAN DESC");
+            cmd.Parameters.Add("kh", OleDbType.VarChar).Value = idKh;
+            m_Ds.Load(cmd);
+            return m_Ds;
+        }
+
         public DataTable DanhsachPhieuBanLe()
         {
             OleDbCommand cmd = new OleDbCommand("SELECT PB.* FROM PHIEU_BAN PB INNER JOIN KHACH_HANG KH ON PB.ID_KHACH_HANG=KH.ID WHERE KH.LOAI_KH=FALSE");
@@ -94,5 +102,74 @@ namespace CuahangNongduoc.DataLayer
            
             return m_Ds.ExecuteNoneQuery() > 0;
         }
+    
+        public DataTable ThongKeDoanhThu(DateTime tuNgay, DateTime denNgay, string idKhachHang, bool? banSi)
+        {
+            System.Text.StringBuilder sql = new System.Text.StringBuilder();
+            sql.Append(
+                "SELECT PB.ID AS MaPhieu, PB.NGAY_BAN AS NgayBan, " +
+                "KH.HO_TEN AS TenKhachHang, " +
+                "IIF(KH.LOAI_KH=TRUE OR KH.LOAI_KH=-1 OR KH.LOAI_KH=1, 'Ban si', 'Ban le') AS Kenh, " +
+                "PB.TONG_TIEN AS TongTien, PB.DA_TRA AS DaTra, PB.CON_NO AS ConNo " +
+                "FROM PHIEU_BAN PB LEFT JOIN KHACH_HANG KH ON PB.ID_KHACH_HANG = KH.ID " +
+                "WHERE PB.NGAY_BAN >= ? AND PB.NGAY_BAN <= ? ");
+            if (!string.IsNullOrEmpty(idKhachHang))
+                sql.Append("AND PB.ID_KHACH_HANG = ? ");
+            if (banSi.HasValue)
+            {
+                if (banSi.Value)
+                    sql.Append("AND (KH.LOAI_KH = TRUE OR KH.LOAI_KH = -1 OR KH.LOAI_KH = 1) ");
+                else
+                    sql.Append("AND (KH.LOAI_KH = FALSE OR KH.LOAI_KH = 0 OR KH.LOAI_KH IS NULL) ");
+            }
+            sql.Append("ORDER BY PB.NGAY_BAN, PB.ID");
+
+            OleDbCommand cmd = new OleDbCommand(sql.ToString());
+            cmd.Parameters.Add("tu", OleDbType.Date).Value = tuNgay.Date;
+            cmd.Parameters.Add("den", OleDbType.Date).Value = denNgay.Date.AddDays(1).AddSeconds(-1);
+            if (!string.IsNullOrEmpty(idKhachHang))
+                cmd.Parameters.Add("kh", OleDbType.VarChar).Value = idKhachHang;
+
+            DataService ds = new DataService();
+            ds.Load(cmd);
+            return ds;
+        }
+
+        public DataTable DoanhThuTheoNgay(DateTime tuNgay, DateTime denNgay)
+        {
+            string sql =
+                "SELECT PB.NGAY_BAN AS NgayBan, SUM(PB.TONG_TIEN) AS TongTien " +
+                "FROM PHIEU_BAN PB WHERE PB.NGAY_BAN >= ? AND PB.NGAY_BAN <= ? " +
+                "GROUP BY PB.NGAY_BAN ORDER BY PB.NGAY_BAN";
+            OleDbCommand cmd = new OleDbCommand(sql);
+            cmd.Parameters.Add("tu", OleDbType.Date).Value = tuNgay.Date;
+            cmd.Parameters.Add("den", OleDbType.Date).Value = denNgay.Date.AddDays(1).AddSeconds(-1);
+            DataService ds = new DataService();
+            ds.Load(cmd);
+            return ds;
+        }
+
+        public DataTable TimPhieuBanKhoang(String idKh, DateTime tu, DateTime den)
+        {
+            System.Data.OleDb.OleDbCommand cmd;
+            bool coKH = idKh != null && idKh.Length > 0;
+            if (coKH)
+            {
+                cmd = new System.Data.OleDb.OleDbCommand(
+                    "SELECT * FROM PHIEU_BAN WHERE ID_KHACH_HANG=@kh AND NGAY_BAN >= @tu AND NGAY_BAN <= @den ORDER BY NGAY_BAN");
+                cmd.Parameters.Add("@kh", System.Data.OleDb.OleDbType.VarWChar).Value = idKh;
+            }
+            else
+            {
+                cmd = new System.Data.OleDb.OleDbCommand(
+                    "SELECT * FROM PHIEU_BAN WHERE NGAY_BAN >= @tu AND NGAY_BAN <= @den ORDER BY NGAY_BAN");
+            }
+            cmd.Parameters.Add("@tu", System.Data.OleDb.OleDbType.Date).Value = tu.Date;
+            cmd.Parameters.Add("@den", System.Data.OleDb.OleDbType.Date).Value = den.Date;
+            DataService ds = new DataService();
+            ds.Load(cmd);
+            return ds;
+        }
+
     }
 }

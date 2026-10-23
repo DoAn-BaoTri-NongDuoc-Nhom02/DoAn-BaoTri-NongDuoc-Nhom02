@@ -200,10 +200,10 @@
   </data>
   <data name="itemQuanLyTaiKhoan.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAB1SURBVDhPxY5BCoAwDAT7CoX63CD4Esln/I7gqdJDStkk
-        2hzEgb20u9Om9AWZeMvERTKt+4wdlzpYiMtxXi0iwq5JLfbjXoJdhTcelvwvqHiSobGAkvDYC3YV+LIV
-        3DSexvgT80dvAiQssBISIEogEox3Lnc3ifOn5QDzhugAAAAASUVORK5CYII=
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
+        cgAAEnIBXmVb4wAAAHVJREFUOE/FjkEKgDAMBPsKhfrcIPgSyWf8juCp0kNK2STaHMSBvbS706b0BZl4
+        y8RFMq37jB2XOliIy3FeLSLCrkkt9uNegl2FNx6W/C+oeJKhsYCS8NgLdhX4shXcNJ7G+BPzR28CJCyw
+        EhIgSiASjHcudzeJ86flAPOG6AAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="itemNhapHang.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -361,6 +361,9 @@
         35TwnVUmk/u82fyHSVFSRWT272r4jgbFqJcppp/+A78JzNcfWuOnAAAAAElFTkSuQmCC
 </value>
   </data>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>25</value>
+  </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAMDAAAAEAIACoJQAAFgAAACgAAAAwAAAAYAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA

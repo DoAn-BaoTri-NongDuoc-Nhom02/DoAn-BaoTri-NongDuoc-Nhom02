@@ -1,17 +1,18 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
+using CuahangNongduoc.BusinessObject;
 
 namespace CuahangNongduoc
 {
+    /// <summary>
+    /// PM-30: In phiếu thanh toán (phiếu thu) bằng PhieuIn — không ReportViewer.
+    /// Entity: Id, NgayThanhToan, TongTien, KhachHang.HoTen, GhiChu
+    /// </summary>
     public partial class frmInPhieuThanhToan : Form
     {
-        CuahangNongduoc.BusinessObject.PhieuThanhToan m_PhieuThanhToan;
-        public frmInPhieuThanhToan(CuahangNongduoc.BusinessObject.PhieuThanhToan ph)
+        PhieuThanhToan m_PhieuThanhToan;
+
+        public frmInPhieuThanhToan(PhieuThanhToan ph)
         {
             InitializeComponent();
             m_PhieuThanhToan = ph;
@@ -19,18 +20,66 @@ namespace CuahangNongduoc
 
         private void frmPhieuThanhToan_Load(object sender, EventArgs e)
         {
-            Num2Str num = new Num2Str();
-            IList<Microsoft.Reporting.WinForms.ReportParameter> param = new List<Microsoft.Reporting.WinForms.ReportParameter>();
-            CuahangNongduoc.BusinessObject.CuaHang ch = ThamSo.LayCuaHang();
-            param.Add(new Microsoft.Reporting.WinForms.ReportParameter("ten_cua_hang", ch.TenCuaHang));
-            param.Add(new Microsoft.Reporting.WinForms.ReportParameter("dia_chi", ch.DiaChi));
-            param.Add(new Microsoft.Reporting.WinForms.ReportParameter("dien_thoai", ch.DienThoai));
+            this.Text = "In Phiếu Thanh Toán";
 
-            param.Add(new Microsoft.Reporting.WinForms.ReportParameter("bang_chu", num.NumberToString(m_PhieuThanhToan.TongTien.ToString())));
+            if (m_PhieuThanhToan == null)
+            {
+                MessageBox.Show("Không có dữ liệu phiếu thanh toán để in.", this.Text,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.Close();
+                return;
+            }
 
-            this.reportViewer.LocalReport.SetParameters(param);
-            this.PhieuThanhToanBindingSource.DataSource = m_PhieuThanhToan; 
-            this.reportViewer.RefreshReport();
+            string ma = m_PhieuThanhToan.Id ?? "";
+            if (ma.Trim().Length == 0)
+            {
+                MessageBox.Show("Phiếu chưa có mã. Hãy lưu phiếu trước khi in.", this.Text,
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+                return;
+            }
+
+            string kh = "";
+            if (m_PhieuThanhToan.KhachHang != null)
+                kh = m_PhieuThanhToan.KhachHang.HoTen ?? "";
+
+            string ngay = m_PhieuThanhToan.NgayThanhToan.ToString("dd/MM/yyyy");
+            string soTien = m_PhieuThanhToan.TongTien.ToString("N0");
+            string ghiChu = m_PhieuThanhToan.GhiChu ?? "";
+
+            string cuaHang = "CỬA HÀNG NÔNG DƯỢC";
+            try
+            {
+                CuaHang ch = ThamSo.LayCuaHang();
+                if (ch != null && !string.IsNullOrEmpty(ch.TenCuaHang))
+                    cuaHang = ch.TenCuaHang;
+            }
+            catch { }
+
+            try
+            {
+                foreach (Control c in this.Controls)
+                    c.Visible = false;
+            }
+            catch { }
+
+            this.Hide();
+            try
+            {
+                PhieuIn.Mo("PHIẾU THANH TOÁN (PHIẾU THU)", cuaHang, new string[] {
+                    "Mã phiếu|" + ma,
+                    "Khách hàng / Đại lý|" + kh,
+                    "Ngày thu|" + ngay,
+                    "Số tiền|" + soTien + " đ",
+                    "Ghi chú|" + ghiChu
+                }, this.Owner ?? this);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Không in được:\n" + ex.Message, this.Text,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            this.Close();
         }
     }
 }

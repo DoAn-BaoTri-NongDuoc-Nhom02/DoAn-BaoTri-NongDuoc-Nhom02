@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
@@ -37,7 +37,7 @@ namespace CuahangNongduoc.DataLayer
         public DataTable LayNCC(String id)
         {
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM NHA_CUNG_CAP WHERE ID = @id");
-            cmd.Parameters.Add("id", OleDbType.VarChar,50).Value = id;
+            cmd.Parameters.Add("id", OleDbType.VarChar, 50).Value = id;
             m_Ds.Load(cmd);
             return m_Ds;
         }
@@ -53,6 +53,19 @@ namespace CuahangNongduoc.DataLayer
         public bool Save()
         {
             return m_Ds.ExecuteNoneQuery() > 0;
+        }
+
+        /// <summary>
+        /// Có phiếu nhập nào của nhà cung cấp này không. Dùng DataService riêng
+        /// để không ghi đè bảng m_Ds đang gắn với lưới.
+        /// </summary>
+        public bool DaSuDung(String id)
+        {
+            DataService ds = new DataService();
+            OleDbCommand cmd = new OleDbCommand("SELECT TOP 1 ID FROM PHIEU_NHAP WHERE ID_NHA_CUNG_CAP = ?");
+            cmd.Parameters.Add("@id", OleDbType.VarChar, 50).Value = id;
+            ds.Load(cmd);
+            return ds.Rows.Count > 0;
         }
     }
 }

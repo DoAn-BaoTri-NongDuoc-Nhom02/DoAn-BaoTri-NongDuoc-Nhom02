@@ -53,7 +53,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.ReportViewer.WinForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportViewer.WinForms.10.0.40219.1\lib\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -100,6 +102,13 @@
     <Compile Include="BLL\DonViTinhController.cs" />
     <Compile Include="DAL\Repositories\PhieuChiFactory.cs" />
     <Compile Include="Entities\VaiTro.cs" />
+    <Compile Include="Utils\UiTheme.cs" />
+    <Compile Include="UI\frmNhatKy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\frmNhatKy.Designer.cs">
+      <DependentUpon>frmNhatKy.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\frmDangNhap.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -323,6 +332,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmInPhieuChi.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\frmNhatKy.resx">
+      <DependentUpon>frmNhatKy.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\frmPhieuChi.resx">
       <DependentUpon>frmPhieuChi.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -468,6 +480,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="App.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -481,7 +494,9 @@
     <Compile Include="Utils\ThamSo.cs" />
     <Compile Include="Utils\CauHinhKho.cs" />
     <Compile Include="Utils\PhienDangNhap.cs" />
-    <Compile Include="UI\frmDoiMatKhau.cs" />
+    <Compile Include="UI\frmDoiMatKhau.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="BLL\XuatKhoController.cs" />
   </ItemGroup>
   <ItemGroup>

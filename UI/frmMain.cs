@@ -15,6 +15,8 @@ namespace CuahangNongduoc
     {
         private NguoiDung _nguoiDung;
         private bool _dangXuat = false;
+        /// <summary>Menu Báo cáo → Doanh thu (tạo runtime nếu Designer chưa có).</summary>
+        private ToolStripMenuItem mnuBaocaoDoanhThu;
 
         /// <summary>True nếu form đóng vì người dùng chọn Đăng xuất (frmDangNhap sẽ hiện lại).</summary>
         public bool DaDangXuat
@@ -44,7 +46,7 @@ namespace CuahangNongduoc
                 DonViTinh = new frmDonViTinh();
                 DonViTinh.MdiParent = this;
                 DonViTinh.Show();
-                
+
             }
             else
                 DonViTinh.Activate();
@@ -97,9 +99,10 @@ namespace CuahangNongduoc
             this.Text = "Cửa hàng Nông dược - Xin chào: " + _nguoiDung.HoTen + " (" + _nguoiDung.TenVaiTro + ")";
             TaoMucTaiKhoan();
             TaoThanhTrangThai();
+            DamBaoMenuDoanhThu();    // Gắn Doanh thu vào menu + sidebar
             PhanQuyenTheoVaiTro();   // Gọi phân quyền
             PhanQuyenTaskPane();
-
+            HienThanhChucNang();     // Hiển thị thanh chức năng bên trái ngay khi mở form
         }
         frmSanPham SanPham = null;
         private void mnuSanPham_Click(object sender, EventArgs e)
@@ -138,12 +141,26 @@ namespace CuahangNongduoc
                 DaiLy.Activate();
 
         }
-        frmDanhsachPhieuNhap NhapHang = null;
+        frmNhapHang NhapHang = null;
+
+        frmDanhsachPhieuNhap DanhsachPhieuNhap = null;
+        private void mnuDanhsachPhieuNhap_Click(object sender, EventArgs e)
+        {
+            if (DanhsachPhieuNhap == null || DanhsachPhieuNhap.IsDisposed)
+            {
+                DanhsachPhieuNhap = new frmDanhsachPhieuNhap();
+                DanhsachPhieuNhap.MdiParent = this;
+                DanhsachPhieuNhap.Show();
+            }
+            else
+                DanhsachPhieuNhap.Activate();
+        }
+
         private void mnuNhapHang_Click(object sender, EventArgs e)
         {
             if (NhapHang == null || NhapHang.IsDisposed)
             {
-                NhapHang = new frmDanhsachPhieuNhap();
+                NhapHang = new frmNhapHang();
                 NhapHang.MdiParent = this;
                 NhapHang.Show();
             }
@@ -333,8 +350,64 @@ namespace CuahangNongduoc
 
         private void mnuTrogiupHuongdan_Click(object sender, EventArgs e)
         {
-           // Help.ShowHelp(this, "CPP.CHM");
+            // Help.ShowHelp(this, "CPP.CHM");
         }
+
+        /// <summary>
+        /// Thêm "Doanh thu" vào menu Báo cáo; sửa sidebar itemTonghopDoanhthu (đang ghi nhầm "Số lượng bán").
+        /// Không đổi layout Designer ngoài text + sự kiện.
+        /// </summary>
+        private void DamBaoMenuDoanhThu()
+        {
+            if (mnuBaocaoDoanhThu == null)
+            {
+                foreach (ToolStripItem it in mnuBaocao.DropDownItems)
+                {
+                    if (it.Name == "mnuBaocaoDoanhThu" || it.Text == "Doanh thu")
+                    {
+                        mnuBaocaoDoanhThu = it as ToolStripMenuItem;
+                        break;
+                    }
+                }
+            }
+            if (mnuBaocaoDoanhThu == null)
+            {
+                mnuBaocaoDoanhThu = new ToolStripMenuItem("Doanh thu");
+                mnuBaocaoDoanhThu.Name = "mnuBaocaoDoanhThu";
+                try
+                {
+                    mnuBaocaoDoanhThu.Image = global::CuahangNongduoc.Properties.Resources.Soluongban;
+                }
+                catch { }
+                mnuBaocaoDoanhThu.Click += new EventHandler(mnuBaocaoDoanhThu_Click);
+                mnuBaocao.DropDownItems.Insert(0, mnuBaocaoDoanhThu);
+            }
+
+            // Sidebar Báo cáo: đổi nhãn + gắn đúng form Doanh thu
+            try
+            {
+                if (itemTonghopDoanhthu != null)
+                {
+                    itemTonghopDoanhthu.Text = "Doanh thu";
+                    itemTonghopDoanhthu.Click -= new EventHandler(mnuSoLuongBan_Click);
+                    itemTonghopDoanhthu.Click -= new EventHandler(mnuBaocaoDoanhThu_Click);
+                    itemTonghopDoanhthu.Click += new EventHandler(mnuBaocaoDoanhThu_Click);
+                }
+            }
+            catch { }
+
+            // Đảm bảo "Số lượng tồn" trên sidebar có Click
+            try
+            {
+                if (itemTonKho != null)
+                {
+                    itemTonKho.Click -= new EventHandler(mnuBaocaoSoluongton_Click);
+                    itemTonKho.Click += new EventHandler(mnuBaocaoSoluongton_Click);
+                }
+            }
+            catch { }
+        }
+
         private void PhanQuyenTheoVaiTro()
         {
             // ========== 1. ẨN HẾT MENU CON ==========
@@ -354,6 +427,7 @@ namespace CuahangNongduoc
             mnuBaocaoSoluongton.Visible = false;
             mnuSoLuongBan.Visible = false;
             mnuSanphamHethan.Visible = false;
+            if (mnuBaocaoDoanhThu != null) mnuBaocaoDoanhThu.Visible = false;
             mnuTuychinhThongtin.Visible = false;
             mnuQuanLyTaiKhoan.Visible = false;          // ← menu mới
 
@@ -402,6 +476,7 @@ namespace CuahangNongduoc
                     mnuBaocaoSoluongton.Visible = true;
                     mnuSoLuongBan.Visible = true;
                     mnuSanphamHethan.Visible = true;
+                    if (mnuBaocaoDoanhThu != null) mnuBaocaoDoanhThu.Visible = true;
                     mnuTuychinhThongtin.Visible = true;
                     mnuQuanLyTaiKhoan.Visible = true;    // ← chỉ Admin mới thấy
 
@@ -462,6 +537,7 @@ namespace CuahangNongduoc
                     mnuTonghopDuno.Visible = true;
                     mnuBaocaoSoluongton.Visible = true;
                     mnuSoLuongBan.Visible = true;
+                    if (mnuBaocaoDoanhThu != null) mnuBaocaoDoanhThu.Visible = true;
 
                     toolPhieuChi.Visible = true;
                     toolThanhtoan.Visible = true;
@@ -474,27 +550,70 @@ namespace CuahangNongduoc
         // bật "Thanh chức năng" là vào được các form đã bị ẩn khỏi menu.
         private void PhanQuyenTaskPane()
         {
-            itemDaiLy.Visible = mnuDaiLy.Visible;
-            itemKhachHang.Visible = mnuKhachHang.Visible;
-            itemSanPham.Visible = mnuSanPham.Visible;
-            itemNhaCungCap.Visible = mnuNhaCungCap.Visible;
-            itemQuanLyTaiKhoan.Visible = mnuQuanLyTaiKhoan.Visible;
+            // 1. Cho phép các nhóm Expando hiển thị trước
+            expando1.Visible = true;
+            expando2.Visible = true;
+            expando3.Visible = true;
 
-            itemNhapHang.Visible = mnuNhapHang.Visible;
-            itemBanSi.Visible = mnuBanHangDL.Visible;
-            itemBanLe.Visible = mnuBanHangKH.Visible;
-            itemThanhToan.Visible = mnuThanhtoan.Visible;
-            itemPhieuChi.Visible = mnuPhieuChi.Visible;
+            // 2. Phân quyền hiển thị các mục con trong TaskPane theo Menu
+            // LƯU Ý: với mục con của menu (nằm trong dropdown đang đóng) thuộc tính .Visible luôn trả về false,
+            // phải dùng .Available mới đọc đúng trạng thái đã phân quyền. Control trong TaskPane cũng vậy
+            // (khi TaskPane chưa hiện thì .Visible của con trả về false) nên ta lưu cờ riêng ra mảng bool.
+            bool[][] hien =
+            {
+                new bool[] { mnuSanPham.Available, mnuKhachHang.Available, mnuDaiLy.Available,
+                             mnuNhaCungCap.Available, mnuQuanLyTaiKhoan.Available },
+                new bool[] { mnuNhapHang.Available, mnuBanHangDL.Available, mnuBanHangKH.Available,
+                             mnuThanhtoan.Available, mnuPhieuChi.Available },
+                new bool[] {
+                    mnuBaocaoDoanhThu != null && mnuBaocaoDoanhThu.Available,
+                    mnuBaocaoSoluongton.Available,
+                    mnuSanphamHethan.Available }
+            };
 
-            itemTonghopDoanhthu.Visible = mnuSoLuongBan.Visible;
-            itemTonKho.Visible = mnuBaocaoSoluongton.Visible;
-            taskItem1.Visible = mnuSanphamHethan.Visible;
+            // 4. Sắp xếp lại các mục + nhóm (vị trí trong designer là cố định nên khi ẩn bớt sẽ bị hở/trống)
+            taskPane.SuspendLayout();
+            XPExplorerBar.Expando[] nhom = { expando1, expando2, expando3 };
+            XPExplorerBar.TaskItem[][] mucCon =
+            {
+                new XPExplorerBar.TaskItem[] { itemSanPham, itemKhachHang, itemDaiLy, itemNhaCungCap, itemQuanLyTaiKhoan },
+                new XPExplorerBar.TaskItem[] { itemNhapHang, itemBanSi, itemBanLe, itemThanhToan, itemPhieuChi },
+                new XPExplorerBar.TaskItem[] { itemTonghopDoanhthu, itemTonKho, taskItem1 }
+            };
 
-            expando1.Visible = itemDaiLy.Visible || itemKhachHang.Visible || itemSanPham.Visible
-                || itemNhaCungCap.Visible || itemQuanLyTaiKhoan.Visible;
-            expando2.Visible = itemNhapHang.Visible || itemBanSi.Visible || itemBanLe.Visible
-                || itemThanhToan.Visible || itemPhieuChi.Visible;
-            expando3.Visible = itemTonghopDoanhthu.Visible || itemTonKho.Visible || taskItem1.Visible;
+            int y = 12;
+            for (int i = 0; i < nhom.Length; i++)
+            {
+                int soMuc = 0;
+                int yMuc = 32;
+                for (int j = 0; j < mucCon[i].Length; j++)
+                {
+                    mucCon[i][j].Visible = hien[i][j];
+                    if (!hien[i][j]) continue;
+                    mucCon[i][j].Location = new Point(8, yMuc);
+                    yMuc += 33;
+                    soMuc++;
+                }
+
+                nhom[i].Visible = soMuc > 0;
+                if (soMuc == 0) continue;
+
+                int chieuCao = 32 + soMuc * 33 + 8;
+                nhom[i].ExpandedHeight = chieuCao;
+                nhom[i].Location = new Point(12, y);
+                nhom[i].Size = new Size(233, chieuCao);
+                y += chieuCao + 12;
+            }
+            taskPane.ResumeLayout(true);
+        }
+
+        // Hiện thanh chức năng bên trái và đồng bộ dấu check trong menu Hiển thị.
+        private void HienThanhChucNang()
+        {
+            mnuThanhChucNang.Checked = true;
+            taskPane.Visible = true;
+            taskPane.PerformLayout();
+            taskPane.Invalidate(true);
         }
 
         // Thêm "Đổi mật khẩu" và "Đăng xuất" vào menu Hệ thống (menu này luôn hiện với mọi vai trò).

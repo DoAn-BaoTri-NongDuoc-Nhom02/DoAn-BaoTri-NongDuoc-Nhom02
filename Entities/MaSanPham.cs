@@ -81,6 +81,20 @@ namespace CuahangNongduoc.BusinessObject
             set { m_PhieuNhap = value; }
         }
 
+        /// <summary>Ten SP phang (cho Report RDLC – tranh #Error khi nested SanPham.Value.TenSanPham).</summary>
+        private String m_TenSanPham;
+        public String TenSanPham
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(m_TenSanPham)) return m_TenSanPham;
+                if (m_SanPham != null && m_SanPham.TenSanPham != null) return m_SanPham.TenSanPham;
+                return "";
+            }
+            set { m_TenSanPham = value; }
+        }
+
+
 	
     }
 }

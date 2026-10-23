@@ -84,6 +84,7 @@
             this.itemKhachHang = new XPExplorerBar.TaskItem();
             this.itemSanPham = new XPExplorerBar.TaskItem();
             this.itemNhaCungCap = new XPExplorerBar.TaskItem();
+            this.itemQuanLyTaiKhoan = new XPExplorerBar.TaskItem();
             this.expando2 = new XPExplorerBar.Expando();
             this.itemNhapHang = new XPExplorerBar.TaskItem();
             this.itemBanSi = new XPExplorerBar.TaskItem();
@@ -94,7 +95,6 @@
             this.itemTonghopDoanhthu = new XPExplorerBar.TaskItem();
             this.itemTonKho = new XPExplorerBar.TaskItem();
             this.taskItem1 = new XPExplorerBar.TaskItem();
-            this.itemQuanLyTaiKhoan = new XPExplorerBar.TaskItem();
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.taskPane)).BeginInit();
@@ -109,6 +109,7 @@
             // 
             // menuStrip
             // 
+            this.menuStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuHeThong,
@@ -410,6 +411,7 @@
             // 
             // toolStrip
             // 
+            this.toolStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.toolStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolSanPham,
@@ -669,6 +671,24 @@
             this.itemNhaCungCap.UseVisualStyleBackColor = false;
             this.itemNhaCungCap.Click += new System.EventHandler(this.mnuNhaCungCap_Click);
             // 
+            // itemQuanLyTaiKhoan
+            // 
+            this.itemQuanLyTaiKhoan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.itemQuanLyTaiKhoan.BackColor = System.Drawing.Color.Transparent;
+            this.itemQuanLyTaiKhoan.CustomSettings.HotLinkColor = System.Drawing.Color.PaleGreen;
+            this.itemQuanLyTaiKhoan.CustomSettings.LinkColor = System.Drawing.Color.Maroon;
+            this.itemQuanLyTaiKhoan.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
+            this.itemQuanLyTaiKhoan.Image = ((System.Drawing.Image)(resources.GetObject("itemQuanLyTaiKhoan.Image")));
+            this.itemQuanLyTaiKhoan.Location = new System.Drawing.Point(0, 167);
+            this.itemQuanLyTaiKhoan.Name = "itemQuanLyTaiKhoan";
+            this.itemQuanLyTaiKhoan.Size = new System.Drawing.Size(123, 20);
+            this.itemQuanLyTaiKhoan.TabIndex = 14;
+            this.itemQuanLyTaiKhoan.Text = "Tài khoản";
+            this.itemQuanLyTaiKhoan.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.itemQuanLyTaiKhoan.UseVisualStyleBackColor = false;
+            this.itemQuanLyTaiKhoan.Click += new System.EventHandler(this.itemQuanLyTaiKhoan_Click);
+            // 
             // expando2
             // 
             this.expando2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -861,24 +881,6 @@
             this.taskItem1.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.taskItem1.UseVisualStyleBackColor = false;
             this.taskItem1.Click += new System.EventHandler(this.mnuSanphamHethan_Click);
-            // 
-            // itemQuanLyTaiKhoan
-            // 
-            this.itemQuanLyTaiKhoan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.itemQuanLyTaiKhoan.BackColor = System.Drawing.Color.Transparent;
-            this.itemQuanLyTaiKhoan.CustomSettings.HotLinkColor = System.Drawing.Color.PaleGreen;
-            this.itemQuanLyTaiKhoan.CustomSettings.LinkColor = System.Drawing.Color.Maroon;
-            this.itemQuanLyTaiKhoan.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
-            this.itemQuanLyTaiKhoan.Image = ((System.Drawing.Image)(resources.GetObject("itemQuanLyTaiKhoan.Image")));
-            this.itemQuanLyTaiKhoan.Location = new System.Drawing.Point(0, 167);
-            this.itemQuanLyTaiKhoan.Name = "itemQuanLyTaiKhoan";
-            this.itemQuanLyTaiKhoan.Size = new System.Drawing.Size(123, 20);
-            this.itemQuanLyTaiKhoan.TabIndex = 14;
-            this.itemQuanLyTaiKhoan.Text = "Tài khoản";
-            this.itemQuanLyTaiKhoan.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.itemQuanLyTaiKhoan.UseVisualStyleBackColor = false;
-            this.itemQuanLyTaiKhoan.Click += new System.EventHandler(this.itemQuanLyTaiKhoan_Click);
             // 
             // frmMain
             // 

@@ -62,7 +62,6 @@
             this.txtTenCuaHang.Name = "txtTenCuaHang";
             this.txtTenCuaHang.Size = new System.Drawing.Size(244, 22);
             this.txtTenCuaHang.TabIndex = 1;
-           // this.txtTenCuaHang.TextChanged += new System.EventHandler(this.txtTenCuaHang_TextChanged);
             // 
             // txtDienThoai
             // 
@@ -193,6 +192,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.ClientSize = new System.Drawing.Size(440, 308);
             this.Controls.Add(this.btnHelp);
             this.Controls.Add(this.btnHuy);

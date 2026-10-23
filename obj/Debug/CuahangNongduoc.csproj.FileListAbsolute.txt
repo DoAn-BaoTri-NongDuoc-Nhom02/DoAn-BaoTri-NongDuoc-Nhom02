@@ -251,3 +251,94 @@ D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.csproj.CoreCompileInputs.
 D:\Download\Cuahang Nongduoc\obj\Debug\CuahangN.B1970924.Up2Date
 D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.exe
 D:\Download\Cuahang Nongduoc\obj\Debug\CuahangNongduoc.pdb
+D:\DoAn-BaoTri-NongDuoc-Nhom02\bin\Debug\CuahangNongduoc.exe.config
+D:\DoAn-BaoTri-NongDuoc-Nhom02\bin\Debug\CuahangNongduoc.exe
+D:\DoAn-BaoTri-NongDuoc-Nhom02\bin\Debug\CuahangNongduoc.pdb
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.csproj.AssemblyReference.cache
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.UI.frmDangNhap.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmInPhieuChi.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmPhieuChi.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmLyDoChi.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmBanSi.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmDanhsachPhieuBanSi.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmDanhsachPhieuBanLe.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmBanLe.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmDaiLy.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmDanhsachPhieuNhap.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmDoanhThu.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmDonViTinh.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmDunoKhachhang.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmInDunoKhachHang.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmInPhieuBan.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmInPhieuNhap.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmKhachHang.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmMain.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmNhaCungCap.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmNhapHang.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmInPhieuThanhToan.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.UI.frmQuanLyTaiKhoan.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmSanPham.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmSanphamHethan.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmSoLuongBan.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmSoLuongTon.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmThanhToan.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmThongtinCuahang.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmThongtinLienhe.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmTimPhieuBanLe.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmTimPhieuChi.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmTimPhieuNhap.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmTimPhieuThu.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.Properties.Resources.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.csproj.GenerateResource.cache
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.csproj.CoreCompileInputs.cache
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangN.B1970924.Up2Date
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.exe
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.pdb
+D:\DoAn-BaoTri-NongDuoc-Nhom02\obj\Debug\CuahangNongduoc.frmNhatKy.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\bin\Debug\CuahangNongduoc.exe.config
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\bin\Debug\CuahangNongduoc.exe
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\bin\Debug\CuahangNongduoc.pdb
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.csproj.AssemblyReference.cache
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.UI.frmDangNhap.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmInPhieuChi.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmNhatKy.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmPhieuChi.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmLyDoChi.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmBanSi.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmDanhsachPhieuBanSi.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmDanhsachPhieuBanLe.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmBanLe.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmDaiLy.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmDanhsachPhieuNhap.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmDoanhThu.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmDonViTinh.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmDunoKhachhang.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmInDunoKhachHang.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmInPhieuBan.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmInPhieuNhap.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmKhachHang.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmMain.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmNhaCungCap.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmNhapHang.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmInPhieuThanhToan.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.UI.frmQuanLyTaiKhoan.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmSanPham.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmSanphamHethan.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmSoLuongBan.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmSoLuongTon.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmThanhToan.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmThongtinCuahang.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmThongtinLienhe.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmTimPhieuBanLe.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmTimPhieuChi.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmTimPhieuNhap.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.frmTimPhieuThu.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.Properties.Resources.resources
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.csproj.GenerateResource.cache
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.csproj.CoreCompileInputs.cache
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangN.B1970924.Up2Date
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.exe
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\obj\Debug\CuahangNongduoc.pdb
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\bin\Debug\Microsoft.ReportViewer.WinForms.dll
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\bin\Debug\Microsoft.ReportViewer.ProcessingObjectModel.dll
+D:\DoAn-BaoTri-NongDuoc-Nhom02 - Copy\bin\Debug\Microsoft.ReportViewer.DataVisualization.dll

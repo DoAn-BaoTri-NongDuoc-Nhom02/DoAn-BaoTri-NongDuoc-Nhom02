@@ -25,6 +25,22 @@ namespace CuahangNongduoc.Controller
             return factory.Save();
         }
 
+        /// <summary>Toan bo bang MA_SAN_PHAM de form tu loc theo phieu nhap va sua tren man hinh.</summary>
+        public DataTable TaiBangChiTiet()
+        {
+            return factory.TaiBangChiTiet();
+        }
+
+        public String LastError
+        {
+            get { return factory.LastError; }
+        }
+
+        public bool CoThayDoi()
+        {
+            return factory.CoThayDoi();
+        }
+
         public SanPham LaySanPham(String idMaSanPham)
         {
             MaSanPhanFactory f = new MaSanPhanFactory();
@@ -33,7 +49,7 @@ namespace CuahangNongduoc.Controller
             DonViTinhController ctrlDVT = new DonViTinhController();
             if (tbl.Rows.Count > 0)
             {
-                sp =  new  SanPham();
+                sp = new SanPham();
                 sp.Id = Convert.ToString(tbl.Rows[0]["ID"]);
                 sp.TenSanPham = Convert.ToString(tbl.Rows[0]["TEN_SAN_PHAM"]);
                 sp.SoLuong = Convert.ToInt32(tbl.Rows[0]["SO_LUONG"]);
@@ -63,7 +79,7 @@ namespace CuahangNongduoc.Controller
                 sp.NgaySanXuat = Convert.ToDateTime(tbl.Rows[0]["NGAY_SAN_XUAT"]);
                 sp.NgayHetHan = Convert.ToDateTime(tbl.Rows[0]["NGAY_HET_HAN"]);
                 sp.SanPham = ctrlSanPham.LaySanPham(tbl.Rows[0]["ID_SAN_PHAM"].ToString());
-                
+
             }
             return sp;
 
@@ -77,7 +93,7 @@ namespace CuahangNongduoc.Controller
 
             MaSanPham sp = null;
             SanPhamController ctrlSanPham = new SanPhamController();
-            foreach  ( DataRow row in tbl.Rows)
+            foreach (DataRow row in tbl.Rows)
             {
                 sp = new MaSanPham();
                 sp.Id = Convert.ToString(row["ID"]);
@@ -87,6 +103,10 @@ namespace CuahangNongduoc.Controller
                 sp.NgaySanXuat = Convert.ToDateTime(row["NGAY_SAN_XUAT"]);
                 sp.NgayHetHan = Convert.ToDateTime(row["NGAY_HET_HAN"]);
                 sp.SanPham = ctrlSanPham.LaySanPham(row["ID_SAN_PHAM"].ToString());
+                if (sp.SanPham != null)
+                    sp.TenSanPham = sp.SanPham.TenSanPham ?? "";
+                else
+                    sp.TenSanPham = "";
                 ds.Add(sp);
             }
             return ds;
@@ -112,7 +132,7 @@ namespace CuahangNongduoc.Controller
 
         public void HienThiChiTietPhieuNhap(String id, DataGridView dg)
         {
-            
+
             dg.DataSource = factory.DanhsachChiTiet(id);
         }
         public IList<MaSanPham> ChiTietPhieuNhap(String id)
@@ -132,6 +152,10 @@ namespace CuahangNongduoc.Controller
                 sp.NgaySanXuat = Convert.ToDateTime(row["NGAY_SAN_XUAT"]);
                 sp.NgayHetHan = Convert.ToDateTime(row["NGAY_HET_HAN"]);
                 sp.SanPham = ctrlSanPham.LaySanPham(row["ID_SAN_PHAM"].ToString());
+                if (sp.SanPham != null)
+                    sp.TenSanPham = sp.SanPham.TenSanPham ?? "";
+                else
+                    sp.TenSanPham = "";
                 ds.Add(sp);
             }
             return ds;

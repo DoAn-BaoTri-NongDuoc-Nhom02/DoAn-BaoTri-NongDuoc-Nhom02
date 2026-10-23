@@ -59,6 +59,14 @@ namespace CuahangNongduoc.BusinessObject
             set { m_ChiTiet = value; }
         }
 
+        // PM-19
+        public long ChietKhau { get; set; }
+        public long PhiVanChuyen { get; set; }
+        public decimal VAT { get; set; }
+        public string GhiChu { get; set; }
+        public string TrangThai { get; set; }
+        public string SoHoaDonVAT { get; set; }
+
 	
     }
 }
