@@ -21,7 +21,7 @@ from nằm trong UI còn code csdl nằm foder Database
 Mở **PowerShell** hoặc **Git Bash**, chạy lệnh:
 
 ```powershell
-git clone -b Develop --single-branch https://github.com/DoAn-BaoTri-NongDuoc-Nhom02/DoAn-BaoTri-NongDuoc-Nhom02.git
+git clone -b main --single-branch https://github.com/DoAn-BaoTri-NongDuoc-Nhom02/DoAn-BaoTri-NongDuoc-Nhom02.git
 ```
 
 Sau khi xong, dự án sẽ nằm ở:
