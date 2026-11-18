@@ -18,12 +18,12 @@ namespace CuahangNongduoc.Controller
 
         public DataRow NewRow()
         {
-            return factory.NewRow();
+            return factory.BangDangSoan.NewRow();
         }
 
         public void Add(DataRow row)
         {
-            factory.Add(row);
+            factory.BangDangSoan.Rows.Add(row);
         }
 
         // Form Bán lẻ / Bán sỉ gọi khi Lưu (đang sửa)
@@ -34,19 +34,29 @@ namespace CuahangNongduoc.Controller
             factory.Save();
         }
 
-        public void Save()
+        /// <summary>
+        /// Lưu các thay đổi của bảng phiếu bán.
+        /// REFACTOR #42 Add Parameter – thêm tham số nguoiLap để ghi ai lập phiếu vào cột ID_NGUOI_DUNG
+        /// (phục vụ thống kê hóa đơn theo nhân viên). Truyền null nếu không xác định.
+        /// </summary>
+        public void Save(CuahangNongduoc.Entities.NguoiDung nguoiLap)
         {
-            int n = PhieuBanFactory.LaySoPhieu();
-            if (n >= 50)
+            GhiNguoiLap(nguoiLap);
+
+            // Sửa lỗi: bản cũ còn giới hạn "bản dùng thử" – từ phiếu thứ 51 không lưu (và cũng không xóa)
+            // được phiếu nào nhưng chi tiết vẫn bị ghi, gây lỗi khóa ngoại. Mỗi lần lưu còn hiện thêm hộp thoại.
+            factory.Save();
+        }
+
+        private void GhiNguoiLap(CuahangNongduoc.Entities.NguoiDung nguoiLap)
+        {
+            DataTable bang = factory.BangDangSoan;
+            if (nguoiLap == null || !nguoiLap.LaNguoiDungThat || !bang.Columns.Contains("ID_NGUOI_DUNG"))
+                return;
+            foreach (DataRow dong in bang.Rows)
             {
-                MessageBox.Show("Đây là bản dùng thử! Chỉ lưu được 50 phiếu bán!", "Phieu Ban",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show("Đây là bản dùng thử! Chỉ lưu được thêm " + Convert.ToString(50 - n) + " phiếu bán!",
-                    "Phieu Ban", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                factory.Save();
+                if (dong.RowState == DataRowState.Added)
+                    dong["ID_NGUOI_DUNG"] = nguoiLap.ID;
             }
         }
 
@@ -131,8 +141,7 @@ namespace CuahangNongduoc.Controller
             PhieuBan ph = null;
             if (tbl.Rows.Count > 0)
             {
-                ph = new PhieuBan();
-                ph.Id = Convert.ToString(tbl.Rows[0]["ID"]);
+                ph = new PhieuBan(Convert.ToString(tbl.Rows[0]["ID"]));
                 ph.NgayBan = Convert.ToDateTime(tbl.Rows[0]["NGAY_BAN"]);
                 ph.TongTien = Convert.ToInt64(tbl.Rows[0]["TONG_TIEN"]);
                 ph.DaTra = Convert.ToInt64(tbl.Rows[0]["DA_TRA"]);
@@ -140,7 +149,7 @@ namespace CuahangNongduoc.Controller
                 KhachHangController ctrlKH = new KhachHangController();
                 ph.KhachHang = ctrlKH.LayKhachHang(Convert.ToString(tbl.Rows[0]["ID_KHACH_HANG"]));
                 ChiTietPhieuBanController ctrl = new ChiTietPhieuBanController();
-                ph.ChiTiet = ctrl.ChiTietPhieuBan(ph.Id);
+                ph.GanChiTiet(ctrl.ChiTietPhieuBan(ph.Id));
             }
             return ph;
         }

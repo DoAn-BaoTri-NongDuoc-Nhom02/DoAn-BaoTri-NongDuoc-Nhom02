@@ -26,7 +26,7 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM PHIEU_NHAP ORDER BY NGAY_NHAP, LEN(ID), ID");
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         // CSDL là SQL Server nên dùng tham số vị trí (?): OleDb không nhận tham số đặt tên @ten trong câu SQL
@@ -39,7 +39,7 @@ namespace CuahangNongduoc.DataLayer
 
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
 
@@ -48,23 +48,23 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM PHIEU_NHAP WHERE ID = ?");
             cmd.Parameters.Add("id", OleDbType.VarWChar, 50).Value = id;
             m_Ds.Load(cmd);
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
 
 
         public DataRow NewRow()
         {
-            return m_Ds.NewRow();
+            return m_Ds.Bang.NewRow();
         }
         public void Add(DataRow row)
         {
-            m_Ds.Rows.Add(row);
+            m_Ds.Bang.Rows.Add(row);
         }
         public bool Save()
         {
 
-            return m_Ds.ExecuteNoneQuery() > 0;
+            return m_Ds.ExecuteNonQuery() > 0;
         }
 
         // ---------------------------------------------------------------
@@ -86,7 +86,7 @@ namespace CuahangNongduoc.DataLayer
             DataService nk = new DataService();
             nk.Load(new OleDbCommand("SELECT * FROM NHAT_KY_PHIEU_NHAP WHERE 1 = 0"));
 
-            DataRow r = nk.NewRow();
+            DataRow r = nk.Bang.NewRow();
             r["ID"] = tiep;
             r["THOI_GIAN"] = DateTime.Now;
             r["NGUOI_DUNG"] = CatChuoi(nguoiDung, 100);
@@ -94,8 +94,8 @@ namespace CuahangNongduoc.DataLayer
             r["ID_PHIEU_NHAP"] = CatChuoi(idPhieu, 50);
             r["TEN_NHA_CUNG_CAP"] = CatChuoi(tenNcc, 100);
             r["NOI_DUNG"] = noiDung == null ? "" : noiDung;
-            nk.Rows.Add(r);
-            nk.ExecuteNoneQuery();
+            nk.Bang.Rows.Add(r);
+            nk.ExecuteNonQuery();
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace CuahangNongduoc.DataLayer
                 cmd.Parameters.Add("id", OleDbType.VarWChar, 50).Value = idPhieu;
             }
             ds.Load(cmd);
-            return ds;
+            return ds.Bang;
         }
     
         /// <summary>
@@ -179,13 +179,13 @@ namespace CuahangNongduoc.DataLayer
             try
             {
                 m_Ds.Load(cmd);
-                return m_Ds;
+                return m_Ds.Bang;
             }
             catch
             {
                 // fallback simple
                 m_Ds.Load(cmd);
-                return m_Ds;
+                return m_Ds.Bang;
             }
         }
     
@@ -205,7 +205,7 @@ namespace CuahangNongduoc.DataLayer
                 try
                 {
                     DataService ds = new DataService();
-                    ds.ExecuteNoneQuery(new OleDbCommand(s));
+                    ds.ExecuteNonQuery(new OleDbCommand(s));
                 }
                 catch { }
             }
@@ -285,7 +285,7 @@ namespace CuahangNongduoc.DataLayer
                 m_Ds = new DataService();
                 m_Ds.Load(cmd);
             }
-            return m_Ds;
+            return m_Ds.Bang;
         }
     }
 }

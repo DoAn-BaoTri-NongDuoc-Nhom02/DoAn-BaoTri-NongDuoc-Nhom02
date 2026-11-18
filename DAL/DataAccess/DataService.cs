@@ -2,22 +2,70 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
-using System.IO;
 using System.Text;
 
 namespace CuahangNongduoc
 {
 
-    public class DataService : DataTable
+    /// <summary>
+    /// Thực thi lệnh SQL qua OleDb và giữ bảng kết quả.
+    /// REFACTOR #64 Replace Inheritance with Delegation – trước đây DataService kế thừa DataTable
+    /// chỉ để chứa dữ liệu (nên lộ ra hàng trăm hàm của DataTable). Nay DataService GIỮ một DataTable
+    /// và trả ra qua thuộc tính Bang.
+    /// </summary>
+    public class DataService
     {
+        private readonly DataTable m_Bang = new DataTable();
+
+        /// <summary>Bảng kết quả của lần Load gần nhất.</summary>
+        public DataTable Bang
+        {
+            get { return m_Bang; }
+        }
 
         // The connection to a database of this data service.
         private static OleDbConnection m_Connection;
 
+        /// <summary>
+        /// REFACTOR #18 Self Encapsulate Field – kết nối đang dùng, luôn ở trạng thái đã mở.
+        /// Trước đây các hàm Execute… dùng thẳng m_Connection nên bị NullReferenceException
+        /// nếu chưa ai gọi OpenConnection() trước.
+        /// </summary>
+        private static OleDbConnection KetNoi
+        {
+            get
+            {
+                if (!OpenConnection())
+                    throw new Exception("Khong ket noi duoc SQL Server: " + m_LoiKetNoi
+                        + "\r\nChuoi ket noi: " + m_ConnectString);
+                return m_Connection;
+            }
+        }
+
         // Chuoi ket noi SQL Server. Kiem tra ten may chu bang lenh:  SELECT @@SERVERNAME  trong SSMS
         // (vi du ".\\SQLEXPRESS", "localhost", "TENMAY\\SQLEXPRESS").
-        public static String m_ConnectString =
-     "Provider=SQLOLEDB;Data Source=.\\SQLEXPRESS;Initial Catalog=CuahangNongDuoc;Integrated Security=SSPI;";
+        private static String m_ConnectString =
+            "Provider=SQLOLEDB;Data Source=.\\SQLEXPRESS;Initial Catalog=CuahangNongDuoc;Integrated Security=SSPI;";
+
+        /// <summary>
+        /// REFACTOR #27 Encapsulate Field – chuỗi kết nối OleDb; trước đây là trường public static.
+        /// Đổi chuỗi kết nối thì đóng kết nối cũ để lần sau mở lại bằng chuỗi mới.
+        /// </summary>
+        public static String ChuoiKetNoi
+        {
+            get { return m_ConnectString; }
+            set
+            {
+                if (String.IsNullOrEmpty(value))
+                    throw new ArgumentException("Chuỗi kết nối không được rỗng.");
+                m_ConnectString = value;
+                if (m_Connection != null)
+                {
+                    m_Connection.Close();
+                    m_Connection = null;
+                }
+            }
+        }
 
         // Loi ket noi gan nhat (de bao ra thay vi nuot im lang)
         private static String m_LoiKetNoi = "";
@@ -28,7 +76,7 @@ namespace CuahangNongduoc
         // The data adapter to execute query on a database of this data service.
         private OleDbDataAdapter m_DataAdapter;
 
-        // Loi cuoi cung cua Load / ExecuteNoneQuery() tren bang nay (rong neu thanh cong)
+        // Loi cuoi cung cua Load / ExecuteNonQuery() tren bang nay (rong neu thanh cong)
         private String m_LastError = "";
         public String LastError
         {
@@ -42,22 +90,6 @@ namespace CuahangNongduoc
         {
             get { return m_Command; }
             set { m_Command = value; }
-        }
-
-        // ------------------------------------------------------------------
-        // Ghi loi vao file loi_csdl.log (canh file .exe) vi cac ham ben duoi nuot loi:
-        // mo file nay se biet cau SQL nao bi loi va vi sao.
-        // ------------------------------------------------------------------
-        private static void GhiLog(String noiXayRa, String sql, String loi)
-        {
-            try
-            {
-                String duongDan = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "loi_csdl.log");
-                String dong = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " [" + noiXayRa + "] " + loi
-                    + (String.IsNullOrEmpty(sql) ? "" : "\r\n    SQL: " + sql) + "\r\n";
-                File.AppendAllText(duongDan, dong, Encoding.UTF8);
-            }
-            catch (Exception) { }
         }
 
         // ------------------------------------------------------------------
@@ -188,20 +220,20 @@ namespace CuahangNongduoc
             {
                 ChuanHoaLenh(command);
 
-                m_Command.Connection = m_Connection;
+                m_Command.Connection = KetNoi;
 
                 m_DataAdapter = new OleDbDataAdapter();
                 m_DataAdapter.SelectCommand = m_Command;
 
-                this.Clear();
-                m_DataAdapter.Fill(this);
+                m_Bang.Clear();
+                m_DataAdapter.Fill(m_Bang);
 
             }
             catch (Exception e)
             {
                 String str = e.Message;
                 m_LastError = str;
-                GhiLog("Load", (command == null) ? "" : command.CommandText, str);
+                NhatKyLoi.Ghi("Load", (command == null) ? "" : command.CommandText, str);
             }
         }
 
@@ -220,7 +252,7 @@ namespace CuahangNongduoc
                 {
                     m_Connection.Open();
                     // Ghi may chu / CSDL dang dung de doi chieu voi SSMS (moi lan mo ket noi)
-                    GhiLog("KetNoi", "", "May chu: " + m_Connection.DataSource + " | CSDL: " + m_Connection.Database);
+                    NhatKyLoi.Ghi("KetNoi", "", "May chu: " + m_Connection.DataSource + " | CSDL: " + m_Connection.Database);
                 }
 
                 m_LoiKetNoi = "";
@@ -229,7 +261,7 @@ namespace CuahangNongduoc
             catch (Exception e)
             {
                 m_LoiKetNoi = e.Message;
-                GhiLog("OpenConnection", m_ConnectString, e.Message);
+                NhatKyLoi.Ghi("OpenConnection", m_ConnectString, e.Message);
                 try { if (m_Connection != null) m_Connection.Close(); }
                 catch (Exception) { }
                 return false;
@@ -241,24 +273,31 @@ namespace CuahangNongduoc
         /// </summary>
         public void CloseConnection()
         {
-            m_Connection.Close();
+            if (m_Connection != null)
+                m_Connection.Close();
         }
 
         /// <summary>
         /// Update DataTable
         /// </summary>
         /// <returns></returns>
-        public int ExecuteNoneQuery()
+        // REFACTOR #41 Rename Method – đổi tên ExecuteNoneQuery (sai chính tả) thành ExecuteNonQuery, cả hai bản nạp chồng.
+        public int ExecuteNonQuery()
         {
+            // REFACTOR #40 Introduce Assertion – hàm này cập nhật lại đúng câu SELECT đã nạp bảng,
+            // nên bắt buộc phải gọi Load(...) trước.
+            System.Diagnostics.Debug.Assert(m_Command != null,
+                "DataService.ExecuteNonQuery(): phai goi Load(...) truoc khi luu bang.");
+
             int result = 0;
             OleDbTransaction tr = null;
             m_LastError = "";
             try
             {
-                tr = m_Connection.BeginTransaction();
+                tr = KetNoi.BeginTransaction();
 
                 ChuanHoaLenh(m_Command);
-                m_Command.Connection = m_Connection;
+                m_Command.Connection = KetNoi;
                 m_Command.Transaction = tr;
 
                 m_DataAdapter = new OleDbDataAdapter();
@@ -266,7 +305,7 @@ namespace CuahangNongduoc
 
                 OleDbCommandBuilder builder = new OleDbCommandBuilder(m_DataAdapter);
 
-                result = m_DataAdapter.Update(this);
+                result = m_DataAdapter.Update(m_Bang);
 
 
                 tr.Commit();
@@ -276,7 +315,7 @@ namespace CuahangNongduoc
             {
                 if (tr != null) tr.Rollback();
                 m_LastError = e.Message;
-                GhiLog("ExecuteNoneQuery(Update)", (m_Command == null) ? "" : m_Command.CommandText, e.Message);
+                NhatKyLoi.Ghi("ExecuteNonQuery(Update)", (m_Command == null) ? "" : m_Command.CommandText, e.Message);
             }
             return result;
         }
@@ -285,7 +324,7 @@ namespace CuahangNongduoc
         /// </summary>
         /// <param name="command">OleDb hay Store Procedure</param>
         /// <returns></returns>
-        public int ExecuteNoneQuery(OleDbCommand cmd)
+        public int ExecuteNonQuery(OleDbCommand cmd)
         {
 
             int result = 0;
@@ -293,16 +332,16 @@ namespace CuahangNongduoc
 
             try
             {
-                tr = m_Connection.BeginTransaction();
+                tr = KetNoi.BeginTransaction();
 
                 ChuanHoaLenh(cmd);
-                cmd.Connection = m_Connection;
+                cmd.Connection = KetNoi;
 
                 cmd.Transaction = tr;
 
                 result = cmd.ExecuteNonQuery();
 
-                this.AcceptChanges();
+                m_Bang.AcceptChanges();
 
                 tr.Commit();
 
@@ -310,7 +349,7 @@ namespace CuahangNongduoc
             catch (Exception e)
             {
                 if (tr != null) tr.Rollback();
-                GhiLog("ExecuteNoneQuery(cmd)", (cmd == null) ? "" : cmd.CommandText, e.Message);
+                NhatKyLoi.Ghi("ExecuteNonQuery(cmd)", (cmd == null) ? "" : cmd.CommandText, e.Message);
                 throw;
             }
             return result;
@@ -324,17 +363,17 @@ namespace CuahangNongduoc
 
             try
             {
-                tr = m_Connection.BeginTransaction();
+                tr = KetNoi.BeginTransaction();
 
                 ChuanHoaLenh(cmd);
-                cmd.Connection = m_Connection;
+                cmd.Connection = KetNoi;
 
                 cmd.Transaction = tr;
 
                 result = cmd.ExecuteScalar();
 
-                this.AcceptChanges();
-
+                // REFACTOR #44 Separate Query from Modifier – ExecuteScalar chỉ đọc,
+                // không còn gọi AcceptChanges() làm thay đổi trạng thái bảng đang giữ.
                 tr.Commit();
 
                 if (result == DBNull.Value)
@@ -345,7 +384,7 @@ namespace CuahangNongduoc
             catch (Exception e)
             {
                 if (tr != null) tr.Rollback();
-                GhiLog("ExecuteScalar", (cmd == null) ? "" : cmd.CommandText, e.Message);
+                NhatKyLoi.Ghi("ExecuteScalar", (cmd == null) ? "" : cmd.CommandText, e.Message);
                 throw;
             }
             return result;

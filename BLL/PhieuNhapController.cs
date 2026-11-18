@@ -56,15 +56,14 @@ namespace CuahangNongduoc.Controller
             if (tbl.Rows.Count > 0)
             {
 
-                ph = new PhieuNhap();
-                ph.Id = Convert.ToString(tbl.Rows[0]["ID"]);
+                ph = new PhieuNhap(Convert.ToString(tbl.Rows[0]["ID"]));
                 ph.NgayNhap = Convert.ToDateTime(tbl.Rows[0]["NGAY_NHAP"]);
                 ph.TongTien = SoNguyen(tbl.Rows[0]["TONG_TIEN"]);
                 ph.DaTra = SoNguyen(tbl.Rows[0]["DA_TRA"]);
                 ph.ConNo = SoNguyen(tbl.Rows[0]["CON_NO"]);
                 ph.NhaCungCap = ctrlNCC.LayNCC(Convert.ToString(tbl.Rows[0]["ID_NHA_CUNG_CAP"]));
                 MaSanPhamController ctrl = new MaSanPhamController();
-                ph.ChiTiet = ctrl.ChiTietPhieuNhap(ph.Id);
+                ph.GanChiTiet(ctrl.ChiTietPhieuNhap(ph.Id));
             }
             return ph;
         }
@@ -248,9 +247,13 @@ namespace CuahangNongduoc.Controller
         // ---------------------------------------------------------------
         // Nhật ký thay đổi
         // ---------------------------------------------------------------
-        public void GhiNhatKy(string hanhDong, string idPhieu, string tenNcc, string noiDung, string nguoiDung)
+        /// <summary>
+        /// REFACTOR #48 Replace Parameter with Method Call – bỏ tham số nguoiDung: hàm tự lấy người đang
+        /// đăng nhập. (Trước đây form truyền Environment.UserName = tên Windows, không phải nhân viên.)
+        /// </summary>
+        public void GhiNhatKy(string hanhDong, string idPhieu, string tenNcc, string noiDung)
         {
-            factory.GhiNhatKy(hanhDong, idPhieu, tenNcc, noiDung, nguoiDung);
+            factory.GhiNhatKy(hanhDong, idPhieu, tenNcc, noiDung, PhienDangNhap.TenGhiNhatKy);
         }
 
         public DataTable LayNhatKy(string idPhieu)

@@ -15,7 +15,7 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM PHIEU_THANH_TOAN ");
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
         public DataTable TimPhieuThanhToan(String kh, DateTime ngay)
         {
@@ -25,7 +25,7 @@ namespace CuahangNongduoc.DataLayer
 
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
       
         public DataTable LayPhieuThanhToan(String id)
@@ -33,7 +33,7 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM PHIEU_THANH_TOAN WHERE ID = @id");
             cmd.Parameters.Add("id", OleDbType.VarChar,50).Value = id;
             m_Ds.Load(cmd);
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
 
@@ -55,16 +55,16 @@ namespace CuahangNongduoc.DataLayer
         
         public DataRow NewRow()
         {
-            return m_Ds.NewRow();
+            return m_Ds.Bang.NewRow();
         }
         public void Add(DataRow row)
         {
-            m_Ds.Rows.Add(row);
+            m_Ds.Bang.Rows.Add(row);
         }
        public bool Save()
         {
            
-            return m_Ds.ExecuteNoneQuery() > 0;
+            return m_Ds.ExecuteNonQuery() > 0;
         }
     }
 }

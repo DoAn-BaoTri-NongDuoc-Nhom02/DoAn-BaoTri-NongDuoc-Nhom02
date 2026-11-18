@@ -117,7 +117,9 @@ namespace CuahangNongduoc
             if (str[0].Length > 28)
                 throw new Exception("Số lớn quá không hiển thị được! ");
 
-            string s;
+            // REFACTOR #6 Split Temporary Variable – trước đây một biến "s" lần lượt giữ 3 thứ khác nhau
+            // (phần chữ của số, chuỗi có dấu "âm", phần còn lại sau chữ hoa đầu). Nay mỗi thứ một biến.
+            string phanChu;
             // Xử lý phần số, nếu là có số thập phân hoặc không
             if (str.Length == 2)
             {
@@ -137,73 +139,76 @@ namespace CuahangNongduoc
                 {
                     fracstr = FracNum2Str(str[1]);
                 }
-                s = (intstr + " phảy " + fracstr);
+                phanChu = (intstr + " phảy " + fracstr);
             }
             else
             {
                 intstr = IntNum2Str(str[0]);
-                s = intstr;
+                phanChu = intstr;
             }
-            s = am + s;
-            string chuhoa = s.Substring(0, 1).ToUpper();
-            s = s.Substring(1, s.Length - 1);
-            return (chuhoa + s);
+            string coDau = am + phanChu;
+            string chuHoaDau = coDau.Substring(0, 1).ToUpper();
+            string phanConLai = coDau.Substring(1, coDau.Length - 1);
+            return (chuHoaDau + phanConLai);
         }
 
+        /// <summary>
+        /// Chèn dấu phẩy hàng nghìn: "1234567.89" -> "1,234,567.89".
+        /// REFACTOR #9 Substitute Algorithm – thay vòng lặp tự cắt từng nhóm 3 chữ số (và vá dấu "-,")
+        /// bằng định dạng "#,##0" có sẵn của .NET; phần thập phân giữ nguyên.
+        /// </summary>
         public string NumNormalize(string num)
         {
-            char ThousandSpace = ',';
-            char PointScape = '.';
-            string[] s = num.Split('.');
-            string g3, str = "";
-            while (s[0].Length > 3)
-            {
-                g3 = s[0].Substring(s[0].Length - 3, 3);
-                s[0] = s[0].Substring(0, s[0].Length - 3);
-                str = ThousandSpace + g3 + str;
-            }
-            str = s[0] + str;
-            if (s.Length == 2)
-            {
-                str = (str + PointScape + s[1]);
-            }
-            return str.Replace("-,", "-");
+            string[] phan = num.Split('.');
+            bool am = phan[0].StartsWith("-");
+            string phanNguyen = am ? phan[0].Substring(1) : phan[0];
+            decimal giaTri = decimal.Parse(phanNguyen.Length == 0 ? "0" : phanNguyen,
+                System.Globalization.CultureInfo.InvariantCulture);
+            string ketQua = (am ? "-" : "") + giaTri.ToString("#,##0", System.Globalization.CultureInfo.InvariantCulture);
+            if (phan.Length == 2)
+                ketQua += "." + phan[1];
+            return ketQua;
+        }
+
+        private static bool LaSoKhong(string chuoiSo)
+        {
+            return chuoiSo == "0" || chuoiSo == "";
         }
 
         public string NumberToString(string no)
         {
+            // REFACTOR #7 Remove Assignments to Parameters – không gán lại tham số "no" (trước đây bị gán 6 lần),
+            // mọi bước chuẩn hóa làm trên biến cục bộ chuoiSo.
+            string chuoiSo = no;
             // xử lý trường hợp dáu phảy thay cho dấu chấm
-            if (no.IndexOf(",", 0, 1) != 0) { no = no.Replace(",", "."); }
+            if (chuoiSo.IndexOf(",", 0, 1) != 0) { chuoiSo = chuoiSo.Replace(",", "."); }
             // Xoá các ký tự trắng ở đầu và cuối
-            no = no.Trim();
-            // Xử lý khi nó là chữ chứ không phải là số
-            if (no == "0") return "không";
-            if (no == "") return "không";
+            chuoiSo = chuoiSo.Trim();
+            // REFACTOR #34 Consolidate Conditional Expression – hai if cùng trả "không" gộp thành một điều kiện.
+            if (LaSoKhong(chuoiSo)) return "không";
             double val;
             try
             {
-                val = Convert.ToDouble(no);
+                val = Convert.ToDouble(chuoiSo);
             }
             catch
             {
                 throw new Exception("Đây không phải là số");
             }
             // tiêu diệt các số không
-            while (no.Substring(0, 1) == "0")
+            while (chuoiSo.Substring(0, 1) == "0")
             {
-                no = no.Substring(1, no.Length - 1);
+                chuoiSo = chuoiSo.Substring(1, chuoiSo.Length - 1);
             }
 
-            if (no.IndexOf(".", 0, 1) != -1)
+            if (chuoiSo.IndexOf(".", 0, 1) != -1)
             {
-                while (no.Substring(no.Length - 1, 1) == "0")
+                while (chuoiSo.Substring(chuoiSo.Length - 1, 1) == "0")
                 {
-                    no = no.Substring(0, no.Length - 1);
+                    chuoiSo = chuoiSo.Substring(0, chuoiSo.Length - 1);
                 }
             }
-            no = No2Str(no);
-
-            return no;
+            return No2Str(chuoiSo);
         }
     }
 }

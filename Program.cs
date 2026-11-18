@@ -15,6 +15,8 @@ namespace CuahangNongduoc
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            // PATTERN #19 Observer (nơi dùng) – đăng ký các bên nghe sự kiện "hóa đơn đã lưu" khi khởi động.
+            CuahangNongduoc.BanHang.SuKienHoaDon.DangKyMacDinh();
             Application.Run(new frmDangNhap());
 
         }

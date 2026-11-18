@@ -6,17 +6,16 @@ namespace CuahangNongduoc.BusinessObject
 {
     public class PhieuNhap
     {
-        public PhieuNhap() { }
+        // REFACTOR #50 Remove Setting Method – mã phiếu chỉ gán qua hàm khởi tạo.
         public PhieuNhap(String id)
         {
             m_Id = id;
         }
-        private String m_Id;
+        private readonly String m_Id;
 
         public String Id
         {
             get { return m_Id; }
-            set { m_Id = value; }
         }
         private DateTime m_NgayNhap;
 
@@ -58,12 +57,33 @@ namespace CuahangNongduoc.BusinessObject
 
 	
 
-        private IList<MaSanPham> m_ChiTiet;
+        // REFACTOR #28 Encapsulate Collection.
+        // Trước đây ChiTiet có setter công khai, nơi khác thay cả danh sách hoặc sửa thẳng bên trong.
+        // Nay bên ngoài chỉ đọc được bản chỉ-đọc; muốn thay đổi phải qua các hàm bên dưới.
+        private List<MaSanPham> m_ChiTiet;
 
+        /// <summary>Chi tiết (chỉ đọc); null nếu chưa nạp.</summary>
         public IList<MaSanPham> ChiTiet
         {
-            get { return m_ChiTiet; }
-            set { m_ChiTiet = value; }
+            get { return m_ChiTiet == null ? null : m_ChiTiet.AsReadOnly(); }
+        }
+
+        /// <summary>Nạp (thay) toàn bộ chi tiết.</summary>
+        public void GanChiTiet(IEnumerable<MaSanPham> danhSach)
+        {
+            m_ChiTiet = danhSach == null ? new List<MaSanPham>() : new List<MaSanPham>(danhSach);
+        }
+
+        public void ThemChiTiet(MaSanPham ct)
+        {
+            if (ct == null) throw new ArgumentNullException("ct");
+            if (m_ChiTiet == null) m_ChiTiet = new List<MaSanPham>();
+            m_ChiTiet.Add(ct);
+        }
+
+        public bool XoaChiTiet(MaSanPham ct)
+        {
+            return m_ChiTiet != null && m_ChiTiet.Remove(ct);
         }
 
 	

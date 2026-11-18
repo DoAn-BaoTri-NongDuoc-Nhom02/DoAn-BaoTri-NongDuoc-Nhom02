@@ -64,3 +64,19 @@ bash
 git remote add origin <URL-GitHub>  # Liên kết với kho GitHub (chỉ làm lần đầu)
 git pull origin nhanh-ca-nhan --rebase # Kéo code mới từ GitHub về để tránh lỗi lệch commit
 git push origin nhanh-ca-nhan         # Đẩy code từ máy lên nhánh cá nhân trên GitHub```
+
+## Cập nhật CSDL cho yêu cầu 4 (bắt buộc sau khi lấy code mới)
+Sau `Database/CuaHangNongDuoc.sql`, chạy thêm `Database/CapNhat_YeuCau4.sql` (chạy lại nhiều lần không sao).
+Script thêm các cột chiết khấu, giảm giá, phí vận chuyển, dịch vụ phụ, VAT, trạng thái, người lập vào `PHIEU_BAN`
+và bảng `CT_DICH_VU_PHIEU_BAN`. Mật khẩu cũ sẽ tự được băm SHA-256 ở lần đăng nhập đầu tiên.
+
+## Refactoring và Design Pattern (đủ 66 kỹ thuật + 23 mẫu)
+- **Danh mục vị trí:** `DANH_MUC_REFACTORING_PATTERN.md` – mỗi kỹ thuật / mẫu: số thứ tự, file : dòng, ý nghĩa thay đổi.
+- **Nhãn trong code:** mọi chỗ sửa có chú thích `REFACTOR #<số> <tên> – <ý nghĩa>` hoặc `PATTERN #<số> <tên> – <ý nghĩa>`
+  (chỗ form gọi tới mẫu ghi thêm `(nơi dùng)`). Tìm bằng Ctrl+Shift+F với từ khóa `REFACTOR #` / `PATTERN #`.
+- Các mẫu được CÀI ĐẶT ở tầng nghiệp vụ (`BLL/BanHang`, `BLL/ThongKe`, `Entities`), form trong `UI` chỉ GỌI tới (đúng kiến trúc 3 tầng).
+- Mỗi kỹ thuật refactoring / mẫu thiết kế là một commit riêng, mở đầu bằng mã trong kế hoạch: `[R1-#12]`, `[P-#2]`...
+- Chức năng mới: menu **Báo cáo → Thống kê theo ngày**; hộp thoại "Thông tin thêm" khi lưu phiếu bán có ô giảm giá và dịch vụ phụ.
+- Kiểm thử nghiệp vụ không cần CSDL: `KiemThu/KiemThuNghiepVu.cs`.
+- Minh chứng trước/sau từng kỹ thuật: `MINH_CHUNG.md` và thư mục `patches/` trong file zip.
+

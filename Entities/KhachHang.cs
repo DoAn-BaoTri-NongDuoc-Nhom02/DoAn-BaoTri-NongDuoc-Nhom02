@@ -44,12 +44,27 @@ namespace CuahangNongduoc.BusinessObject
             get { return m_DienThoai; }
             set { m_DienThoai = value; }
         }
-        private bool m_LoaiKH;
+        // REFACTOR #30 Replace Type Code with Subclasses.
+        // Trước đây loại khách là cờ bool LoaiKH (false = khách lẻ, true = đại lý) do bên ngoài gán.
+        // Nay loại khách do lớp con quyết định: DaiLy (khách lẻ là chính KhachHang); LoaiKH chỉ còn để đọc cho code cũ.
 
+        /// <summary>Khách này có phải đại lý không (lớp con DaiLy trả về true).</summary>
+        public virtual bool LaDaiLy
+        {
+            get { return false; }
+        }
+
+        /// <summary>Giữ cho code cũ / báo cáo: true = đại lý.</summary>
         public bool LoaiKH
         {
-            get { return m_LoaiKH; }
-            set { m_LoaiKH = value; }
+            get { return LaDaiLy; }
+        }
+
+        /// <summary>Tạo đúng lớp con theo giá trị cột LOAI_KH.</summary>
+        public static KhachHang TaoTheoLoai(bool laDaiLy)
+        {
+            if (laDaiLy) return new DaiLy();
+            return new KhachHang();   // khách lẻ (lớp KhachLe đã gộp vào KhachHang – REFACTOR #65)
         }
 
     }

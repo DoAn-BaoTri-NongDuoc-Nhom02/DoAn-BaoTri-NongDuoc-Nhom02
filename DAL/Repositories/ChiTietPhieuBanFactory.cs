@@ -17,7 +17,7 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM CHI_TIET_PHIEU_BAN WHERE ID_PHIEU_BAN = @id");
             cmd.Parameters.Add("id", OleDbType.VarChar , 50).Value = idPhieuBan;
             m_Ds.Load(cmd);
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public DataTable LayChiTietPhieuBan(DateTime dtNgayBan)
@@ -26,7 +26,7 @@ namespace CuahangNongduoc.DataLayer
                     " WHERE PB.NGAY_BAN = @ngayban");
             cmd.Parameters.Add("ngayban", OleDbType.Date).Value = dtNgayBan;
             m_Ds.Load(cmd);
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public DataTable LayChiTietPhieuBan(int thang, int nam)
@@ -36,25 +36,25 @@ namespace CuahangNongduoc.DataLayer
             cmd.Parameters.Add("thang", OleDbType.Integer).Value = thang;
             cmd.Parameters.Add("nam", OleDbType.Integer).Value = nam;
             m_Ds.Load(cmd);
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         
         
-        public DataRow NewRow()
+        /// <summary>
+        /// Bảng đang soạn (dòng mới thêm vào đây rồi Save()).
+        /// REFACTOR #15 Remove Middle Man – thay cho cặp NewRow()/Add() chỉ chuyển tiếp sang DataTable.
+        /// </summary>
+        public DataTable BangDangSoan
         {
-            return m_Ds.NewRow();
-        }
-        public void Add(DataRow row)
-        {
-            m_Ds.Rows.Add(row);
+            get { return m_Ds.Bang; }
         }
 
         /// <summary>Tổng số lượng theo từng lô của các dòng mới thêm vào phiếu nhưng chưa lưu.</summary>
         public IDictionary<String, int> SoLuongChuaLuu()
         {
             Dictionary<String, int> ds = new Dictionary<String, int>();
-            foreach (DataRow row in m_Ds.Rows)
+            foreach (DataRow row in m_Ds.Bang.Rows)
             {
                 if (row.RowState == DataRowState.Added)
                 {
@@ -71,7 +71,7 @@ namespace CuahangNongduoc.DataLayer
         /// <summary>Dòng mới (chưa lưu) của lô này trong phiếu, null nếu chưa có.</summary>
         public DataRow TimDongChuaLuu(String idLo)
         {
-            foreach (DataRow row in m_Ds.Rows)
+            foreach (DataRow row in m_Ds.Bang.Rows)
             {
                 if (row.RowState == DataRowState.Added && Convert.ToString(row["ID_MA_SAN_PHAM"]) == idLo)
                     return row;
@@ -82,7 +82,7 @@ namespace CuahangNongduoc.DataLayer
         /// <summary>Phiếu đã có dòng được lưu trước đó cho lô này chưa (khóa chính là phiếu + lô).</summary>
         public bool DaCoDongDaLuu(String idLo)
         {
-            foreach (DataRow row in m_Ds.Rows)
+            foreach (DataRow row in m_Ds.Bang.Rows)
             {
                 if (row.RowState != DataRowState.Added && row.RowState != DataRowState.Deleted
                     && row.RowState != DataRowState.Detached && Convert.ToString(row["ID_MA_SAN_PHAM"]) == idLo)
@@ -99,7 +99,7 @@ namespace CuahangNongduoc.DataLayer
         {
             foreach (KeyValuePair<String, int> kv in SoLuongChuaLuu())
             {
-                int ton = CuahangNongduoc.DataLayer.MaSanPhanFactory.LaySoLuong(kv.Key);
+                int ton = CuahangNongduoc.DataLayer.MaSanPhamFactory.LaySoLuong(kv.Key);
                 int hoan = 0;
                 if (hoanTra != null)
                     hoanTra.TryGetValue(kv.Key, out hoan);
@@ -121,7 +121,7 @@ namespace CuahangNongduoc.DataLayer
             {
                 foreach (KeyValuePair<String, int> kv in SoLuongChuaLuu())
                 {
-                    CuahangNongduoc.DataLayer.MaSanPhanFactory.CapNhatSoLuong(kv.Key, -kv.Value);
+                    CuahangNongduoc.DataLayer.MaSanPhamFactory.CapNhatSoLuong(kv.Key, -kv.Value);
                     daTru.Add(kv);
                 }
             }
@@ -134,7 +134,7 @@ namespace CuahangNongduoc.DataLayer
             bool ok;
             try
             {
-                ok = m_Ds.ExecuteNoneQuery() > 0;
+                ok = m_Ds.ExecuteNonQuery() > 0;
             }
             catch
             {
@@ -156,7 +156,7 @@ namespace CuahangNongduoc.DataLayer
             {
                 try
                 {
-                    CuahangNongduoc.DataLayer.MaSanPhanFactory.CapNhatSoLuong(kv.Key, kv.Value);
+                    CuahangNongduoc.DataLayer.MaSanPhamFactory.CapNhatSoLuong(kv.Key, kv.Value);
                 }
                 catch
                 {

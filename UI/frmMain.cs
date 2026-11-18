@@ -1,4 +1,5 @@
 ﻿using CuahangNongduoc.Entities;
+using CuahangNongduoc.Controller;
 using CuahangNongduoc.UI;
 using Microsoft.Win32;
 using System;
@@ -17,6 +18,8 @@ namespace CuahangNongduoc
         private bool _dangXuat = false;
         /// <summary>Menu Báo cáo → Doanh thu (tạo runtime nếu Designer chưa có).</summary>
         private ToolStripMenuItem mnuBaocaoDoanhThu;
+        /// <summary>Menu Báo cáo → Thống kê theo ngày (yêu cầu 4, tạo lúc chạy).</summary>
+        private ToolStripMenuItem mnuBaocaoThongKe;
 
         /// <summary>True nếu form đóng vì người dùng chọn Đăng xuất (frmDangNhap sẽ hiện lại).</summary>
         public bool DaDangXuat
@@ -24,32 +27,38 @@ namespace CuahangNongduoc
             get { return _dangXuat; }
         }
 
-        public frmMain(NguoiDung nd)
-        {
-            InitializeComponent();
-            _nguoiDung = nd;
-            if (PhienDangNhap.NguoiDungHienTai == null)
-                PhienDangNhap.BatDau(nd);
-        }
+        /// <summary>
+        /// REFACTOR #43 Remove Parameter – bỏ hàm khởi tạo frmMain(NguoiDung nd): người dùng đã có trong
+        /// PhienDangNhap (frmDangNhap gọi BatDau trước khi mở form), truyền thêm tham số chỉ gây trùng lặp.
+        /// Chưa đăng nhập thì form tự đóng ở frmMain_Load.
+        /// </summary>
         public frmMain()
         {
             InitializeComponent();
-            // Không có tham số: lấy người đang đăng nhập từ phiên dùng chung (null -> form tự đóng ở frmMain_Load).
             _nguoiDung = PhienDangNhap.NguoiDungHienTai;
         }
+        /// <summary>
+        /// Mở một form con trong cửa sổ chính: nếu form chưa mở (hoặc đã đóng) thì tạo mới, nếu đang mở thì đưa lên trước.
+        /// REFACTOR #1 Extract Method – thay cho 19 khối if/else giống hệt nhau trong các hàm mnu..._Click.
+        /// </summary>
+        private T MoFormCon<T>(T formDangMo) where T : Form, new()
+        {
+            if (formDangMo == null || formDangMo.IsDisposed)
+            {
+                T formMoi = new T();
+                formMoi.MdiParent = this;
+                formMoi.Show();
+                return formMoi;
+            }
+            formDangMo.Activate();
+            return formDangMo;
+        }
+
         frmDonViTinh DonViTinh = null;
 
         private void mnuDonViTinh_Click(object sender, EventArgs e)
         {
-            if (DonViTinh == null || DonViTinh.IsDisposed)
-            {
-                DonViTinh = new frmDonViTinh();
-                DonViTinh.MdiParent = this;
-                DonViTinh.Show();
-
-            }
-            else
-                DonViTinh.Activate();
+            DonViTinh = MoFormCon(DonViTinh);
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -58,13 +67,13 @@ namespace CuahangNongduoc
 
             //if (regKey == null)
             //{
-            //    DataService.m_ConnectString = "";
+            //    DataService.ChuoiKetNoi = "";
             //}
             //else
             //{
             //    try
             //    {
-            //        DataService.m_ConnectString = (String)regKey.GetValue("ConnectString");
+            //        DataService.ChuoiKetNoi = (String)regKey.GetValue("ConnectString");
             //    }
             //    catch
             //    {
@@ -89,7 +98,7 @@ namespace CuahangNongduoc
             }
 
             // Chưa đăng nhập thì không cho vào (trước đây _nguoiDung = null sẽ hiện ra toàn bộ menu).
-            if (_nguoiDung == null)
+            if (!_nguoiDung.LaNguoiDungThat)
             {
                 MessageBox.Show("Bạn chưa đăng nhập!", "Cua hang Nong duoc", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 this.Close();
@@ -100,6 +109,7 @@ namespace CuahangNongduoc
             TaoMucTaiKhoan();
             TaoThanhTrangThai();
             DamBaoMenuDoanhThu();    // Gắn Doanh thu vào menu + sidebar
+            DamBaoMenuThongKe();
             PhanQuyenTheoVaiTro();   // Gọi phân quyền
             PhanQuyenTaskPane();
             HienThanhChucNang();     // Hiển thị thanh chức năng bên trái ngay khi mở form
@@ -107,38 +117,17 @@ namespace CuahangNongduoc
         frmSanPham SanPham = null;
         private void mnuSanPham_Click(object sender, EventArgs e)
         {
-            if (SanPham == null || SanPham.IsDisposed)
-            {
-                SanPham = new frmSanPham();
-                SanPham.MdiParent = this;
-                SanPham.Show();
-            }
-            else
-                SanPham.Activate();
+            SanPham = MoFormCon(SanPham);
         }
         frmKhachHang KhachHang = null;
         private void mnuKhachHang_Click(object sender, EventArgs e)
         {
-            if (KhachHang == null || KhachHang.IsDisposed)
-            {
-                KhachHang = new frmKhachHang();
-                KhachHang.MdiParent = this;
-                KhachHang.Show();
-            }
-            else
-                KhachHang.Activate();
+            KhachHang = MoFormCon(KhachHang);
         }
         frmDaiLy DaiLy = null;
         private void mnuDaiLy_Click(object sender, EventArgs e)
         {
-            if (DaiLy == null || DaiLy.IsDisposed)
-            {
-                DaiLy = new frmDaiLy();
-                DaiLy.MdiParent = this;
-                DaiLy.Show();
-            }
-            else
-                DaiLy.Activate();
+            DaiLy = MoFormCon(DaiLy);
 
         }
         frmNhapHang NhapHang = null;
@@ -146,50 +135,22 @@ namespace CuahangNongduoc
         frmDanhsachPhieuNhap DanhsachPhieuNhap = null;
         private void mnuDanhsachPhieuNhap_Click(object sender, EventArgs e)
         {
-            if (DanhsachPhieuNhap == null || DanhsachPhieuNhap.IsDisposed)
-            {
-                DanhsachPhieuNhap = new frmDanhsachPhieuNhap();
-                DanhsachPhieuNhap.MdiParent = this;
-                DanhsachPhieuNhap.Show();
-            }
-            else
-                DanhsachPhieuNhap.Activate();
+            DanhsachPhieuNhap = MoFormCon(DanhsachPhieuNhap);
         }
 
         private void mnuNhapHang_Click(object sender, EventArgs e)
         {
-            if (NhapHang == null || NhapHang.IsDisposed)
-            {
-                NhapHang = new frmNhapHang();
-                NhapHang.MdiParent = this;
-                NhapHang.Show();
-            }
-            else
-                NhapHang.Activate();
+            NhapHang = MoFormCon(NhapHang);
         }
         frmDanhsachPhieuBanLe BanLe = null;
         private void mnuBanHangKH_Click(object sender, EventArgs e)
         {
-            if (BanLe == null || BanLe.IsDisposed)
-            {
-                BanLe = new frmDanhsachPhieuBanLe();
-                BanLe.MdiParent = this;
-                BanLe.Show();
-            }
-            else
-                BanLe.Activate();
+            BanLe = MoFormCon(BanLe);
         }
         frmDanhsachPhieuBanSi BanSi = null;
         private void mnuBanHangDL_Click(object sender, EventArgs e)
         {
-            if (BanSi == null || BanSi.IsDisposed)
-            {
-                BanSi = new frmDanhsachPhieuBanSi();
-                BanSi.MdiParent = this;
-                BanSi.Show();
-            }
-            else
-                BanSi.Activate();
+            BanSi = MoFormCon(BanSi);
         }
 
         private void mnuThanhCongCu_Click(object sender, EventArgs e)
@@ -206,38 +167,17 @@ namespace CuahangNongduoc
         frmThanhToan ThanhToan = null;
         private void mnuThanhtoan_Click(object sender, EventArgs e)
         {
-            if (ThanhToan == null || ThanhToan.IsDisposed)
-            {
-                ThanhToan = new frmThanhToan();
-                ThanhToan.MdiParent = this;
-                ThanhToan.Show();
-            }
-            else
-                ThanhToan.Activate();
+            ThanhToan = MoFormCon(ThanhToan);
         }
         frmDunoKhachhang DunoKhachhang = null;
         private void mnuTonghopDuno_Click(object sender, EventArgs e)
         {
-            if (DunoKhachhang == null || DunoKhachhang.IsDisposed)
-            {
-                DunoKhachhang = new frmDunoKhachhang();
-                DunoKhachhang.MdiParent = this;
-                DunoKhachhang.Show();
-            }
-            else
-                DunoKhachhang.Activate();
+            DunoKhachhang = MoFormCon(DunoKhachhang);
         }
         frmDoanhThu DoanhThu = null;
         private void mnuBaocaoDoanhThu_Click(object sender, EventArgs e)
         {
-            if (DoanhThu == null || DoanhThu.IsDisposed)
-            {
-                DoanhThu = new frmDoanhThu();
-                DoanhThu.MdiParent = this;
-                DoanhThu.Show();
-            }
-            else
-                DoanhThu.Activate();
+            DoanhThu = MoFormCon(DoanhThu);
 
         }
 
@@ -245,39 +185,18 @@ namespace CuahangNongduoc
         private void mnuBaocaoSoluongton_Click(object sender, EventArgs e)
         {
 
-            if (SoLuongTon == null || SoLuongTon.IsDisposed)
-            {
-                SoLuongTon = new frmSoLuongTon();
-                SoLuongTon.MdiParent = this;
-                SoLuongTon.Show();
-            }
-            else
-                SoLuongTon.Activate();
+            SoLuongTon = MoFormCon(SoLuongTon);
 
         }
         frmSoLuongBan SoLuongBan = null;
         private void mnuSoLuongBan_Click(object sender, EventArgs e)
         {
-            if (SoLuongBan == null || SoLuongBan.IsDisposed)
-            {
-                SoLuongBan = new frmSoLuongBan();
-                SoLuongBan.MdiParent = this;
-                SoLuongBan.Show();
-            }
-            else
-                SoLuongBan.Activate();
+            SoLuongBan = MoFormCon(SoLuongBan);
         }
         frmSanphamHethan SanphamHethan = null;
         private void mnuSanphamHethan_Click(object sender, EventArgs e)
         {
-            if (SanphamHethan == null || SanphamHethan.IsDisposed)
-            {
-                SanphamHethan = new frmSanphamHethan();
-                SanphamHethan.MdiParent = this;
-                SanphamHethan.Show();
-            }
-            else
-                SanphamHethan.Activate();
+            SanphamHethan = MoFormCon(SanphamHethan);
         }
 
         private void mnuThoat_Click(object sender, EventArgs e)
@@ -288,64 +207,29 @@ namespace CuahangNongduoc
         private void mnuTuychinhThongtin_Click(object sender, EventArgs e)
         {
 
-            if (ThongtinCuahang == null || ThongtinCuahang.IsDisposed)
-            {
-                ThongtinCuahang = new frmThongtinCuahang();
-                ThongtinCuahang.MdiParent = this;
-                ThongtinCuahang.Show();
-            }
-            else
-                ThongtinCuahang.Activate();
+            ThongtinCuahang = MoFormCon(ThongtinCuahang);
         }
         frmThongtinLienhe ThongtinLienhe = null;
         private void mnuTrogiupLienhe_Click(object sender, EventArgs e)
         {
-            if (ThongtinLienhe == null || ThongtinLienhe.IsDisposed)
-            {
-                ThongtinLienhe = new frmThongtinLienhe();
-                ThongtinLienhe.MdiParent = this;
-                ThongtinLienhe.Show();
-            }
-            else
-                ThongtinLienhe.Activate();
+            ThongtinLienhe = MoFormCon(ThongtinLienhe);
         }
 
         frmNhaCungCap NhaCungCap = null;
         private void mnuNhaCungCap_Click(object sender, EventArgs e)
         {
-            if (NhaCungCap == null || NhaCungCap.IsDisposed)
-            {
-                NhaCungCap = new frmNhaCungCap();
-                NhaCungCap.MdiParent = this;
-                NhaCungCap.Show();
-            }
-            else
-                NhaCungCap.Activate();
+            NhaCungCap = MoFormCon(NhaCungCap);
         }
         frmLyDoChi LyDoChi = null;
         private void mnuLyDoChi_Click(object sender, EventArgs e)
         {
-            if (LyDoChi == null || LyDoChi.IsDisposed)
-            {
-                LyDoChi = new frmLyDoChi();
-                LyDoChi.MdiParent = this;
-                LyDoChi.Show();
-            }
-            else
-                LyDoChi.Activate();
+            LyDoChi = MoFormCon(LyDoChi);
         }
 
         frmPhieuChi PhieuChi = null;
         private void mnuPhieuChi_Click(object sender, EventArgs e)
         {
-            if (PhieuChi == null || PhieuChi.IsDisposed)
-            {
-                PhieuChi = new frmPhieuChi();
-                PhieuChi.MdiParent = this;
-                PhieuChi.Show();
-            }
-            else
-                PhieuChi.Activate();
+            PhieuChi = MoFormCon(PhieuChi);
         }
 
         private void mnuTrogiupHuongdan_Click(object sender, EventArgs e)
@@ -357,6 +241,17 @@ namespace CuahangNongduoc
         /// Thêm "Doanh thu" vào menu Báo cáo; sửa sidebar itemTonghopDoanhthu (đang ghi nhầm "Số lượng bán").
         /// Không đổi layout Designer ngoài text + sự kiện.
         /// </summary>
+        frmThongKe ThongKe = null;
+
+        private void DamBaoMenuThongKe()
+        {
+            if (mnuBaocaoThongKe != null) return;
+            mnuBaocaoThongKe = new ToolStripMenuItem("Thống kê theo ngày");
+            mnuBaocaoThongKe.Name = "mnuBaocaoThongKe";
+            mnuBaocaoThongKe.Click += delegate { ThongKe = MoFormCon(ThongKe); };
+            mnuBaocao.DropDownItems.Insert(0, mnuBaocaoThongKe);
+        }
+
         private void DamBaoMenuDoanhThu()
         {
             if (mnuBaocaoDoanhThu == null)
@@ -408,142 +303,48 @@ namespace CuahangNongduoc
             catch { }
         }
 
+        /// <summary>
+        /// Ẩn/hiện menu và nút công cụ theo quyền của vai trò đang đăng nhập.
+        /// REFACTOR #38 Replace Conditional with Polymorphism – thay switch theo số vai trò bằng QuyenVaiTro.
+        /// </summary>
         private void PhanQuyenTheoVaiTro()
         {
-            // ========== 1. ẨN HẾT MENU CON ==========
-            mnuDonViTinh.Visible = false;
-            mnuSanPham.Visible = false;
-            mnuKhachHang.Visible = false;
-            mnuDaiLy.Visible = false;
-            mnuNhaCungCap.Visible = false;
-            mnuNhapHang.Visible = false;
-            mnuBanHang.Visible = false;
-            mnuBanHangKH.Visible = false;
-            mnuBanHangDL.Visible = false;
-            mnuThanhtoan.Visible = false;
-            mnuPhieuChi.Visible = false;
-            mnuLyDoChi.Visible = false;
-            mnuTonghopDuno.Visible = false;
-            mnuBaocaoSoluongton.Visible = false;
-            mnuSoLuongBan.Visible = false;
-            mnuSanphamHethan.Visible = false;
-            if (mnuBaocaoDoanhThu != null) mnuBaocaoDoanhThu.Visible = false;
-            mnuTuychinhThongtin.Visible = false;
-            mnuQuanLyTaiKhoan.Visible = false;          // ← menu mới
-
-            // ========== 2. ẨN HẾT MENU CHA ==========
-            mnuQuanLy.Visible = false;
-            mnuNghiepVu.Visible = false;
-            mnuBaocao.Visible = false;
-            mnuTuychinh.Visible = false;
-
-            // ========== 3. ẨN HẾT NÚT TOOLBAR ==========
-            toolSanPham.Visible = false;
-            toolNhaCungCap.Visible = false;
-            toolKhachHang.Visible = false;
-            toolDaiLy.Visible = false;
-            toolNhapHang.Visible = false;
-            toolBanSi.Visible = false;
-            toolBanLe.Visible = false;
-            toolPhieuChi.Visible = false;
-            toolThanhtoan.Visible = false;
-            toolTonKho.Visible = false;
-
-            // ========== 4. HIỆN THEO TỪNG VAI TRÒ ==========
-            switch (_nguoiDung.IDVaiTro)
+            // PATTERN #5 Singleton (nơi dùng) – lấy quyền từ phiên đăng nhập duy nhất PhienDangNhap.HienTai.
+            // REFACTOR #38 Replace Conditional with Polymorphism (nơi dùng) – mỗi vai trò tự trả lời DuocPhep().
+            QuyenVaiTro quyen = PhienDangNhap.HienTai.Quyen;
+            foreach (KeyValuePair<ToolStripItem, String> muc in BangChucNang())
             {
-                case 1: // ========== ADMIN ==========
-                        // Hiện tất cả menu cha
-                    mnuQuanLy.Visible = true;
-                    mnuNghiepVu.Visible = true;
-                    mnuBaocao.Visible = true;
-                    mnuTuychinh.Visible = true;
-
-                    // Hiện tất cả menu con
-                    mnuDonViTinh.Visible = true;
-                    mnuSanPham.Visible = true;
-                    mnuKhachHang.Visible = true;
-                    mnuDaiLy.Visible = true;
-                    mnuNhaCungCap.Visible = true;
-                    mnuNhapHang.Visible = true;
-                    mnuBanHang.Visible = true;
-                    mnuBanHangKH.Visible = true;
-                    mnuBanHangDL.Visible = true;
-                    mnuThanhtoan.Visible = true;
-                    mnuPhieuChi.Visible = true;
-                    mnuLyDoChi.Visible = true;
-                    mnuTonghopDuno.Visible = true;
-                    mnuBaocaoSoluongton.Visible = true;
-                    mnuSoLuongBan.Visible = true;
-                    mnuSanphamHethan.Visible = true;
-                    if (mnuBaocaoDoanhThu != null) mnuBaocaoDoanhThu.Visible = true;
-                    mnuTuychinhThongtin.Visible = true;
-                    mnuQuanLyTaiKhoan.Visible = true;    // ← chỉ Admin mới thấy
-
-                    // Hiện tất cả toolbar
-                    toolSanPham.Visible = true;
-                    toolNhaCungCap.Visible = true;
-                    toolKhachHang.Visible = true;
-                    toolDaiLy.Visible = true;
-                    toolNhapHang.Visible = true;
-                    toolBanSi.Visible = true;
-                    toolBanLe.Visible = true;
-                    toolPhieuChi.Visible = true;
-                    toolThanhtoan.Visible = true;
-                    toolTonKho.Visible = true;
-                    break;
-
-                case 2: // ========== NHÂN VIÊN BÁN HÀNG ==========
-                    mnuQuanLy.Visible = true;
-                    mnuNghiepVu.Visible = true;
-                    mnuBaocao.Visible = true;
-
-                    mnuKhachHang.Visible = true;
-                    mnuBanHang.Visible = true;
-                    mnuBanHangKH.Visible = true;
-                    mnuBanHangDL.Visible = true;
-                    mnuThanhtoan.Visible = true;
-                    mnuBaocaoSoluongton.Visible = true;
-
-                    toolKhachHang.Visible = true;
-                    toolBanSi.Visible = true;
-                    toolBanLe.Visible = true;
-                    toolThanhtoan.Visible = true;
-                    toolTonKho.Visible = true;
-                    break;
-
-                case 3: // ========== NHÂN VIÊN KHO ==========
-                    mnuQuanLy.Visible = true;
-                    mnuNghiepVu.Visible = true;
-                    mnuBaocao.Visible = true;
-
-                    mnuSanPham.Visible = true;
-                    mnuNhapHang.Visible = true;
-                    mnuBaocaoSoluongton.Visible = true;
-                    mnuSanphamHethan.Visible = true;
-
-                    toolSanPham.Visible = true;
-                    toolNhapHang.Visible = true;
-                    toolTonKho.Visible = true;
-                    break;
-
-                case 4: // ========== KẾ TOÁN ==========
-                    mnuNghiepVu.Visible = true;
-                    mnuBaocao.Visible = true;
-
-                    mnuThanhtoan.Visible = true;
-                    mnuPhieuChi.Visible = true;
-                    mnuLyDoChi.Visible = true;
-                    mnuTonghopDuno.Visible = true;
-                    mnuBaocaoSoluongton.Visible = true;
-                    mnuSoLuongBan.Visible = true;
-                    if (mnuBaocaoDoanhThu != null) mnuBaocaoDoanhThu.Visible = true;
-
-                    toolPhieuChi.Visible = true;
-                    toolThanhtoan.Visible = true;
-                    toolTonKho.Visible = true;
-                    break;
+                muc.Key.Visible = quyen.DuocPhep(muc.Value);
             }
+        }
+
+        /// <summary>Mỗi menu / nút công cụ ứng với chức năng nào.</summary>
+        private List<KeyValuePair<ToolStripItem, String>> BangChucNang()
+        {
+            List<KeyValuePair<ToolStripItem, String>> bang = new List<KeyValuePair<ToolStripItem, String>>();
+            ToolStripItem[] mucs = new ToolStripItem[] {
+                mnuQuanLy, mnuNghiepVu, mnuBaocao, mnuTuychinh,
+                mnuDonViTinh, mnuSanPham, mnuKhachHang, mnuDaiLy, mnuNhaCungCap, mnuNhapHang,
+                mnuBanHang, mnuBanHangKH, mnuBanHangDL, mnuThanhtoan, mnuPhieuChi, mnuLyDoChi,
+                mnuTonghopDuno, mnuBaocaoSoluongton, mnuSoLuongBan, mnuSanphamHethan, mnuBaocaoDoanhThu, mnuBaocaoThongKe,
+                mnuTuychinhThongtin, mnuQuanLyTaiKhoan,
+                toolSanPham, toolNhaCungCap, toolKhachHang, toolDaiLy, toolNhapHang,
+                toolBanSi, toolBanLe, toolPhieuChi, toolThanhtoan, toolTonKho };
+            String[] chucNang = new String[] {
+                ChucNang.QUAN_LY, ChucNang.NGHIEP_VU, ChucNang.BAO_CAO, ChucNang.TUY_CHINH,
+                ChucNang.DON_VI_TINH, ChucNang.SAN_PHAM, ChucNang.KHACH_HANG, ChucNang.DAI_LY, ChucNang.NHA_CUNG_CAP, ChucNang.NHAP_HANG,
+                ChucNang.BAN_HANG, ChucNang.BAN_LE, ChucNang.BAN_SI, ChucNang.THANH_TOAN, ChucNang.PHIEU_CHI, ChucNang.LY_DO_CHI,
+                ChucNang.TONG_HOP_DU_NO, ChucNang.TON_KHO, ChucNang.SO_LUONG_BAN, ChucNang.SAN_PHAM_HET_HAN, ChucNang.DOANH_THU, ChucNang.THONG_KE,
+                ChucNang.THONG_TIN_CUA_HANG, ChucNang.QUAN_LY_TAI_KHOAN,
+                ChucNang.SAN_PHAM, ChucNang.NHA_CUNG_CAP, ChucNang.KHACH_HANG, ChucNang.DAI_LY, ChucNang.NHAP_HANG,
+                ChucNang.BAN_SI, ChucNang.BAN_LE, ChucNang.PHIEU_CHI, ChucNang.THANH_TOAN, ChucNang.TON_KHO };
+            System.Diagnostics.Debug.Assert(mucs.Length == chucNang.Length);
+            for (int i = 0; i < mucs.Length; i++)
+            {
+                if (mucs[i] != null)    // mnuBaocaoDoanhThu có thể chưa được tạo
+                    bang.Add(new KeyValuePair<ToolStripItem, String>(mucs[i], chucNang[i]));
+            }
+            return bang;
         }
 
         // Thanh chức năng bên trái (task pane) phải theo đúng quyền của menu, nếu không người dùng
@@ -662,6 +463,8 @@ namespace CuahangNongduoc
         }
 
         frmQuanLyTaiKhoan QuanLyTK = null;
+        // REFACTOR #2 Inline Method – handler itemQuanLyTaiKhoan_Click (chỉ gọi lại hàm này) đã bị bỏ;
+        // mục itemQuanLyTaiKhoan trong frmMain.Designer.cs nay gắn thẳng vào mnuQuanLyTaiKhoan_Click.
         private void mnuQuanLyTaiKhoan_Click(object sender, EventArgs e)
         {
             if (QuanLyTK == null || QuanLyTK.IsDisposed)
@@ -674,11 +477,6 @@ namespace CuahangNongduoc
             {
                 QuanLyTK.Activate();
             }
-        }
-
-        private void itemQuanLyTaiKhoan_Click(object sender, EventArgs e)
-        {
-            mnuQuanLyTaiKhoan_Click(sender, e);
         }
     }
 }

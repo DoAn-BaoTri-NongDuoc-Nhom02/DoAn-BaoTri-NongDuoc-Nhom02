@@ -9,59 +9,31 @@ using System.Data;
 namespace CuahangNongduoc.Controller
 {
 
-    public class ChiTietPhieuBanController
+    // REFACTOR #66 Replace Delegation with Inheritance – lớp này trước đây giữ một ChiTietPhieuBanFactory
+    // và có 5 hàm chỉ chuyển tiếp nguyên xi (Save, SoLuongDangChon, TimDongChuaLuu, DaCoDongDaLuu, KiemTraTonKho).
+    // Vì nó dùng gần như toàn bộ giao diện của factory, cho kế thừa luôn và bỏ các hàm chuyển tiếp.
+    public class ChiTietPhieuBanController : ChiTietPhieuBanFactory
     {
-        ChiTietPhieuBanFactory factory = new ChiTietPhieuBanFactory();
-
-
-
         public void HienThiChiTiet(DataGridView dgv, String idPhieuBan)
         {
             BindingSource bs = new BindingSource();
-            bs.DataSource = factory.LayChiTietPhieuBan(idPhieuBan);
+            bs.DataSource = LayChiTietPhieuBan(idPhieuBan);
             dgv.DataSource = bs;
         }
         public DataRow NewRow()
         {
-            return factory.NewRow();
+            return BangDangSoan.NewRow();
         }
         public void Add(DataRow row)
         {
-            factory.Add(row);
+            BangDangSoan.Rows.Add(row);
         }
-        public void Save()
-        {
-            factory.Save();
-        }
-
-        /// <summary>Số lượng từng lô (mã lô -> số lượng) đã nằm trong phiếu đang soạn nhưng chưa lưu.</summary>
-        public IDictionary<String, int> SoLuongDangChon()
-        {
-            return factory.SoLuongChuaLuu();
-        }
-
-        public DataRow TimDongChuaLuu(String idLo)
-        {
-            return factory.TimDongChuaLuu(idLo);
-        }
-
-        public bool DaCoDongDaLuu(String idLo)
-        {
-            return factory.DaCoDongDaLuu(idLo);
-        }
-
-        /// <summary>Ném TonKhoException nếu các dòng mới làm tồn kho âm (xem ChiTietPhieuBanFactory).</summary>
-        public void KiemTraTonKho(IDictionary<String, int> hoanTra)
-        {
-            factory.KiemTraTonKho(hoanTra);
-        }
-
 
         public IList<ChiTietPhieuBan> ChiTietPhieuBan(String idPhieuBan)
         {
             IList<ChiTietPhieuBan> ds = new List<ChiTietPhieuBan>();
 
-            DataTable tbl = factory.LayChiTietPhieuBan(idPhieuBan);
+            DataTable tbl = LayChiTietPhieuBan(idPhieuBan);
             foreach (DataRow row in tbl.Rows)
             {
                 MaSanPhamController ctrl = new MaSanPhamController();
@@ -80,7 +52,7 @@ namespace CuahangNongduoc.Controller
         {
             IList<ChiTietPhieuBan> ds = new List<ChiTietPhieuBan>();
 
-            DataTable tbl = factory.LayChiTietPhieuBan(dtNgayBan);
+            DataTable tbl = LayChiTietPhieuBan(dtNgayBan);
             foreach (DataRow row in tbl.Rows)
             {
                 MaSanPhamController ctrl = new MaSanPhamController();
@@ -98,7 +70,7 @@ namespace CuahangNongduoc.Controller
         {
             IList<ChiTietPhieuBan> ds = new List<ChiTietPhieuBan>();
 
-            DataTable tbl = factory.LayChiTietPhieuBan(thang, nam);
+            DataTable tbl = LayChiTietPhieuBan(thang, nam);
             foreach (DataRow row in tbl.Rows)
             {
                 MaSanPhamController ctrl = new MaSanPhamController();

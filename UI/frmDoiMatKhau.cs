@@ -29,7 +29,7 @@ namespace CuahangNongduoc.UI
             lblTen.AutoSize = true;
             lblTen.Location = new Point(15, 15);
             NguoiDung nd = PhienDangNhap.NguoiDungHienTai;
-            lblTen.Text = "Tài khoản: " + (nd != null ? nd.TenDangNhap + " - " + nd.HoTen : "");
+            lblTen.Text = "Tài khoản: " + nd.TenDangNhap + " - " + nd.HoTen;
             this.Controls.Add(lblTen);
 
             txtMatKhauCu = TaoDong("Mật khẩu hiện tại", 45);
@@ -73,23 +73,23 @@ namespace CuahangNongduoc.UI
         private void btnLuu_Click(object sender, EventArgs e)
         {
             NguoiDung nd = PhienDangNhap.NguoiDungHienTai;
-            if (nd == null)
+            if (!nd.LaNguoiDungThat)
             {
                 MessageBox.Show("Bạn chưa đăng nhập!", "Đổi mật khẩu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 this.DialogResult = DialogResult.Cancel;
                 return;
             }
 
-            string ketQua = new NguoiDungService().DoiMatKhau(nd.ID, txtMatKhauCu.Text, txtMatKhauMoi.Text, txtXacNhan.Text);
-            if (ketQua == "OK")
+            try
             {
+                new NguoiDungService().DoiMatKhau(nd.ID, txtMatKhauCu.Text, txtMatKhauMoi.Text, txtXacNhan.Text);
                 MessageBox.Show("Đổi mật khẩu thành công!", "Đổi mật khẩu", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
-            else
+            catch (NghiepVuException ex)
             {
-                MessageBox.Show(ketQua, "Đổi mật khẩu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(ex.Message, "Đổi mật khẩu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMatKhauCu.Focus();
             }
         }

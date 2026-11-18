@@ -306,7 +306,7 @@ namespace CuahangNongduoc
                 System.Data.OleDb.OleDbCommand cmd = new System.Data.OleDb.OleDbCommand(
                     "SELECT ID, HO_TEN FROM NHA_CUNG_CAP ORDER BY HO_TEN");
                 ds.Load(cmd);
-                DataTable t = ds.Copy();
+                DataTable t = ds.Bang.Copy();
                 DataRow all = t.NewRow();
                 all["ID"] = "";
                 all["HO_TEN"] = "-- Tất cả NCC --";
@@ -365,6 +365,34 @@ namespace CuahangNongduoc
             }
         }
 
+        // REFACTOR #33 Decompose Conditional – điều kiện suy trạng thái phiếu nhập (trước đây viết thẳng
+        // trong vòng lặp của BoSungCotHienThi) tách thành các hàm có tên nói rõ ý nghĩa.
+        private static string LayTrangThai(DataRow r)
+        {
+            if (CoTrangThaiLuuSan(r))
+                return Convert.ToString(r["TRANG_THAI"]);
+            if (ChuaCoTien(r))
+                return "Nháp";
+            if (ConNo(r))
+                return "Còn nợ";
+            return "Hoàn tất";
+        }
+
+        private static bool CoTrangThaiLuuSan(DataRow r)
+        {
+            return r.Table.Columns.Contains("TRANG_THAI") && DuLieu.LayChuoi(r["TRANG_THAI"]).Length > 0;
+        }
+
+        private static bool ChuaCoTien(DataRow r)
+        {
+            return DuLieu.LaySoLon(r["TONG_TIEN"]) <= 0;
+        }
+
+        private static bool ConNo(DataRow r)
+        {
+            return DuLieu.LaySoLon(r["CON_NO"]) > 0;
+        }
+
         private DataTable BoSungCotHienThi(DataTable src)
         {
             if (src == null) return new DataTable();
@@ -376,21 +404,7 @@ namespace CuahangNongduoc
 
             foreach (DataRow r in t.Rows)
             {
-                // Trang thai: uu tien cot TRANG_THAI, khong thi suy tu CON_NO
-                string tt = "";
-                if (t.Columns.Contains("TRANG_THAI") && r["TRANG_THAI"] != DBNull.Value)
-                    tt = Convert.ToString(r["TRANG_THAI"]);
-                if (string.IsNullOrEmpty(tt))
-                {
-                    decimal conNo = 0;
-                    try { if (r["CON_NO"] != DBNull.Value) conNo = Convert.ToDecimal(r["CON_NO"]); } catch { }
-                    decimal tong = 0;
-                    try { if (r["TONG_TIEN"] != DBNull.Value) tong = Convert.ToDecimal(r["TONG_TIEN"]); } catch { }
-                    if (tong <= 0) tt = "Nháp";
-                    else if (conNo > 0) tt = "Còn nợ";
-                    else tt = "Hoàn tất";
-                }
-                r["TRANG_THAI_HIENTHI"] = tt;
+                r["TRANG_THAI_HIENTHI"] = LayTrangThai(r);
 
                 if (t.Columns.Contains("TEN_NCC") && (r["TEN_NCC"] == DBNull.Value || string.IsNullOrEmpty(Convert.ToString(r["TEN_NCC"]))))
                 {

@@ -101,17 +101,16 @@ namespace CuahangNongduoc.UI
         private void btnThem_Click(object sender, EventArgs e)
         {
             NguoiDung nd = LayDuLieuTuForm();
-            string ketQua = _service.Them(nd);
-
-            if (ketQua == "OK")
+            try
             {
+                _service.Them(nd);
                 MessageBox.Show("Thêm tài khoản thành công!", "Thông báo");
                 LoadDanhSach();
                 ClearForm();
             }
-            else
+            catch (NghiepVuException ex)
             {
-                MessageBox.Show(ketQua, "Lỗi");
+                MessageBox.Show(ex.Message, "Lỗi");
             }
         }
 
@@ -124,17 +123,16 @@ namespace CuahangNongduoc.UI
             }
 
             NguoiDung nd = LayDuLieuTuForm();
-            string ketQua = _service.Sua(nd);
-
-            if (ketQua == "OK")
+            try
             {
+                _service.Sua(nd);
                 MessageBox.Show("Cập nhật thành công!", "Thông báo");
                 LoadDanhSach();
                 ClearForm();
             }
-            else
+            catch (NghiepVuException ex)
             {
-                MessageBox.Show(ketQua, "Lỗi");
+                MessageBox.Show(ex.Message, "Lỗi");
             }
         }
 
@@ -149,16 +147,16 @@ namespace CuahangNongduoc.UI
             if (MessageBox.Show("Bạn có chắc muốn xóa tài khoản này?", "Xác nhận",
                 MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                string ketQua = _service.Xoa(_idDangChon);
-                if (ketQua == "OK")
+                try
                 {
+                    _service.Xoa(_idDangChon);
                     MessageBox.Show("Xóa thành công!");
                     LoadDanhSach();
                     ClearForm();
                 }
-                else
+                catch (NghiepVuException ex)
                 {
-                    MessageBox.Show(ketQua, "Lỗi");
+                    MessageBox.Show(ex.Message, "Lỗi");
                 }
             }
         }

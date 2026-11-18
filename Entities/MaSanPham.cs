@@ -13,6 +13,22 @@ namespace CuahangNongduoc.BusinessObject
             m_SoLuong = so_luong;
         }
 
+        /// <summary>
+        /// Tạo lô từ một dòng của bảng MA_SAN_PHAM (chưa gán SanPham).
+        /// REFACTOR #52 Replace Constructor with Factory Method – thay cho 4 đoạn
+        /// "new MaSanPham(); sp.Id = ...; sp.SoLuong = ...; ..." chép ở XuatKhoController và MaSanPhamController.
+        /// Lô không có hạn dùng nhận NgayHetHan = DateTime.MaxValue (xếp sau cùng khi xuất FIFO).
+        /// </summary>
+        public static MaSanPham TuDongDuLieu(System.Data.DataRow row)
+        {
+            MaSanPham lo = new MaSanPham(Convert.ToString(row["ID"]), CuahangNongduoc.DuLieu.LaySoNguyen(row["SO_LUONG"]));
+            lo.GiaNhap = CuahangNongduoc.DuLieu.LaySoLon(row, "DON_GIA_NHAP");
+            lo.NgayNhap = CuahangNongduoc.DuLieu.LayNgay(row, "NGAY_NHAP", DateTime.MinValue);
+            lo.NgaySanXuat = CuahangNongduoc.DuLieu.LayNgay(row, "NGAY_SAN_XUAT", DateTime.MinValue);
+            lo.NgayHetHan = CuahangNongduoc.DuLieu.LayNgay(row, "NGAY_HET_HAN", DateTime.MaxValue);
+            return lo;
+        }
+
         private String m_Id;
 
         public String Id
@@ -26,7 +42,14 @@ namespace CuahangNongduoc.BusinessObject
         public SanPham SanPham
         {
             get { return m_SanPham; }
-            set { m_SanPham = value; }
+            set
+            {
+                // REFACTOR #24 – giữ hai chiều liên kết lô <-> sản phẩm luôn khớp nhau
+                if (m_SanPham == value) return;
+                if (m_SanPham != null) m_SanPham.BoLo(this);
+                m_SanPham = value;
+                if (m_SanPham != null) m_SanPham.GanLo(this);
+            }
         }
         private long m_GiaNhap;
 
@@ -73,6 +96,16 @@ namespace CuahangNongduoc.BusinessObject
             get { return m_NgayHetHan; }
             set { m_NgayHetHan = value; }
         }
+        /// <summary>
+        /// Giá nhập bình quân gia quyền của sản phẩm thuộc lô này (lấy từ SAN_PHAM.DON_GIA_NHAP),
+        /// nếu chưa nạp sản phẩm thì dùng giá nhập của chính lô.
+        /// REFACTOR #14 Hide Delegate – bên ngoài không cần đi xuyên lo.SanPham.DonGiaNhap.
+        /// </summary>
+        public long GiaBinhQuan
+        {
+            get { return m_SanPham != null ? m_SanPham.DonGiaNhap : m_GiaNhap; }
+        }
+
         private PhieuNhap m_PhieuNhap;
 
         public PhieuNhap PhieuNhap

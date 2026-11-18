@@ -19,7 +19,7 @@ namespace CuahangNongduoc
         BindingSource m_BsChiTiet = new BindingSource();    // lọc ra các dòng của phiếu đang xem
         NhaCungCapController ctrlNCC = new NhaCungCapController();
 
-        string m_TenNhanVien = Environment.UserName;
+        string m_TenNhanVien = PhienDangNhap.TenGhiNhatKy;
         const string TIEU_DE = "Nhập hàng";
         Controll status = Controll.Normal;
 
@@ -599,7 +599,10 @@ namespace CuahangNongduoc
 
         private void numGiaNhap_ValueChanged(object sender, EventArgs e)
         {
-            numThanhTien.Value = Math.Min(numGiaNhap.Value * numSoLuong.Value, numThanhTien.Maximum);
+            // REFACTOR #3 Extract Variable – tách biểu thức lồng nhau thành các biến có tên nói rõ ý nghĩa.
+            decimal thanhTienTinhDuoc = numGiaNhap.Value * numSoLuong.Value;
+            decimal gioiHanCuaO = numThanhTien.Maximum;
+            numThanhTien.Value = Math.Min(thanhTienTinhDuoc, gioiHanCuaO);
         }
 
         void TinhTongTien()
@@ -742,7 +745,7 @@ namespace CuahangNongduoc
         {
             try
             {
-                ctrl.GhiNhatKy(hanhDong, id, tenNcc, noiDung, m_TenNhanVien);
+                ctrl.GhiNhatKy(hanhDong, id, tenNcc, noiDung);
                 return "";
             }
             catch (Exception ex)
@@ -768,7 +771,7 @@ namespace CuahangNongduoc
                 m_IdDangSua = "";
                 status = Controll.AddNew;
 
-                txtMaPhieu.Text = ThamSo.LayMaPhieuNhap().ToString();
+                txtMaPhieu.Text = ThamSo.LayMa(LoaiChungTu.PhieuNhap).ToString();
                 KhoiTaoGiaTriMacDinh();
                 HienChiTiet(txtMaPhieu.Text);
                 m_DongGoc = DocDong();
@@ -945,13 +948,19 @@ namespace CuahangNongduoc
         {
             if (m_ChiTiet == null || !ctrlMaSP.CoThayDoi()) return;
 
-            bool ok = false;
-            string loi = "";
-            try { ok = ctrlMaSP.Save(); }
-            catch (Exception ex) { loi = ex.Message; }
-
-            if (ok) return;
-            if (loi.Length == 0) loi = ctrlMaSP.LastError;
+            // REFACTOR #36 Remove Control Flag – bỏ cờ "ok": lưu được thì return ngay,
+            // không được thì đi thẳng tới phần báo lỗi.
+            string loi;
+            try
+            {
+                if (ctrlMaSP.Save())
+                    return;
+                loi = ctrlMaSP.LastError;
+            }
+            catch (Exception ex)
+            {
+                loi = ex.Message;
+            }
 
             throw new Exception("Không lưu được các dòng sản phẩm của phiếu."
                 + (loi.Length > 0 ? "\n\nChi tiết: " + loi : "")
@@ -1011,8 +1020,8 @@ namespace CuahangNongduoc
             if (ThamSo.LaSoNguyen(id))
             {
                 long so = Convert.ToInt64(id);
-                if (so >= ThamSo.LayMaPhieuNhap())
-                    ThamSo.GanMaPhieuNhap(so + 1);
+                if (so >= ThamSo.LayMa(LoaiChungTu.PhieuNhap))
+                    ThamSo.GanMa(LoaiChungTu.PhieuNhap, so + 1);
             }
 
             SanPhamController ctrlSP = new SanPhamController();

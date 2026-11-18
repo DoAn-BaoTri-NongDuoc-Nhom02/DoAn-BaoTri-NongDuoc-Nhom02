@@ -71,7 +71,60 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\Service\NguoiDungService.cs" />
-    <Compile Include="DAL\DataAccess\DbHelper.cs" />
+    <Compile Include="DAL\DataAccess\NhatKyLoi.cs" />
+    <Compile Include="BLL\BanHang\DieuKienKhuyenMai.cs" />
+    <Compile Include="BLL\BanHang\LenhHoaDon.cs" />
+    <Compile Include="BLL\BanHang\KenhBanFactory.cs" />
+    <Compile Include="Utils\MatKhau.cs" />
+    <Compile Include="UI\frmThongKe.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BLL\ThongKe\ThongKeBaoVe.cs" />
+    <Compile Include="Utils\BaoCaoCsv.cs" />
+    <Compile Include="BLL\ThongKe\KenhXuat.cs" />
+    <Compile Include="BLL\ThongKe\CacThongKe.cs" />
+    <Compile Include="BLL\ThongKe\ThongKeTheoKhoangNgay.cs" />
+    <Compile Include="BLL\ThongKe\IKetNoiDuLieu.cs" />
+    <Compile Include="UI\HoaDonMediator.cs" />
+    <Compile Include="UI\ucDichVuGiamGia.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BLL\BanHang\BanHangFacade.cs" />
+    <Compile Include="DAL\Repositories\DichVuPhieuBanFactory.cs" />
+    <Compile Include="BLL\BanHang\SuKienHoaDon.cs" />
+    <Compile Include="BLL\BanHang\KiemTraHoaDon.cs" />
+    <Compile Include="BLL\BanHang\HoaDonBuilder.cs" />
+    <Compile Include="BLL\BanHang\TrangThaiHoaDon.cs" />
+    <Compile Include="BLL\BanHang\BanHangService.cs" />
+    <Compile Include="Entities\PhieuBanSi.cs" />
+    <Compile Include="BLL\BanHang\ThanhPhanTien.cs" />
+    <Compile Include="Entities\DichVuPhatSinh.cs" />
+    <Compile Include="BLL\BanHang\ChienLuocGiamGia.cs" />
+    <Compile Include="UI\BieuDoCot.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BLL\TruyVanDoanhThu.cs" />
+    <Compile Include="Entities\KhoangNgay.cs" />
+    <Compile Include="BLL\BoLocCongNo.cs" />
+    <Compile Include="BLL\Service\NghiepVuException.cs" />
+    <Compile Include="BLL\QuyenVaiTro.cs" />
+    <Compile Include="BLL\ChienLuocXuatKho.cs" />
+    <Compile Include="Utils\TienUpDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Entities\ThongTinHoaDon.cs" />
+    <Compile Include="UI\frmDoiTacCoSo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\frmDoiTacCoSo.Designer.cs">
+      <DependentUpon>frmDoiTacCoSo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\DaiLy.cs" />
+    <Compile Include="Entities\LoaiVaiTro.cs" />
+    <Compile Include="Entities\ThongTinLienLac.cs" />
+    <Compile Include="BLL\DanhMucHelper.cs" />
+    <Compile Include="DAL\Repositories\IDanhMucFactory.cs" />
+    <Compile Include="DAL\DataAccess\DuLieu.cs" />
     <Compile Include="DAL\Repositories\NguoiDungRepository.cs" />
     <Compile Include="Entities\ChiTietPhieuBan.cs" />
     <Compile Include="Entities\NguoiDung.cs" />
@@ -158,7 +211,7 @@
     <Compile Include="DAL\Repositories\ChiTietPhieuBanFactory.cs" />
     <Compile Include="DAL\Repositories\ChiTietPhieuNhapFactory.cs" />
     <Compile Include="DAL\Repositories\PhieuNhapFactory.cs" />
-    <Compile Include="DAL\Repositories\MaSanPhanFactory.cs" />
+    <Compile Include="DAL\Repositories\MaSanPhamFactory.cs" />
     <Compile Include="DAL\Repositories\PhieuBanFactory.cs" />
     <Compile Include="UI\frmBanLe.cs">
       <SubType>Form</SubType>
@@ -395,6 +448,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmKhachHang.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\frmDoiTacCoSo.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmDoiTacCoSo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\frmMain.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmMain.cs</DependentUpon>
@@ -553,6 +610,8 @@
   <ItemGroup>
     <Content Include="CuahangNongduoc.ico" />
     <Content Include="Database\CuaHangNongDuoc.sql" />
+    <Content Include="Database\CapNhat_YeuCau4.sql" />
+    <Content Include="Database\CaiDat_CSDL_TuDau.sql" />
     <None Include="Resources\remove1.png" />
     <None Include="Resources\list tai khoản.png" />
     <None Include="Resources\logo_login.png" />

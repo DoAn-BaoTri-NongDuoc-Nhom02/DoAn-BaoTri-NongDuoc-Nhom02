@@ -51,7 +51,10 @@ namespace CuahangNongduoc
             try
             {
                 KhachHangController ctrlKH = new KhachHangController();
-                ctrlKH.HienthiAutoComboBox(cmbNCC, m_LoaiDaiLy);
+                if (m_LoaiDaiLy)
+                    ctrlKH.HienthiDaiLyComboBox(cmbNCC);
+                else
+                    ctrlKH.HienthiKhachLeComboBox(cmbNCC);
                 cmbNCC.SelectedIndex = -1; // cho phép trống
             }
             catch { }

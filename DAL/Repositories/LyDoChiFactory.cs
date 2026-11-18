@@ -7,8 +7,12 @@ using System.Data.OleDb;
 
 namespace CuahangNongduoc.DataLayer
 {
-    public class LyDoChiFactory
+    public class LyDoChiFactory : IDanhMucFactory
     {
+        public DataTable DanhSach() { return DanhsachLyDo(); }
+        public String CotHienThi { get { return "LY_DO"; } }
+        public String CotMa { get { return "ID"; } }
+
         DataService m_Ds = new DataService();
 
         public DataTable DanhsachLyDo()
@@ -16,7 +20,7 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM LY_DO_CHI");
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public DataTable LayLyDoChi(long id)
@@ -24,12 +28,12 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM LY_DO_CHI WHERE ID = " + id);
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public bool Save()
         {
-            return m_Ds.ExecuteNoneQuery() > 0;
+            return m_Ds.ExecuteNonQuery() > 0;
         }
 
         /// <summary>
@@ -42,7 +46,7 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT TOP 1 ID FROM PHIEU_CHI WHERE ID_LY_DO_CHI = ?");
             cmd.Parameters.Add("@id", OleDbType.Integer).Value = (int)id;
             ds.Load(cmd);
-            return ds.Rows.Count > 0;
+            return ds.Bang.Rows.Count > 0;
         }
     }
 }

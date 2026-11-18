@@ -396,11 +396,6 @@ namespace CuahangNongduoc
             }
         }
 
-        private void btnTongHop_Click(object sender, EventArgs e)
-        {
-            toolTongHop_Click(sender, e);
-        }
-
         private void toolNam_Validating(object sender, CancelEventArgs e)
         {
             bool ok = true;
@@ -418,6 +413,7 @@ namespace CuahangNongduoc
             }
         }
 
+        // REFACTOR #2 Inline Method – handler btnTongHop_Click (chỉ gọi lại toolTongHop_Click) đã bị bỏ.
         private void toolTongHop_Click(object sender, EventArgs e)
         {
             try

@@ -599,7 +599,6 @@
             this.numDonGia.TabIndex = 54;
             this.numDonGia.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numDonGia.ThousandsSeparator = true;
-            this.numDonGia.ValueChanged += new System.EventHandler(this.numDonGia_ValueChanged);
             // 
             // numSoLuong
             // 
@@ -619,7 +618,6 @@
             this.numSoLuong.TabIndex = 56;
             this.numSoLuong.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numSoLuong.ThousandsSeparator = true;
-            this.numSoLuong.ValueChanged += new System.EventHandler(this.numDonGia_ValueChanged);
             // 
             // label9
             // 
@@ -756,7 +754,6 @@
             this.numConNo.TabIndex = 52;
             this.numConNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numConNo.ThousandsSeparator = true;
-            this.numConNo.ValueChanged += new System.EventHandler(this.numTongTien_ValueChanged);
             // 
             // label10
             // 
@@ -794,7 +791,6 @@
             this.numTongTien.TabIndex = 45;
             this.numTongTien.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numTongTien.ThousandsSeparator = true;
-            this.numTongTien.ValueChanged += new System.EventHandler(this.numTongTien_ValueChanged);
             // 
             // numDaTra
             // 
@@ -814,7 +810,6 @@
             this.numDaTra.TabIndex = 50;
             this.numDaTra.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numDaTra.ThousandsSeparator = true;
-            this.numDaTra.ValueChanged += new System.EventHandler(this.numTongTien_ValueChanged);
             // 
             // label6
             // 

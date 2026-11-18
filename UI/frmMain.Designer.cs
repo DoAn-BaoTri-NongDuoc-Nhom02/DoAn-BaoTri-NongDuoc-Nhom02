@@ -687,7 +687,7 @@
             this.itemQuanLyTaiKhoan.Text = "Tài khoản";
             this.itemQuanLyTaiKhoan.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.itemQuanLyTaiKhoan.UseVisualStyleBackColor = false;
-            this.itemQuanLyTaiKhoan.Click += new System.EventHandler(this.itemQuanLyTaiKhoan_Click);
+            this.itemQuanLyTaiKhoan.Click += new System.EventHandler(this.mnuQuanLyTaiKhoan_Click);
             // 
             // expando2
             // 

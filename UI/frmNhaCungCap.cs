@@ -98,8 +98,8 @@ namespace CuahangNongduoc
         {
             XoaLoc();   // dòng mới đang trống, nếu còn bộ lọc sẽ bị ẩn mất
 
-            long maso = ThamSo.NhaCungCap;
-            ThamSo.NhaCungCap = maso + 1;
+            long maso = ThamSo.LayMa(LoaiChungTu.NhaCungCap);
+            ThamSo.GanMa(LoaiChungTu.NhaCungCap, maso + 1);
 
             DataRowView row = (DataRowView)bindingNavigator.BindingSource.AddNew();
             row["ID"] = maso.ToString();
@@ -147,7 +147,7 @@ namespace CuahangNongduoc
             else if (e.ColumnIndex == colDienThoai.Index)
             {
                 bool hopLe = giaTri.Trim().Length == 0 ||
-                    CuahangNongduoc.Controller.NhaCungCapController.SoDienThoaiHopLe(giaTri);
+                    CuahangNongduoc.BusinessObject.SoDienThoai.HopLe(giaTri);
                 cell.ErrorText = hopLe ? "" : "Số điện thoại không hợp lệ";
             }
         }

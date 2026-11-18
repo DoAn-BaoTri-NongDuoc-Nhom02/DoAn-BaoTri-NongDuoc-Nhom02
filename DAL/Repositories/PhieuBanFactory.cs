@@ -18,7 +18,7 @@ namespace CuahangNongduoc.DataLayer
 
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public DataTable TimPhieuBanTheoKhach(String idKh)
@@ -26,7 +26,7 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM PHIEU_BAN WHERE ID_KHACH_HANG=@kh ORDER BY NGAY_BAN DESC");
             cmd.Parameters.Add("kh", OleDbType.VarChar).Value = idKh;
             m_Ds.Load(cmd);
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public DataTable DanhsachPhieuBanLe()
@@ -34,14 +34,14 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT PB.* FROM PHIEU_BAN PB INNER JOIN KHACH_HANG KH ON PB.ID_KHACH_HANG=KH.ID WHERE KH.LOAI_KH=FALSE");
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
         public DataTable DanhsachPhieuBanSi()
         {
             OleDbCommand cmd = new OleDbCommand("SELECT PB.* FROM PHIEU_BAN PB INNER JOIN KHACH_HANG KH ON PB.ID_KHACH_HANG=KH.ID WHERE KH.LOAI_KH=TRUE");
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
 
@@ -50,7 +50,7 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM PHIEU_BAN WHERE ID = @id");
             cmd.Parameters.Add("id", OleDbType.VarChar,50).Value = id;
             m_Ds.Load(cmd);
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
 
@@ -59,7 +59,7 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM CHI_TIET_PHIEU_BAN WHERE ID_PHIEU_BAN = @id");
             cmd.Parameters.Add("id", OleDbType.VarChar,50).Value = idPhieuBan;
             m_Ds.Load(cmd);
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public static long LayConNo(String kh, int thang, int nam)
@@ -77,30 +77,19 @@ namespace CuahangNongduoc.DataLayer
                 return Convert.ToInt64(obj);
         }
 
-        public static int LaySoPhieu()
-        {
-            DataService ds = new DataService();
-            OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM PHIEU_BAN");
-            
-            object obj = ds.ExecuteScalar(cmd);
-            if (obj == null)
-                return 0;
-            else
-                return Convert.ToInt32(obj);
-        }
         
-        public DataRow NewRow()
+        /// <summary>
+        /// Bảng đang soạn (dòng mới thêm vào đây rồi Save()).
+        /// REFACTOR #15 Remove Middle Man – thay cho cặp NewRow()/Add() chỉ chuyển tiếp sang DataTable.
+        /// </summary>
+        public DataTable BangDangSoan
         {
-            return m_Ds.NewRow();
-        }
-        public void Add(DataRow row)
-        {
-            m_Ds.Rows.Add(row);
+            get { return m_Ds.Bang; }
         }
        public bool Save()
         {
            
-            return m_Ds.ExecuteNoneQuery() > 0;
+            return m_Ds.ExecuteNonQuery() > 0;
         }
     
         public DataTable ThongKeDoanhThu(DateTime tuNgay, DateTime denNgay, string idKhachHang, bool? banSi)
@@ -132,7 +121,7 @@ namespace CuahangNongduoc.DataLayer
 
             DataService ds = new DataService();
             ds.Load(cmd);
-            return ds;
+            return ds.Bang;
         }
 
         public DataTable DoanhThuTheoNgay(DateTime tuNgay, DateTime denNgay)
@@ -146,7 +135,7 @@ namespace CuahangNongduoc.DataLayer
             cmd.Parameters.Add("den", OleDbType.Date).Value = denNgay.Date.AddDays(1).AddSeconds(-1);
             DataService ds = new DataService();
             ds.Load(cmd);
-            return ds;
+            return ds.Bang;
         }
 
         public DataTable TimPhieuBanKhoang(String idKh, DateTime tu, DateTime den)
@@ -168,7 +157,7 @@ namespace CuahangNongduoc.DataLayer
             cmd.Parameters.Add("@den", System.Data.OleDb.OleDbType.Date).Value = den.Date;
             DataService ds = new DataService();
             ds.Load(cmd);
-            return ds;
+            return ds.Bang;
         }
 
     }

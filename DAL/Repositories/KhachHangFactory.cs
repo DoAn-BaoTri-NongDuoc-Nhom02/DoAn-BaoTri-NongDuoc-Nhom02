@@ -28,7 +28,7 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM KHACH_HANG WHERE ISNULL(LOAI_KH, 0) = ?");
             cmd.Parameters.Add("loai", OleDbType.Boolean).Value = loai;
             m_Ds.Load(cmd);
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public DataTable TimHoTen(String hoten, bool loai)
@@ -38,7 +38,7 @@ namespace CuahangNongduoc.DataLayer
             cmd.Parameters.Add("loai", OleDbType.Boolean).Value = loai;
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public DataTable TimDiaChi(String diachi, bool loai)
@@ -48,7 +48,7 @@ namespace CuahangNongduoc.DataLayer
             cmd.Parameters.Add("loai", OleDbType.Boolean).Value = loai;
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public DataTable DanhsachKhachHang()
@@ -56,7 +56,7 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM KHACH_HANG");
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public DataTable LayKhachHang(String id)
@@ -64,20 +64,20 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM KHACH_HANG WHERE ID = ?");
             cmd.Parameters.Add("id", OleDbType.VarWChar, 50).Value = id;
             m_Ds.Load(cmd);
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public DataRow NewRow()
         {
-            return m_Ds.NewRow();
+            return m_Ds.Bang.NewRow();
         }
         public void Add(DataRow row)
         {
-            m_Ds.Rows.Add(row);
+            m_Ds.Bang.Rows.Add(row);
         }
         public bool Save()
         {
-            return m_Ds.ExecuteNoneQuery() > 0;
+            return m_Ds.ExecuteNonQuery() > 0;
         }
 
         /// <summary>
@@ -90,21 +90,11 @@ namespace CuahangNongduoc.DataLayer
 
             OleDbCommand c1 = new OleDbCommand("SELECT COUNT(*) FROM PHIEU_BAN WHERE ID_KHACH_HANG = ?");
             c1.Parameters.Add("id", OleDbType.VarWChar, 50).Value = id;
-            soPhieuBan = DemSo(ds.ExecuteScalar(c1));
+            soPhieuBan = DuLieu.LaySoNguyen(ds.ExecuteScalar(c1));
 
             OleDbCommand c2 = new OleDbCommand("SELECT COUNT(*) FROM PHIEU_THANH_TOAN WHERE ID_KHACH_HANG = ?");
             c2.Parameters.Add("id", OleDbType.VarWChar, 50).Value = id;
-            soPhieuThanhToan = DemSo(ds.ExecuteScalar(c2));
-        }
-
-        private static int DemSo(object o)
-        {
-            return (o == null || o == DBNull.Value) ? 0 : Convert.ToInt32(o);
-        }
-
-        private static long DemSo64(object o)
-        {
-            return (o == null || o == DBNull.Value) ? 0 : Convert.ToInt64(o);
+            soPhieuThanhToan = DuLieu.LaySoNguyen(ds.ExecuteScalar(c2));
         }
 
         /// <summary>
@@ -118,27 +108,22 @@ namespace CuahangNongduoc.DataLayer
 
             DataService ban = new DataService();
             ban.Load(new OleDbCommand("SELECT ID_KHACH_HANG, SUM(CON_NO) AS TONG_NO, SUM(TONG_TIEN) AS TONG_MUA FROM PHIEU_BAN GROUP BY ID_KHACH_HANG"));
-            foreach (DataRow r in ban.Rows)
+            foreach (DataRow r in ban.Bang.Rows)
             {
                 string kh = Convert.ToString(r["ID_KHACH_HANG"]);
-                congNo[kh] = ThanhSoNguyen(r["TONG_NO"]);
-                tongMua[kh] = ThanhSoNguyen(r["TONG_MUA"]);
+                congNo[kh] = DuLieu.LaySoLon(r["TONG_NO"]);
+                tongMua[kh] = DuLieu.LaySoLon(r["TONG_MUA"]);
             }
 
             DataService tt = new DataService();
             tt.Load(new OleDbCommand("SELECT ID_KHACH_HANG, SUM(TONG_TIEN) AS DA_TRA FROM PHIEU_THANH_TOAN GROUP BY ID_KHACH_HANG"));
-            foreach (DataRow r in tt.Rows)
+            foreach (DataRow r in tt.Bang.Rows)
             {
                 string kh = Convert.ToString(r["ID_KHACH_HANG"]);
                 long no;
                 if (!congNo.TryGetValue(kh, out no)) no = 0;
-                congNo[kh] = no - ThanhSoNguyen(r["DA_TRA"]);
+                congNo[kh] = no - DuLieu.LaySoLon(r["DA_TRA"]);
             }
-        }
-
-        private static long ThanhSoNguyen(object o)
-        {
-            return (o == null || o == DBNull.Value) ? 0 : Convert.ToInt64(o);
         }
 
         // ---------------------------------------------------------------
@@ -156,7 +141,7 @@ namespace CuahangNongduoc.DataLayer
 
             // Mã nhật ký tự tính (không dùng cột identity để bộ cập nhật của DataService chạy ổn định)
             DataService doMax = new DataService();
-            long tiep = DemSo64(doMax.ExecuteScalar(new OleDbCommand("SELECT ISNULL(MAX(ID), 0) FROM NHAT_KY_KHACH_HANG"))) + 1;
+            long tiep = DuLieu.LaySoLon(doMax.ExecuteScalar(new OleDbCommand("SELECT ISNULL(MAX(ID), 0) FROM NHAT_KY_KHACH_HANG"))) + 1;
 
             DataService nk = new DataService();
             nk.Load(new OleDbCommand("SELECT * FROM NHAT_KY_KHACH_HANG WHERE 1 = 0"));
@@ -164,7 +149,7 @@ namespace CuahangNongduoc.DataLayer
             DateTime bayGio = DateTime.Now;
             foreach (NhatKyKhachHang n in ds)
             {
-                DataRow r = nk.NewRow();
+                DataRow r = nk.Bang.NewRow();
                 r["ID"] = tiep;
                 r["THOI_GIAN"] = bayGio;
                 r["NGUOI_DUNG"] = CatChuoi(nguoiDung, 100);
@@ -172,10 +157,10 @@ namespace CuahangNongduoc.DataLayer
                 r["ID_KHACH_HANG"] = CatChuoi(n.IdKhach, 50);
                 r["TEN_KHACH_HANG"] = CatChuoi(n.TenKhach, 100);
                 r["NOI_DUNG"] = n.NoiDung == null ? "" : n.NoiDung;
-                nk.Rows.Add(r);
+                nk.Bang.Rows.Add(r);
                 tiep++;
             }
-            nk.ExecuteNoneQuery();
+            nk.ExecuteNonQuery();
         }
 
         /// <summary>Lấy nhật ký mới nhất (tối đa 500 dòng); id rỗng thì lấy của tất cả khách hàng.</summary>
@@ -193,7 +178,7 @@ namespace CuahangNongduoc.DataLayer
                 cmd.Parameters.Add("id", OleDbType.VarWChar, 50).Value = id;
             }
             ds.Load(cmd);
-            return ds;
+            return ds.Bang;
         }
     }
 }

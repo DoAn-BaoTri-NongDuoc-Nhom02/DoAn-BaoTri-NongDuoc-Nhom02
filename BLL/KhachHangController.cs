@@ -15,15 +15,27 @@ namespace CuahangNongduoc.Controller
         KhachHangFactory factory = new KhachHangFactory();
 
         // ---- Các nhãn dùng chung cho cả form Đại lý và form Khách hàng ----
-        public static readonly string[] NhanCapDaiLy = new string[] { "Đại lý cấp 1", "Đại lý cấp 2" };   // CAP_DAI_LY = 1, 2
         public static readonly string[] NhanNhomKhach = new string[] { "Khách lẻ", "Khách sỉ" };          // NHOM_KH = 1, 2
         public static readonly string[] NhanKyHan = new string[] { "Theo từng phiếu", "Hàng tuần", "Hàng tháng" }; // KY_HAN = 1, 2, 3
         public const string NhanDangHoatDong = "Đang hoạt động";
         public const string NhanNgungHopTac = "Ngừng hợp tác";
 
-        public void HienthiAutoComboBox(System.Windows.Forms.ComboBox cmb, bool loai)
+        // REFACTOR #46 Replace Parameter with Explicit Methods.
+        // Trước đây: HienthiAutoComboBox(cmb, bool loai) – đọc lời gọi "(cmb, true)" không biết true là gì.
+        // Nay mỗi giá trị của cờ là một hàm có tên rõ nghĩa.
+        public void HienthiKhachLeComboBox(System.Windows.Forms.ComboBox cmb)
         {
-            cmb.DataSource = factory.DanhsachKhachHang(loai);
+            HienthiComboBoxTheoLoai(cmb, false);
+        }
+
+        public void HienthiDaiLyComboBox(System.Windows.Forms.ComboBox cmb)
+        {
+            HienthiComboBoxTheoLoai(cmb, true);
+        }
+
+        private void HienthiComboBoxTheoLoai(System.Windows.Forms.ComboBox cmb, bool laDaiLy)
+        {
+            cmb.DataSource = factory.DanhsachKhachHang(laDaiLy);
             cmb.DisplayMember = "HO_TEN";
             cmb.ValueMember = "ID";
         }
@@ -114,17 +126,48 @@ namespace CuahangNongduoc.Controller
             factory.TimDiaChi(diachi, loai);
         }
 
+        // REFACTOR #20 Change Value to Reference.
+        // Trước đây mỗi lần LayKhachHang(id) lại đọc CSDL và tạo một đối tượng mới, nên danh sách
+        // phiếu bán sỉ truy vấn lại cho từng dòng và cùng một khách có nhiều bản sao khác nhau.
+        // Nay mỗi mã khách chỉ có MỘT đối tượng, lấy từ bộ đệm; Save() làm mới bộ đệm.
+        private static readonly Dictionary<String, KhachHang> s_BoDem = new Dictionary<String, KhachHang>();
+
+        /// <summary>Xóa bộ đệm khách hàng (gọi sau khi sửa dữ liệu khách ở nơi khác).</summary>
+        public static void LamMoiBoDem()
+        {
+            s_BoDem.Clear();
+        }
+
         public KhachHang LayKhachHang(String id)
         {
+            KhachHang kh;
+            if (id != null && s_BoDem.TryGetValue(id, out kh))
+                return kh;
+
             DataTable tbl = factory.LayKhachHang(id);
-            KhachHang kh = new KhachHang();
-            if (tbl.Rows.Count > 0)
+            if (tbl.Rows.Count == 0)
+                return new KhachHang();
+
+            kh = TaoKhachHang(tbl.Rows[0]);
+            s_BoDem[kh.Id] = kh;
+            return kh;
+        }
+
+        private static KhachHang TaoKhachHang(DataRow row)
+        {
+            KhachHang kh = KhachHang.TaoTheoLoai(Convert.ToBoolean(row["LOAI_KH"]));
+            kh.Id = Convert.ToString(row["ID"]);
+            kh.HoTen = Convert.ToString(row["HO_TEN"]);
+            kh.DienThoai = Convert.ToString(row["DIEN_THOAI"]);
+            kh.DiaChi = Convert.ToString(row["DIA_CHI"]);
+
+            DaiLy dl = kh as DaiLy;
+            if (dl != null)
             {
-                kh.Id = Convert.ToString(tbl.Rows[0]["ID"]);
-                kh.HoTen = Convert.ToString(tbl.Rows[0]["HO_TEN"]);
-                kh.DienThoai = Convert.ToString(tbl.Rows[0]["DIEN_THOAI"]);
-                kh.DiaChi = Convert.ToString(tbl.Rows[0]["DIA_CHI"]);
-                kh.LoaiKH = Convert.ToBoolean(tbl.Rows[0]["LOAI_KH"]);
+                DataColumnCollection cot = row.Table.Columns;
+                if (cot.Contains("HAN_MUC_CONG_NO")) dl.HanMucCongNo = DuLieu.LaySoLon(row["HAN_MUC_CONG_NO"]);
+                if (cot.Contains("SO_NGAY_CONG_NO") && !DuLieu.LaRong(row["SO_NGAY_CONG_NO"])) dl.SoNgayCongNo = DuLieu.LaySoNguyen(row["SO_NGAY_CONG_NO"]);
+                if (cot.Contains("CAP_DAI_LY") && !DuLieu.LaRong(row["CAP_DAI_LY"])) dl.CapDaiLy = DuLieu.LaySoNguyen(row["CAP_DAI_LY"]);
             }
             return kh;
         }
@@ -136,12 +179,8 @@ namespace CuahangNongduoc.Controller
 
             foreach (DataRow row in tbl.Rows)
             {
-                KhachHang kh = new KhachHang();
-                kh.Id = Convert.ToString(row["ID"]);
-                kh.HoTen = Convert.ToString(row["HO_TEN"]);
-                kh.DienThoai = Convert.ToString(row["DIEN_THOAI"]);
-                kh.DiaChi = Convert.ToString(row["DIA_CHI"]);
-                kh.LoaiKH = Convert.ToBoolean(row["LOAI_KH"]);
+                KhachHang kh = TaoKhachHang(row);
+                s_BoDem[kh.Id] = kh;
                 ds.Add(kh);
             }
             return ds;
@@ -156,6 +195,7 @@ namespace CuahangNongduoc.Controller
         }
         public bool Save()
         {
+            LamMoiBoDem();
             return factory.Save();
         }
 
@@ -180,7 +220,7 @@ namespace CuahangNongduoc.Controller
             DatMacDinhCot(tbl, "EMAIL", "");
             DatMacDinhCot(tbl, "NGUOI_LIEN_HE", "");
             DatMacDinhCot(tbl, "HAN_MUC_CONG_NO", 0);
-            DatMacDinhCot(tbl, "SO_NGAY_CONG_NO", laDaiLy ? 30 : 0);
+            DatMacDinhCot(tbl, "SO_NGAY_CONG_NO", laDaiLy ? DaiLy.SO_NGAY_CONG_NO_MAC_DINH : 0);
             DatMacDinhCot(tbl, "KY_HAN", 1);
             DatMacDinhCot(tbl, "TRANG_THAI", true);
             DatMacDinhCot(tbl, "CAP_DAI_LY", 1);
@@ -213,31 +253,6 @@ namespace CuahangNongduoc.Controller
         /// <summary>Khách có tổng giá trị mua từ mức này trở lên được tô màu VIP.</summary>
         public const long NguongVip = 20000000;
 
-        /// <summary>
-        /// Số điện thoại hợp lệ: cho phép khoảng trắng, dấu chấm, gạch ngang, ngoặc;
-        /// sau khi bỏ các ký tự đó phải là 0xxxxxxxx (9-11 số) hoặc +84xxxxxxxx.
-        /// </summary>
-        public static bool SoDienThoaiHopLe(string sdt)
-        {
-            if (sdt == null) return false;
-            string gon = Regex.Replace(sdt.Trim(), @"[\s\.\-\(\)]", "");
-            return Regex.IsMatch(gon, @"^(\+84|0)\d{8,10}$");
-        }
-
-        /// <summary>Email hợp lệ dạng ten@mien.xx (không bắt buộc nhập).</summary>
-        public static bool EmailHopLe(string email)
-        {
-            if (email == null) return false;
-            return Regex.IsMatch(email.Trim(), @"^[A-Za-z0-9._%+\-]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)*\.[A-Za-z]{2,}$");
-        }
-
-        /// <summary>Mã số thuế: 10 số, hoặc 13 số (mã đơn vị phụ thuộc, có thể có dấu gạch: 0312345678-001).</summary>
-        public static bool MstHopLe(string mst)
-        {
-            if (mst == null) return false;
-            return Regex.IsMatch(mst.Trim(), @"^\d{10}(-?\d{3})?$");
-        }
-
         private static string GonChuoi(string s)
         {
             return Regex.Replace(s == null ? "" : s.Trim(), @"\s+", " ");
@@ -267,16 +282,16 @@ namespace CuahangNongduoc.Controller
                 case "DIEN_THOAI":
                     if (v.Length == 0) return "Vui lòng nhập số điện thoại.";
                     if (v.Length > DienThoaiToiDa) return "Số điện thoại tối đa " + DienThoaiToiDa.ToString() + " ký tự.";
-                    if (!SoDienThoaiHopLe(v)) return "Số điện thoại \"" + v + "\" không hợp lệ.\nVí dụ: 0296 3841 234, 0901234567 hoặc +84901234567.";
+                    if (!SoDienThoai.HopLe(v)) return "Số điện thoại \"" + v + "\" không hợp lệ.\nVí dụ: 0296 3841 234, 0901234567 hoặc +84901234567.";
                     return "";
                 case "EMAIL":
                     if (v.Length == 0) return "";
                     if (v.Length > EmailToiDa) return "Email tối đa " + EmailToiDa.ToString() + " ký tự.";
-                    if (!EmailHopLe(v)) return "Email \"" + v + "\" không hợp lệ.\nVí dụ: ten@congty.com";
+                    if (!Email.HopLe(v)) return "Email \"" + v + "\" không hợp lệ.\nVí dụ: ten@congty.com";
                     return "";
                 case "MST":
                     if (v.Length == 0) return "";
-                    if (!MstHopLe(v)) return "Mã số thuế \"" + v + "\" không hợp lệ.\nGồm 10 số, hoặc 13 số (ví dụ 0312345678 hoặc 0312345678-001).";
+                    if (!MaSoThue.HopLe(v)) return "Mã số thuế \"" + v + "\" không hợp lệ.\nGồm 10 số, hoặc 13 số (ví dụ 0312345678 hoặc 0312345678-001).";
                     return "";
                 case "NGUOI_LIEN_HE":
                     if (v.Length > NguoiLienHeToiDa) return "Người liên hệ tối đa " + NguoiLienHeToiDa.ToString() + " ký tự.";
@@ -439,7 +454,7 @@ namespace CuahangNongduoc.Controller
                 switch (cot)
                 {
                     case "TRANG_THAI": return Convert.ToBoolean(v) ? NhanDangHoatDong : NhanNgungHopTac;
-                    case "CAP_DAI_LY": return NhanTheoSo(NhanCapDaiLy, v);
+                    case "CAP_DAI_LY": return NhanTheoSo(DaiLy.NHAN_CAP, v);
                     case "NHOM_KH": return NhanTheoSo(NhanNhomKhach, v);
                     case "KY_HAN": return NhanTheoSo(NhanKyHan, v);
                     case "HAN_MUC_CONG_NO": return Convert.ToDecimal(v).ToString("N0");
@@ -520,9 +535,10 @@ namespace CuahangNongduoc.Controller
             return ds;
         }
 
-        public void GhiNhatKy(IList<NhatKyKhachHang> ds, string nguoiDung)
+        /// <summary>REFACTOR #48 Replace Parameter with Method Call – tự lấy người đang đăng nhập.</summary>
+        public void GhiNhatKy(IList<NhatKyKhachHang> ds)
         {
-            factory.GhiNhatKy(ds, nguoiDung);
+            factory.GhiNhatKy(ds, PhienDangNhap.TenGhiNhatKy);
         }
 
         public DataTable LayNhatKy(string idKhach)

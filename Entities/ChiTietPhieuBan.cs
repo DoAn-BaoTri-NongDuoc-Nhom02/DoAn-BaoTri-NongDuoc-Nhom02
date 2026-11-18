@@ -6,13 +6,9 @@ namespace CuahangNongduoc.BusinessObject
 {
     public class ChiTietPhieuBan
     {
-        private PhieuBan m_PhieuBan;
-
-        public PhieuBan PhieuBan
-        {
-            get { return m_PhieuBan; }
-            set { m_PhieuBan = value; }
-        }
+        // REFACTOR #25 Change Bidirectional Association to Unidirectional.
+        // Đã bỏ con trỏ ngược ChiTietPhieuBan.PhieuBan: không nơi nào gán hay đọc nó,
+        // chiều PhieuBan.ChiTiet -> ChiTietPhieuBan là đủ.
         private MaSanPham m_MaSP;
 
         public MaSanPham MaSanPham

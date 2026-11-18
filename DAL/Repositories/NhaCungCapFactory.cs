@@ -6,8 +6,12 @@ using System.Data.OleDb;
 
 namespace CuahangNongduoc.DataLayer
 {
-    public class NhaCungCapFactory
+    public class NhaCungCapFactory : IDanhMucFactory
     {
+        public DataTable DanhSach() { return DanhsachNCC(); }
+        public String CotHienThi { get { return "HO_TEN"; } }
+        public String CotMa { get { return "ID"; } }
+
         DataService m_Ds = new DataService();
 
         public DataTable DanhsachNCC()
@@ -15,7 +19,7 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM NHA_CUNG_CAP");
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
         public DataTable TimDiaChi(String diachi)
         {
@@ -23,7 +27,7 @@ namespace CuahangNongduoc.DataLayer
             cmd.Parameters.Add("diachi", OleDbType.VarChar).Value = diachi;
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
         public DataTable TimHoTen(String hoten)
         {
@@ -31,7 +35,7 @@ namespace CuahangNongduoc.DataLayer
             cmd.Parameters.Add("hoten", OleDbType.VarChar).Value = hoten;
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public DataTable LayNCC(String id)
@@ -39,20 +43,20 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM NHA_CUNG_CAP WHERE ID = @id");
             cmd.Parameters.Add("id", OleDbType.VarChar, 50).Value = id;
             m_Ds.Load(cmd);
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public DataRow NewRow()
         {
-            return m_Ds.NewRow();
+            return m_Ds.Bang.NewRow();
         }
         public void Add(DataRow row)
         {
-            m_Ds.Rows.Add(row);
+            m_Ds.Bang.Rows.Add(row);
         }
         public bool Save()
         {
-            return m_Ds.ExecuteNoneQuery() > 0;
+            return m_Ds.ExecuteNonQuery() > 0;
         }
 
         /// <summary>
@@ -65,7 +69,7 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT TOP 1 ID FROM PHIEU_NHAP WHERE ID_NHA_CUNG_CAP = ?");
             cmd.Parameters.Add("@id", OleDbType.VarChar, 50).Value = id;
             ds.Load(cmd);
-            return ds.Rows.Count > 0;
+            return ds.Bang.Rows.Count > 0;
         }
     }
 }

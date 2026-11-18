@@ -1,4 +1,6 @@
 using System;
+using CuahangNongduoc.BusinessObject;
+using CuahangNongduoc.Controller;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
@@ -291,7 +293,7 @@ namespace CuahangNongduoc
             {
                 DataService ds = new DataService();
                 ds.Load(new OleDbCommand("SELECT ID, HO_TEN FROM KHACH_HANG ORDER BY HO_TEN"));
-                DataTable tbl = ds.Copy();
+                DataTable tbl = ds.Bang.Copy();
                 DataRow all = tbl.NewRow();
                 all["ID"] = "";
                 all["HO_TEN"] = "-- Tất cả --";
@@ -313,7 +315,7 @@ namespace CuahangNongduoc
             {
                 DataService ds = new DataService();
                 ds.Load(new OleDbCommand("SELECT ID, TEN_SAN_PHAM FROM SAN_PHAM ORDER BY TEN_SAN_PHAM"));
-                DataTable tbl = ds.Copy();
+                DataTable tbl = ds.Bang.Copy();
                 DataRow all = tbl.NewRow();
                 all["ID"] = "";
                 all["TEN_SAN_PHAM"] = "-- Tất cả --";
@@ -338,15 +340,20 @@ namespace CuahangNongduoc
 
         void TaiDuLieu()
         {
-            if (dtTuNgay.Value.Date > dtDenNgay.Value.Date)
+            KhoangNgay khoang;
+            try
             {
-                MessageBox.Show("Từ ngày phải ≤ Đến ngày.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                khoang = new KhoangNgay(dtTuNgay.Value, dtDenNgay.Value);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             try
             {
-                _data = DocDoanhThu(dtTuNgay.Value.Date, dtDenNgay.Value.Date);
+                _data = DocDoanhThu(khoang);
                 dgv.DataSource = _data;
                 DatTenCot();
                 CapNhatTong();
@@ -362,220 +369,10 @@ namespace CuahangNongduoc
             }
         }
 
-        DataTable DocDoanhThu(DateTime tu, DateTime den)
+        DataTable DocDoanhThu(KhoangNgay khoang)
         {
-            // 1 tham số ngày tối đa → tránh lỗi OleDb; lọc trong bộ nhớ cho KH/SP/kênh
-            DataService ds = new DataService();
-            string sql =
-                "SELECT PB.ID, PB.NGAY_BAN, PB.TONG_TIEN, PB.DA_TRA, PB.CON_NO, " +
-                "PB.ID_KHACH_HANG, KH.HO_TEN, KH.LOAI_KH " +
-                "FROM PHIEU_BAN PB " +
-                "LEFT JOIN KHACH_HANG KH ON PB.ID_KHACH_HANG = KH.ID " +
-                "WHERE PB.NGAY_BAN >= @tu AND PB.NGAY_BAN < @den";
-
-            // den exclusive = den+1 ngày
-            OleDbCommand cmd = new OleDbCommand(sql);
-            cmd.Parameters.Add("tu", OleDbType.Date).Value = tu;
-            cmd.Parameters.Add("den", OleDbType.Date).Value = den.AddDays(1);
-
-            try
-            {
-                ds.Load(cmd);
-            }
-            catch
-            {
-                // Fallback 1 tham số: lấy đến den rồi lọc từ ngày trong RAM
-                ds = new DataService();
-                OleDbCommand cmd2 = new OleDbCommand(
-                    "SELECT PB.ID, PB.NGAY_BAN, PB.TONG_TIEN, PB.DA_TRA, PB.CON_NO, " +
-                    "PB.ID_KHACH_HANG, KH.HO_TEN, KH.LOAI_KH " +
-                    "FROM PHIEU_BAN PB LEFT JOIN KHACH_HANG KH ON PB.ID_KHACH_HANG = KH.ID " +
-                    "WHERE PB.NGAY_BAN <= @den");
-                cmd2.Parameters.Add("den", OleDbType.Date).Value = den.AddDays(1).AddSeconds(-1);
-                ds.Load(cmd2);
-            }
-
-            string idKh = LayGiaTriCombo(cmbKhachHang);
-            string idSp = LayGiaTriCombo(cmbSanPham);
-            int kenh = cmbKenh == null ? 0 : cmbKenh.SelectedIndex; // 0 all, 1 sỉ, 2 lẻ
-
-            // Chi phí (phiếu chi) trong khoảng
-            long tongChi = LayTongChi(tu, den);
-
-            // Cache giá vốn theo phiếu (nếu lọc SP thì chỉ tính SP đó)
-            Dictionary<string, long[]> vonVaSp = TinhGiaVonVaLocSp(tu, den, idSp);
-
-            DataTable t = new DataTable();
-            t.Columns.Add("MaPhieu", typeof(string));
-            t.Columns.Add("NgayBan", typeof(DateTime));
-            t.Columns.Add("TenKhachHang", typeof(string));
-            t.Columns.Add("Kenh", typeof(string));
-            t.Columns.Add("TongTien", typeof(long));
-            t.Columns.Add("DaTra", typeof(long));
-            t.Columns.Add("ConNo", typeof(long));
-            t.Columns.Add("GiaVon", typeof(long));
-            t.Columns.Add("LaiGop", typeof(long));
-
-            foreach (DataRow r in ds.Rows)
-            {
-                DateTime ngay = r["NGAY_BAN"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(r["NGAY_BAN"]).Date;
-                if (ngay < tu || ngay > den) continue;
-
-                string maKh = r["ID_KHACH_HANG"] == DBNull.Value ? "" : Convert.ToString(r["ID_KHACH_HANG"]);
-                if (idKh.Length > 0 && maKh != idKh) continue;
-
-                bool laDaiLy = false;
-                try
-                {
-                    if (r["LOAI_KH"] != DBNull.Value)
-                        laDaiLy = Convert.ToBoolean(r["LOAI_KH"]);
-                }
-                catch
-                {
-                    try { laDaiLy = Convert.ToInt32(r["LOAI_KH"]) != 0; } catch { }
-                }
-                if (kenh == 1 && !laDaiLy) continue; // bán sỉ = đại lý
-                if (kenh == 2 && laDaiLy) continue;
-
-                string maPhieu = Convert.ToString(r["ID"]);
-                long giaVon = 0;
-                bool coSp = true;
-                if (vonVaSp.ContainsKey(maPhieu))
-                {
-                    giaVon = vonVaSp[maPhieu][0];
-                    coSp = vonVaSp[maPhieu][1] > 0;
-                }
-                else if (idSp.Length > 0)
-                {
-                    coSp = false; // lọc SP mà phiếu không có SP đó
-                }
-                if (!coSp) continue;
-
-                long tong = r["TONG_TIEN"] == DBNull.Value ? 0L : Convert.ToInt64(r["TONG_TIEN"]);
-                // Nếu lọc theo SP: doanh thu = thành tiền chi tiết SP (ước lượng qua vonVaSp[2] nếu có)
-                if (idSp.Length > 0 && vonVaSp.ContainsKey(maPhieu) && vonVaSp[maPhieu].Length > 2)
-                    tong = vonVaSp[maPhieu][2];
-
-                long daTra = r["DA_TRA"] == DBNull.Value ? 0L : Convert.ToInt64(r["DA_TRA"]);
-                long conNo = r["CON_NO"] == DBNull.Value ? 0L : Convert.ToInt64(r["CON_NO"]);
-                long lai = tong - giaVon;
-
-                DataRow n = t.NewRow();
-                n["MaPhieu"] = maPhieu;
-                n["NgayBan"] = ngay;
-                n["TenKhachHang"] = r["HO_TEN"] == DBNull.Value ? "" : Convert.ToString(r["HO_TEN"]);
-                n["Kenh"] = laDaiLy ? "Bán sỉ" : "Bán lẻ";
-                n["TongTien"] = tong;
-                n["DaTra"] = daTra;
-                n["ConNo"] = conNo;
-                n["GiaVon"] = giaVon;
-                n["LaiGop"] = lai;
-                t.Rows.Add(n);
-            }
-
-            // Gắn chi phí tổng vào Tag để CapNhatTong dùng
-            t.ExtendedProperties["TongChi"] = tongChi;
-            return t;
-        }
-
-        /// <summary>
-        /// Trả về dictionary: mã phiếu → [giaVon, coSanPhamLoc(1/0), thanhTienSp]
-        /// </summary>
-        Dictionary<string, long[]> TinhGiaVonVaLocSp(DateTime tu, DateTime den, string idSp)
-        {
-            Dictionary<string, long[]> map = new Dictionary<string, long[]>();
-            try
-            {
-                DataService ds = new DataService();
-                string sql =
-                    "SELECT CT.ID_PHIEU_BAN, CT.SO_LUONG, CT.DON_GIA, CT.THANH_TIEN, " +
-                    "MSP.DON_GIA_NHAP, MSP.ID_SAN_PHAM, PB.NGAY_BAN " +
-                    "FROM CHI_TIET_PHIEU_BAN CT " +
-                    "INNER JOIN PHIEU_BAN PB ON CT.ID_PHIEU_BAN = PB.ID " +
-                    "LEFT JOIN MA_SAN_PHAM MSP ON CT.ID_MA_SAN_PHAM = MSP.ID " +
-                    "WHERE PB.NGAY_BAN >= @tu AND PB.NGAY_BAN < @den";
-                OleDbCommand cmd = new OleDbCommand(sql);
-                cmd.Parameters.Add("tu", OleDbType.Date).Value = tu;
-                cmd.Parameters.Add("den", OleDbType.Date).Value = den.AddDays(1);
-                try { ds.Load(cmd); }
-                catch
-                {
-                    ds = new DataService();
-                    OleDbCommand cmd2 = new OleDbCommand(
-                        "SELECT CT.ID_PHIEU_BAN, CT.SO_LUONG, CT.DON_GIA, CT.THANH_TIEN, " +
-                        "MSP.DON_GIA_NHAP, MSP.ID_SAN_PHAM " +
-                        "FROM CHI_TIET_PHIEU_BAN CT " +
-                        "LEFT JOIN MA_SAN_PHAM MSP ON CT.ID_MA_SAN_PHAM = MSP.ID");
-                    ds.Load(cmd2);
-                }
-
-                foreach (DataRow r in ds.Rows)
-                {
-                    string ma = Convert.ToString(r["ID_PHIEU_BAN"]);
-                    string sp = r.Table.Columns.Contains("ID_SAN_PHAM") && r["ID_SAN_PHAM"] != DBNull.Value
-                        ? Convert.ToString(r["ID_SAN_PHAM"]) : "";
-                    if (idSp.Length > 0 && sp != idSp) continue;
-
-                    int sl = 0;
-                    try { sl = Convert.ToInt32(r["SO_LUONG"]); } catch { }
-                    long giaNhap = 0;
-                    try
-                    {
-                        if (r["DON_GIA_NHAP"] != DBNull.Value) giaNhap = Convert.ToInt64(r["DON_GIA_NHAP"]);
-                    }
-                    catch { }
-                    long thanhTien = 0;
-                    try
-                    {
-                        if (r["THANH_TIEN"] != DBNull.Value) thanhTien = Convert.ToInt64(r["THANH_TIEN"]);
-                        else if (r["DON_GIA"] != DBNull.Value) thanhTien = Convert.ToInt64(r["DON_GIA"]) * sl;
-                    }
-                    catch { }
-
-                    long von = giaNhap * sl;
-                    if (!map.ContainsKey(ma))
-                        map[ma] = new long[] { 0, 0, 0 };
-                    map[ma][0] += von;
-                    map[ma][1] = 1;
-                    map[ma][2] += thanhTien;
-                }
-            }
-            catch { }
-            return map;
-        }
-
-        long LayTongChi(DateTime tu, DateTime den)
-        {
-            try
-            {
-                DataService ds = new DataService();
-                OleDbCommand cmd = new OleDbCommand(
-                    "SELECT TONG_TIEN, NGAY_CHI FROM PHIEU_CHI WHERE NGAY_CHI >= @tu AND NGAY_CHI < @den");
-                cmd.Parameters.Add("tu", OleDbType.Date).Value = tu;
-                cmd.Parameters.Add("den", OleDbType.Date).Value = den.AddDays(1);
-                try { ds.Load(cmd); }
-                catch
-                {
-                    ds = new DataService();
-                    ds.Load(new OleDbCommand("SELECT TONG_TIEN, NGAY_CHI FROM PHIEU_CHI"));
-                }
-                long tong = 0;
-                foreach (DataRow r in ds.Rows)
-                {
-                    try
-                    {
-                        if (r.Table.Columns.Contains("NGAY_CHI") && r["NGAY_CHI"] != DBNull.Value)
-                        {
-                            DateTime n = Convert.ToDateTime(r["NGAY_CHI"]).Date;
-                            if (n < tu || n > den) continue;
-                        }
-                        if (r["TONG_TIEN"] != DBNull.Value) tong += Convert.ToInt64(r["TONG_TIEN"]);
-                    }
-                    catch { }
-                }
-                return tong;
-            }
-            catch { return 0; }
+            int kenh = cmbKenh == null ? TruyVanDoanhThu.KENH_TAT_CA : cmbKenh.SelectedIndex;
+            return new TruyVanDoanhThu(khoang, LayGiaTriCombo(cmbKhachHang), LayGiaTriCombo(cmbSanPham), kenh).ThucHien();
         }
 
         static string LayGiaTriCombo(ComboBox cmb)
@@ -688,7 +485,7 @@ namespace CuahangNongduoc
                         "WHERE CT.ID_PHIEU_BAN = @id");
                     cmd.Parameters.Add("id", OleDbType.VarChar, 50).Value = ma;
                     ds.Load(cmd);
-                    foreach (DataRow r in ds.Rows)
+                    foreach (DataRow r in ds.Bang.Rows)
                     {
                         string ten = r.Table.Columns.Contains("TEN_SAN_PHAM") && r["TEN_SAN_PHAM"] != DBNull.Value
                             ? Convert.ToString(r["TEN_SAN_PHAM"]) : Convert.ToString(r["ID_MA_SAN_PHAM"]);
@@ -819,103 +616,46 @@ namespace CuahangNongduoc
     }
 
     /// <summary>Biểu đồ doanh thu theo ngày – không dùng Func&lt;&gt;.</summary>
-    public class BieuDoDoanhThu : Panel
+    /// <summary>Biểu đồ doanh thu theo ngày (khung vẽ ở BieuDoCot).</summary>
+    public class BieuDoDoanhThu : BieuDoCot
     {
-        public int Kieu;
-        public DataTable Bang;
-
-        public BieuDoDoanhThu()
+        protected override string ThongBaoKhiTrong
         {
-            this.DoubleBuffered = true;
-            this.Resize += delegate { Invalidate(); };
+            get { return "Không có dữ liệu biểu đồ."; }
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+        protected override string TieuDe
         {
-            base.OnPaint(e);
-            Graphics g = e.Graphics;
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.Clear(Color.White);
+            get { return "Doanh thu theo ngày"; }
+        }
 
-            if (Bang == null || Bang.Rows.Count == 0)
+        protected override List<KeyValuePair<string, long>> GomDuLieu(DataTable bang)
+        {
+            // Gom doanh thu theo ngày (khóa là ngày thật, không phải chuỗi "dd/MM" – trước đây sắp xếp theo chuỗi
+            // nên 01/11 đứng trước 30/10 và những ngày không bán được thì bị bỏ khỏi biểu đồ).
+            Dictionary<DateTime, long> theoNgay = new Dictionary<DateTime, long>();
+            DateTime nhoNhat = DateTime.MaxValue, lonNhat = DateTime.MinValue;
+            foreach (DataRow r in bang.Rows)
             {
-                using (Font f = new Font("Segoe UI", 9f))
-                    g.DrawString("Không có dữ liệu biểu đồ.", f, Brushes.Gray, 12, 12);
-                return;
+                if (DuLieu.LaRong(r["NgayBan"])) continue;
+                DateTime ngay = Convert.ToDateTime(r["NgayBan"]).Date;
+                long v;
+                theoNgay.TryGetValue(ngay, out v);
+                theoNgay[ngay] = v + DuLieu.LaySoLon(r["TongTien"]);
+                if (ngay < nhoNhat) nhoNhat = ngay;
+                if (ngay > lonNhat) lonNhat = ngay;
             }
+            List<KeyValuePair<string, long>> kq = new List<KeyValuePair<string, long>>();
+            if (theoNgay.Count == 0) return kq;
 
-            // Gom doanh thu theo ngày
-            SortedDictionary<string, long> theoNgay = new SortedDictionary<string, long>();
-            foreach (DataRow r in Bang.Rows)
+            // PATTERN #16 Iterator (nơi dùng) – duyệt từng ngày trong khoảng, ngày không bán vẫn có cột 0.
+            foreach (DateTime ngay in new KhoangNgay(nhoNhat, lonNhat))
             {
-                string key = "";
-                try { key = Convert.ToDateTime(r["NgayBan"]).ToString("dd/MM"); } catch { key = "?"; }
-                long v = 0;
-                try { v = Convert.ToInt64(r["TongTien"]); } catch { }
-                if (!theoNgay.ContainsKey(key)) theoNgay[key] = 0;
-                theoNgay[key] += v;
+                long v;
+                theoNgay.TryGetValue(ngay, out v);
+                kq.Add(new KeyValuePair<string, long>(ngay.ToString("dd/MM"), v));
             }
-            if (theoNgay.Count == 0) return;
-
-            List<string> keys = new List<string>();
-            foreach (string k in theoNgay.Keys) keys.Add(k);
-            long max = 1;
-            foreach (long v in theoNgay.Values) if (v > max) max = v;
-
-            Rectangle vung = new Rectangle(36, 20, Math.Max(20, Width - 52), Math.Max(20, Height - 50));
-            Color[] mau = new Color[] {
-                Color.FromArgb(46, 125, 90), Color.FromArgb(33, 115, 185), Color.DarkOrange,
-                Color.MediumPurple, Color.IndianRed, Color.Teal
-            };
-
-            using (Font f = new Font("Segoe UI", 8f, FontStyle.Bold))
-                g.DrawString("Doanh thu theo ngày", f, Brushes.DarkGreen, 8, 4);
-
-            if (Kieu == 2)
-            {
-                float tong = 0;
-                foreach (long v in theoNgay.Values) tong += v;
-                if (tong <= 0) tong = 1;
-                float goc = -90;
-                int canh = Math.Min(vung.Width, vung.Height) - 10;
-                Rectangle tron = new Rectangle(vung.X + 10, vung.Y, canh, canh);
-                int i = 0;
-                foreach (string k in keys)
-                {
-                    float quet = (float)(theoNgay[k] * 360.0 / tong);
-                    using (SolidBrush b = new SolidBrush(mau[i % mau.Length]))
-                        g.FillPie(b, tron, goc, quet);
-                    goc += quet;
-                    i++;
-                }
-                return;
-            }
-
-            int n = keys.Count;
-            float bw = Math.Max(6, (vung.Width - 8) / (float)n);
-            using (Pen truc = new Pen(Color.Silver))
-                g.DrawLine(truc, vung.Left, vung.Bottom, vung.Right, vung.Bottom);
-
-            List<PointF> diem = new List<PointF>();
-            for (int i = 0; i < n; i++)
-            {
-                long v = theoNgay[keys[i]];
-                float h = (float)v / max * (vung.Height - 10);
-                float x = vung.Left + i * bw;
-                if (Kieu == 0)
-                {
-                    using (SolidBrush b = new SolidBrush(mau[i % mau.Length]))
-                        g.FillRectangle(b, x + 2, vung.Bottom - h, Math.Max(4, bw - 5), h);
-                }
-                diem.Add(new PointF(x + bw / 2f, vung.Bottom - h));
-            }
-            if (Kieu == 1 && diem.Count > 1)
-            {
-                using (Pen p = new Pen(Color.FromArgb(33, 115, 185), 2f))
-                    g.DrawLines(p, diem.ToArray());
-                foreach (PointF pt in diem)
-                    g.FillEllipse(Brushes.DarkOrange, pt.X - 3, pt.Y - 3, 6, 6);
-            }
+            return kq;
         }
     }
 }

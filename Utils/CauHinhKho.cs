@@ -73,21 +73,32 @@ namespace CuahangNongduoc
             catch
             {
                 // Chưa có bảng -> tạo mới (cú pháp dùng được cho cả Access/Jet và SQL Server).
-                ds.ExecuteNoneQuery(new OleDbCommand(
+                ds.ExecuteNonQuery(new OleDbCommand(
                     "CREATE TABLE CAU_HINH (KHOA VARCHAR(50) NOT NULL, GIA_TRI VARCHAR(50), " +
                     "CONSTRAINT PK_CAU_HINH PRIMARY KEY (KHOA))"));
             }
             m_DaKiemTraBang = true;
         }
 
+        /// <summary>
+        /// REFACTOR #44 Separate Query from Modifier – hàm chỉ đọc. Trước đây hàm đọc này
+        /// có thể chạy CREATE TABLE; nay bảng chưa có thì trả về null để dùng giá trị mặc định,
+        /// việc tạo bảng chỉ xảy ra trong Gan().
+        /// </summary>
         static string Lay(string khoa)
         {
-            DamBaoBang();
             DataService ds = new DataService();
             OleDbCommand cmd = new OleDbCommand("SELECT GIA_TRI FROM CAU_HINH WHERE KHOA = @khoa");
             cmd.Parameters.Add("khoa", OleDbType.VarChar, 50).Value = khoa;
-            object obj = ds.ExecuteScalar(cmd);
-            return obj == null ? null : Convert.ToString(obj);
+            try
+            {
+                object obj = ds.ExecuteScalar(cmd);
+                return obj == null ? null : Convert.ToString(obj);
+            }
+            catch (OleDbException)
+            {
+                return null;
+            }
         }
 
         static void Gan(string khoa, string giaTri)
@@ -99,12 +110,12 @@ namespace CuahangNongduoc
             upd.Parameters.Add("giatri", OleDbType.VarChar, 50).Value = giaTri;
             upd.Parameters.Add("khoa", OleDbType.VarChar, 50).Value = khoa;
 
-            if (ds.ExecuteNoneQuery(upd) == 0)
+            if (ds.ExecuteNonQuery(upd) == 0)
             {
                 OleDbCommand ins = new OleDbCommand("INSERT INTO CAU_HINH (KHOA, GIA_TRI) VALUES (@khoa, @giatri)");
                 ins.Parameters.Add("khoa", OleDbType.VarChar, 50).Value = khoa;
                 ins.Parameters.Add("giatri", OleDbType.VarChar, 50).Value = giaTri;
-                ds.ExecuteNoneQuery(ins);
+                ds.ExecuteNonQuery(ins);
             }
         }
     }

@@ -45,24 +45,20 @@ namespace CuahangNongduoc.Controller
     /// </summary>
     public class XuatKhoController
     {
-        MaSanPhanFactory factory = new MaSanPhanFactory();
+        MaSanPhamFactory factory = new MaSanPhamFactory();
 
-        /// <summary>Các lô còn hàng của sản phẩm, lô có hạn dùng gần nhất đứng đầu.</summary>
-        public IList<MaSanPham> DanhSachLoConHang(String idSanPham)
+        /// <summary>
+        /// Các lô còn hàng của sản phẩm, lô có hạn dùng gần nhất đứng đầu.
+        /// REFACTOR #51 Hide Method – chỉ PhanLoFIFO dùng nên đổi public -> private.
+        /// </summary>
+        private IList<MaSanPham> DanhSachLoConHang(String idSanPham)
         {
             List<MaSanPham> ds = new List<MaSanPham>();
             DataTable tbl = factory.DanhsachMaSanPham(idSanPham);
             foreach (DataRow row in tbl.Rows)
             {
-                MaSanPham lo = new MaSanPham();
-                lo.Id = Convert.ToString(row["ID"]);
-                lo.SoLuong = Convert.ToInt32(row["SO_LUONG"]);
-                lo.GiaNhap = row["DON_GIA_NHAP"] == DBNull.Value ? 0 : Convert.ToInt64(row["DON_GIA_NHAP"]);
-                lo.NgayNhap = row["NGAY_NHAP"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(row["NGAY_NHAP"]);
-                lo.NgaySanXuat = row["NGAY_SAN_XUAT"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(row["NGAY_SAN_XUAT"]);
-                // Lô không có hạn dùng thì xếp cuối.
-                lo.NgayHetHan = row["NGAY_HET_HAN"] == DBNull.Value ? DateTime.MaxValue : Convert.ToDateTime(row["NGAY_HET_HAN"]);
-                ds.Add(lo);
+                // Lô không có hạn dùng thì xếp cuối (TuDongDuLieu gán DateTime.MaxValue).
+                ds.Add(MaSanPham.TuDongDuLieu(row));
             }
 
             ds.Sort(delegate(MaSanPham a, MaSanPham b)
@@ -147,7 +143,7 @@ namespace CuahangNongduoc.Controller
                 return 0;
             if (CauHinhKho.PhuongPhapGiaXuat == PhuongPhapGiaXuat.FIFO)
                 return lo.GiaNhap;
-            return lo.SanPham != null ? lo.SanPham.DonGiaNhap : lo.GiaNhap;
+            return lo.GiaBinhQuan;
         }
 
         static int DaGiu(IDictionary<String, int> daGiu, String idLo)

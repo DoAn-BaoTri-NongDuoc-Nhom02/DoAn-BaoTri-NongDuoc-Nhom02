@@ -15,10 +15,7 @@ namespace CuahangNongduoc.Controller
 
         public void HienthiAutoComboBox(System.Windows.Forms.ComboBox cmb)
         {
-            cmb.DataSource = factory.DanhsachNCC();
-            cmb.DisplayMember = "HO_TEN";
-            cmb.ValueMember = "ID";
-
+            DanhMucHelper.GanComboBox(cmb, factory);
         }
         public void HienthiAllComboBox(System.Windows.Forms.ComboBox cmb)
         {
@@ -109,17 +106,6 @@ namespace CuahangNongduoc.Controller
         public const int DiaChiToiDa = 200;
         public const int DienThoaiToiDa = 20;
 
-        /// <summary>
-        /// Số điện thoại hợp lệ: cho phép khoảng trắng, dấu chấm, gạch ngang, ngoặc;
-        /// sau khi bỏ các ký tự đó phải là 0xxxxxxxx (9-11 số) hoặc +84xxxxxxxx.
-        /// </summary>
-        public static bool SoDienThoaiHopLe(string sdt)
-        {
-            if (sdt == null) return false;
-            string gon = Regex.Replace(sdt.Trim(), @"[\s\.\-\(\)]", "");
-            return Regex.IsMatch(gon, @"^(\+84|0)\d{8,10}$");
-        }
-
         /// <summary>Nhà cung cấp này đã có phiếu nhập hàng chưa (nếu có thì không được xóa).</summary>
         public bool NhaCungCapDaSuDung(string id)
         {
@@ -173,7 +159,7 @@ namespace CuahangNongduoc.Controller
                 {
                     if (sdt.Length > DienThoaiToiDa)
                         return Loi(r, "DIEN_THOAI", "Số điện thoại tối đa " + DienThoaiToiDa.ToString() + " ký tự.", out dongLoi, out cotLoi, out thongBao);
-                    if (!SoDienThoaiHopLe(sdt))
+                    if (!SoDienThoai.HopLe(sdt))
                         return Loi(r, "DIEN_THOAI", "Số điện thoại \"" + sdt + "\" không hợp lệ.\nVí dụ: 0296 3841 234, 0901234567 hoặc +84901234567.", out dongLoi, out cotLoi, out thongBao);
                 }
 

@@ -126,7 +126,7 @@ namespace CuahangNongduoc
                 DataService d = new DataService();
                 d.Load(new OleDbCommand("SELECT ID FROM PHIEU_NHAP ORDER BY NGAY_NHAP DESC"));
                 cmbMaPhieu.Items.Clear();
-                foreach (DataRow r in d.Rows)
+                foreach (DataRow r in d.Bang.Rows)
                 {
                     string id = Convert.ToString(r["ID"]);
                     if (!string.IsNullOrEmpty(id))
@@ -226,8 +226,8 @@ namespace CuahangNongduoc
 
                 DataService ds = new DataService();
                 ds.Load(new OleDbCommand(sql));
-                if (ds.Rows.Count > 0)
-                    return Convert.ToString(ds.Rows[0]["ID"]);
+                if (ds.Bang.Rows.Count > 0)
+                    return Convert.ToString(ds.Bang.Rows[0]["ID"]);
             }
             catch { }
             return null;
@@ -248,11 +248,11 @@ namespace CuahangNongduoc
                 try
                 {
                     MaSanPhamController ctrlSP = new MaSanPhamController();
-                    ph.ChiTiet = ctrlSP.ChiTietPhieuNhap(ph.Id);
+                    ph.GanChiTiet(ctrlSP.ChiTietPhieuNhap(ph.Id));
                 }
                 catch { }
                 if (ph.ChiTiet == null)
-                    ph.ChiTiet = new List<MaSanPham>();
+                    ph.GanChiTiet(null);
             }
 
             string cuaHang = "CỬA HÀNG NÔNG DƯỢC";

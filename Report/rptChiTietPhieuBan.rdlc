@@ -30,10 +30,6 @@
           <DataField>MaSanPham</DataField>
           <rd:TypeName>CuahangNongduoc.BusinessObject.MaSanPham</rd:TypeName>
         </Field>
-        <Field Name="PhieuBan">
-          <DataField>PhieuBan</DataField>
-          <rd:TypeName>CuahangNongduoc.BusinessObject.PhieuBan</rd:TypeName>
-        </Field>
         <Field Name="SoLuong">
           <DataField>SoLuong</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>

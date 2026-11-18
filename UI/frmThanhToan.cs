@@ -314,8 +314,8 @@ namespace CuahangNongduoc
         private void toolAdd_Click(object sender, EventArgs e)
         {
             DatCheDoSua(true);
-            long maphieu = ThamSo.LayMaPhieuThanhToan();
-            ThamSo.GanMaPhieuThanhToan(maphieu + 1);
+            long maphieu = ThamSo.LayMa(LoaiChungTu.PhieuThanhToan);
+            ThamSo.GanMa(LoaiChungTu.PhieuThanhToan, maphieu + 1);
             DataRow row = ctrl.NewRow();
             row["ID"] = maphieu;
             row["NGAY_THANH_TOAN"] = DateTime.Now.Date;

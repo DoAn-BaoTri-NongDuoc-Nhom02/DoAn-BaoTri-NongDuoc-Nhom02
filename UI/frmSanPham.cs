@@ -313,8 +313,8 @@ namespace CuahangNongduoc
             DataRow row = ctrl.NewRow();
 
             // Sinh mã tự động
-            long maso = ThamSo.SanPham;
-            ThamSo.SanPham = maso + 1;
+            long maso = ThamSo.LayMa(LoaiChungTu.SanPham);
+            ThamSo.GanMa(LoaiChungTu.SanPham, maso + 1);
 
             row["ID"] = maso;
             row["TEN_SAN_PHAM"] = "";

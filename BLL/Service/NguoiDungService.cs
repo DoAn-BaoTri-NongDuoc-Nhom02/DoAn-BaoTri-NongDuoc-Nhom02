@@ -28,75 +28,73 @@ namespace CuahangNongduoc.BLL.Service
             return _repo.GetAllVaiTro();
         }
 
-        public string Them(NguoiDung nd)
+        /// <summary>Thêm tài khoản; lỗi nghiệp vụ ném NghiepVuException.</summary>
+        public void Them(NguoiDung nd)
         {
             // Thay IsNullOrWhiteSpace bằng cách này
             if (string.IsNullOrEmpty(nd.TenDangNhap) || nd.TenDangNhap.Trim() == "" ||
                 string.IsNullOrEmpty(nd.MatKhau) || nd.MatKhau.Trim() == "" ||
                 string.IsNullOrEmpty(nd.HoTen) || nd.HoTen.Trim() == "")
             {
-                return "Vui lòng nhập đầy đủ thông tin!";
+                throw new NghiepVuException("Vui lòng nhập đầy đủ thông tin!");
             }
 
             if (_repo.KiemTraTenDangNhapTonTai(nd.TenDangNhap))
-                return "Tên đăng nhập đã tồn tại!";
+                throw new NghiepVuException("Tên đăng nhập đã tồn tại!");
 
-            if (_repo.Them(nd))
-                return "OK";
-            return "Thêm thất bại!";
+            if (!_repo.Them(nd))
+                throw new NghiepVuException("Thêm thất bại!");
         }
 
-        public string Sua(NguoiDung nd)
+        /// <summary>Sửa tài khoản; lỗi nghiệp vụ ném NghiepVuException.</summary>
+        public void Sua(NguoiDung nd)
         {
             // Thay IsNullOrWhiteSpace bằng cách này
             if (string.IsNullOrEmpty(nd.TenDangNhap) || nd.TenDangNhap.Trim() == "" ||
                 string.IsNullOrEmpty(nd.MatKhau) || nd.MatKhau.Trim() == "" ||
                 string.IsNullOrEmpty(nd.HoTen) || nd.HoTen.Trim() == "")
             {
-                return "Vui lòng nhập đầy đủ thông tin!";
+                throw new NghiepVuException("Vui lòng nhập đầy đủ thông tin!");
             }
 
             if (_repo.KiemTraTenDangNhapTonTai(nd.TenDangNhap, nd.ID))
-                return "Tên đăng nhập đã tồn tại!";
+                throw new NghiepVuException("Tên đăng nhập đã tồn tại!");
 
-            if (_repo.Sua(nd))
-                return "OK";
-            return "Cập nhật thất bại!";
+            if (!_repo.Sua(nd))
+                throw new NghiepVuException("Cập nhật thất bại!");
         }
 
         public const int DO_DAI_MAT_KHAU_TOI_THIEU = 4;
 
-        /// <summary>Tự đổi mật khẩu của chính mình. Trả về "OK" hoặc thông báo lỗi.</summary>
-        public string DoiMatKhau(int id, string matKhauCu, string matKhauMoi, string xacNhan)
+        /// <summary>Tự đổi mật khẩu của chính mình; lỗi nghiệp vụ ném NghiepVuException.</summary>
+        public void DoiMatKhau(int id, string matKhauCu, string matKhauMoi, string xacNhan)
         {
             if (string.IsNullOrEmpty(matKhauCu) || string.IsNullOrEmpty(matKhauMoi) || string.IsNullOrEmpty(xacNhan))
-                return "Vui lòng nhập đầy đủ thông tin!";
+                throw new NghiepVuException("Vui lòng nhập đầy đủ thông tin!");
 
             if (matKhauMoi != xacNhan)
-                return "Xác nhận mật khẩu mới không khớp!";
+                throw new NghiepVuException("Xác nhận mật khẩu mới không khớp!");
 
             if (matKhauMoi.Length < DO_DAI_MAT_KHAU_TOI_THIEU)
-                return "Mật khẩu mới phải có ít nhất " + DO_DAI_MAT_KHAU_TOI_THIEU + " ký tự!";
+                throw new NghiepVuException("Mật khẩu mới phải có ít nhất " + DO_DAI_MAT_KHAU_TOI_THIEU + " ký tự!");
 
             if (matKhauMoi == matKhauCu)
-                return "Mật khẩu mới phải khác mật khẩu hiện tại!";
+                throw new NghiepVuException("Mật khẩu mới phải khác mật khẩu hiện tại!");
 
             if (!_repo.KiemTraMatKhau(id, matKhauCu))
-                return "Mật khẩu hiện tại không đúng!";
+                throw new NghiepVuException("Mật khẩu hiện tại không đúng!");
 
-            if (_repo.DoiMatKhau(id, matKhauMoi))
-                return "OK";
-            return "Đổi mật khẩu thất bại!";
+            if (!_repo.DoiMatKhau(id, matKhauMoi))
+                throw new NghiepVuException("Đổi mật khẩu thất bại!");
         }
 
-        public string Xoa(int id)
+        public void Xoa(int id)
         {
-            if (id == 1)
-                return "Không được xóa tài khoản Admin mặc định!";
+            if (id == NguoiDung.ID_ADMIN_MAC_DINH)
+                throw new NghiepVuException("Không được xóa tài khoản Admin mặc định!");
 
-            if (_repo.Xoa(id))
-                return "OK";
-            return "Xóa thất bại!";
+            if (!_repo.Xoa(id))
+                throw new NghiepVuException("Xóa thất bại!");
         }
     }
 

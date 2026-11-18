@@ -61,7 +61,7 @@ namespace CuahangNongduoc
                 cboLocTrangThai = new ToolStripComboBox();
                 cboLocTrangThai.Name = "cboLocTrangThai";
                 cboLocTrangThai.DropDownStyle = ComboBoxStyle.DropDownList;
-                cboLocTrangThai.Items.AddRange(new object[] { "Tất cả", "Đã thanh toán", "Còn nợ" });
+                cboLocTrangThai.Items.AddRange(BoLocCongNo.DanhSach());
                 cboLocTrangThai.SelectedIndex = 0;
                 cboLocTrangThai.Size = new Size(110, 25);
                 cboLocTrangThai.SelectedIndexChanged += cboLocTrangThai_SelectedIndexChanged;
@@ -251,20 +251,9 @@ namespace CuahangNongduoc
                 {
                     if (row.IsNewRow) continue;
                     DataRowView rv = row.DataBoundItem as DataRowView;
-                    long conNo = 0, daTra = 0, tong = 0;
-                    try
-                    {
-                        if (rv != null)
-                        {
-                            if (rv.Row.Table.Columns.Contains("CON_NO"))
-                                conNo = Convert.ToInt64(rv["CON_NO"] == DBNull.Value ? 0 : rv["CON_NO"]);
-                            if (rv.Row.Table.Columns.Contains("DA_TRA"))
-                                daTra = Convert.ToInt64(rv["DA_TRA"] == DBNull.Value ? 0 : rv["DA_TRA"]);
-                            if (rv.Row.Table.Columns.Contains("TONG_TIEN"))
-                                tong = Convert.ToInt64(rv["TONG_TIEN"] == DBNull.Value ? 0 : rv["TONG_TIEN"]);
-                        }
-                    }
-                    catch { }
+                    long conNo = DocSo(rv, "CON_NO");
+                    long daTra = DocSo(rv, "DA_TRA");
+                    long tong = DocSo(rv, "TONG_TIEN");
 
                     // Trạng thái suy ra từ còn nợ (không cần cột DB)
                     string tt = "Đã thanh toán";
@@ -283,44 +272,35 @@ namespace CuahangNongduoc
                     if (GetCell(row, "colHinhThucTT") == "")
                         SetCell(row, "colHinhThucTT", conNo > 0 ? "Công nợ" : "Tiền mặt");
                     // Hạn mức công nợ đại lý (nếu có cột hoặc lấy từ KH)
-                    try
-                    {
-                        string hm = "";
-                        if (rv != null && rv.Row.Table.Columns.Contains("HAN_MUC_NO"))
-                        {
-                            object v = rv["HAN_MUC_NO"];
-                            if (v != null && v != DBNull.Value) hm = Convert.ToString(v);
-                        }
-                        if (hm == "" && rv != null && rv.Row.Table.Columns.Contains("ID_KHACH_HANG"))
-                        {
-                            try
-                            {
-                                string idKH = Convert.ToString(rv["ID_KHACH_HANG"]);
-                                KhachHangController ckh = new KhachHangController();
-                                KhachHang kh = ckh.LayKhachHang(idKH);
-                                if (kh != null)
-                                {
-                                    try
-                                    {
-                                        System.Reflection.PropertyInfo pi = kh.GetType().GetProperty("HanMucNo");
-                                        if (pi == null) pi = kh.GetType().GetProperty("HanMucCongNo");
-                                        if (pi != null)
-                                        {
-                                            object val = pi.GetValue(kh, null);
-                                            if (val != null) hm = Convert.ToString(val);
-                                        }
-                                    }
-                                    catch { }
-                                }
-                            }
-                            catch { }
-                        }
-                        if (hm != "") SetCell(row, "colHanMucNo", hm);
-                    }
-                    catch { }
+                    string hm = LayHanMucNo(rv);
+                    if (hm != "") SetCell(row, "colHanMucNo", hm);
                 }
             }
             catch { }
+        }
+
+        // REFACTOR #37 Replace Nested Conditional with Guard Clauses.
+        // Trước đây hai đoạn dưới nằm lồng tới 11 cấp if/try trong CapNhatCotAoPM23 và dùng reflection
+        // tìm thuộc tính "HanMucNo" (không tồn tại nên hạn mức không bao giờ hiện). Nay mỗi điều kiện
+        // không thỏa thì thoát sớm, và đọc thẳng DaiLy.HanMucCongNo.
+        static long DocSo(DataRowView rv, string cot)
+        {
+            if (rv == null) return 0;
+            if (!rv.Row.Table.Columns.Contains(cot)) return 0;
+            return DuLieu.LaySoLon(rv[cot]);
+        }
+
+        static string LayHanMucNo(DataRowView rv)
+        {
+            if (rv == null) return "";
+            DataColumnCollection cot = rv.Row.Table.Columns;
+            if (cot.Contains("HAN_MUC_NO") && !DuLieu.LaRong(rv["HAN_MUC_NO"]))
+                return Convert.ToString(rv["HAN_MUC_NO"]);
+            if (!cot.Contains("ID_KHACH_HANG")) return "";
+
+            DaiLy daiLy = new KhachHangController().LayKhachHang(DuLieu.LayChuoi(rv["ID_KHACH_HANG"])) as DaiLy;
+            if (daiLy == null || daiLy.HanMucCongNo <= 0) return "";
+            return daiLy.HanMucCongNo.ToString("#,##0");
         }
 
         void SetCellTuData(DataGridViewRow row, DataRowView rv, string colGrid, string colData)
@@ -440,7 +420,7 @@ namespace CuahangNongduoc
                         try
                         {
                             if (ct.MaSanPham != null)
-                                CuahangNongduoc.DataLayer.MaSanPhanFactory.CapNhatSoLuong(ct.MaSanPham.Id, ct.SoLuong);
+                                CuahangNongduoc.DataLayer.MaSanPhamFactory.CapNhatSoLuong(ct.MaSanPham.Id, ct.SoLuong);
                         }
                         catch { }
                     }
@@ -461,7 +441,7 @@ namespace CuahangNongduoc
                 if (view == null) return;
                 string id = Convert.ToString(view["ID"]);
                 bindingNavigator.BindingSource.RemoveCurrent();
-                ctrl.Save();
+                ctrl.Save(PhienDangNhap.NguoiDungHienTai);
                 GhiAudit("Xóa phiếu bán sỉ (toolbar): " + id);
                 CapNhatCotAoPM23();
             }
@@ -491,7 +471,7 @@ namespace CuahangNongduoc
                 if (conNo < 0) conNo = 0;
                 if (rv.Row.Table.Columns.Contains("CON_NO"))
                     rv["CON_NO"] = conNo;
-                ctrl.Save();
+                ctrl.Save(PhienDangNhap.NguoiDungHienTai);
                 CapNhatCotAoPM23();
                 GhiAudit("Sửa nhanh Đã trả phiếu " + Convert.ToString(rv["ID"]) + " → " + daTra);
             }
@@ -502,11 +482,7 @@ namespace CuahangNongduoc
             }
         }
 
-        private void toolPrint_Click(object sender, EventArgs e)
-        {
-            toolIn_Click(sender, e);
-        }
-
+        // REFACTOR #2 Inline Method – handler toolPrint_Click (chỉ gọi lại toolIn_Click) đã bị bỏ.
         private void toolIn_Click(object sender, EventArgs e)
         {
             try
@@ -725,23 +701,11 @@ namespace CuahangNongduoc
             try
             {
                 if (bindingNavigator.BindingSource == null) return;
-                string chon = "Tất cả";
-                try
-                {
-                    if (cboLocTrangThai != null && cboLocTrangThai.SelectedItem != null)
-                        chon = cboLocTrangThai.SelectedItem.ToString();
-                }
-                catch { }
-
-                if (chon == "Còn nợ")
-                    bindingNavigator.BindingSource.Filter = "CON_NO > 0";
-                else if (chon == "Đã thanh toán")
-                    bindingNavigator.BindingSource.Filter = "CON_NO <= 0 OR CON_NO IS NULL";
-                else
-                    bindingNavigator.BindingSource.Filter = "";
+                BoLocCongNo boLoc = BoLocDangChon();
+                bindingNavigator.BindingSource.Filter = boLoc.BieuThucLoc;
 
                 CapNhatCotAoPM23();
-                GhiAudit("Lọc trạng thái: " + chon);
+                GhiAudit("Lọc trạng thái: " + boLoc.Ten);
             }
             catch
             {
@@ -750,15 +714,15 @@ namespace CuahangNongduoc
             }
         }
 
+        BoLocCongNo BoLocDangChon()
+        {
+            BoLocCongNo boLoc = (cboLocTrangThai == null) ? null : cboLocTrangThai.SelectedItem as BoLocCongNo;
+            return boLoc ?? BoLocCongNo.TatCa;
+        }
+
         void LocThuCong()
         {
-            string chon = "Tất cả";
-            try
-            {
-                if (cboLocTrangThai != null && cboLocTrangThai.SelectedItem != null)
-                    chon = cboLocTrangThai.SelectedItem.ToString();
-            }
-            catch { }
+            BoLocCongNo boLoc = BoLocDangChon();
             foreach (DataGridViewRow row in dataGridView.Rows)
             {
                 if (row.IsNewRow) continue;
@@ -770,10 +734,7 @@ namespace CuahangNongduoc
                         conNo = Convert.ToInt64(rv["CON_NO"]);
                 }
                 catch { }
-                bool hien = true;
-                if (chon == "Còn nợ") hien = conNo > 0;
-                else if (chon == "Đã thanh toán") hien = conNo <= 0;
-                try { row.Visible = hien; } catch { }
+                try { row.Visible = boLoc.Khop(conNo); } catch { }
             }
         }
 

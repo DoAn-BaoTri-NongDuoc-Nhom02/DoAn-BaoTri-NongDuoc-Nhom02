@@ -288,8 +288,8 @@ namespace CuahangNongduoc
         void CapNhatBieuDo()
         {
             if (bieuDo == null) return;
-            bieuDo.KieuBieuDo = cmbBieuDo == null ? 0 : cmbBieuDo.SelectedIndex;
-            bieuDo.BangDuLieu = bangLoc;
+            bieuDo.Kieu = cmbBieuDo == null ? 0 : cmbBieuDo.SelectedIndex;
+            bieuDo.Bang = bangLoc;
             bieuDo.Invalidate();
         }
 
@@ -306,7 +306,7 @@ namespace CuahangNongduoc
             {
                 DataService sp = new DataService();
                 sp.Load(new OleDbCommand("SELECT ID, TEN_SAN_PHAM FROM SAN_PHAM ORDER BY TEN_SAN_PHAM"));
-                foreach (DataRow r in sp.Rows)
+                foreach (DataRow r in sp.Bang.Rows)
                     cmbSanPham.Items.Add(Convert.ToString(r["TEN_SAN_PHAM"]));
             }
             catch { }
@@ -315,7 +315,7 @@ namespace CuahangNongduoc
             {
                 DataService dvt = new DataService();
                 dvt.Load(new OleDbCommand("SELECT TEN_DON_VI FROM DON_VI_TINH ORDER BY TEN_DON_VI"));
-                foreach (DataRow r in dvt.Rows)
+                foreach (DataRow r in dvt.Bang.Rows)
                     cmbLoai.Items.Add(Convert.ToString(r["TEN_DON_VI"]));
             }
             catch { }
@@ -339,7 +339,7 @@ namespace CuahangNongduoc
             {
                 DataService ds = new DataService();
                 ds.Load(new OleDbCommand("SELECT TOP 1 * FROM PHIEU_BAN"));
-                foreach (DataColumn c in ds.Columns)
+                foreach (DataColumn c in ds.Bang.Columns)
                 {
                     string n = c.ColumnName.ToUpper();
                     if (n.Contains("NHAN_VIEN") || n.Contains("NHANVIEN") || n.Contains("ID_NV") || n.Contains("NGUOI_BAN") || n == "NHAN_VIEN")
@@ -428,7 +428,7 @@ namespace CuahangNongduoc
             ds.Load(cmd);
 
             DataTable t = TaoBangTrong();
-            foreach (DataRow r in ds.Rows)
+            foreach (DataRow r in ds.Bang.Rows)
             {
                 DataRow n = t.NewRow();
                 n["Mã SP"] = r["MA_SP"] == DBNull.Value ? "" : Convert.ToString(r["MA_SP"]);
@@ -437,7 +437,7 @@ namespace CuahangNongduoc
                 n["Số lượng bán"] = r["SO_LUONG"] == DBNull.Value ? 0 : Convert.ToInt32(r["SO_LUONG"]);
                 n["Ngày bán"] = r["NGAY_BAN"] == DBNull.Value ? (object)DBNull.Value : Convert.ToDateTime(r["NGAY_BAN"]);
                 n["Doanh thu"] = r["DOANH_THU"] == DBNull.Value ? 0L : Convert.ToInt64(r["DOANH_THU"]);
-                n["Nhân viên"] = ds.Columns.Contains("NHAN_VIEN") && r["NHAN_VIEN"] != DBNull.Value ? Convert.ToString(r["NHAN_VIEN"]) : "";
+                n["Nhân viên"] = ds.Bang.Columns.Contains("NHAN_VIEN") && r["NHAN_VIEN"] != DBNull.Value ? Convert.ToString(r["NHAN_VIEN"]) : "";
                 t.Rows.Add(n);
             }
             return t;
@@ -640,100 +640,29 @@ namespace CuahangNongduoc
     }
 
     // Biểu đồ tự vẽ — không dùng Func<> (tương thích .NET 2.0 / VS cũ)
-    public class BieuDoBan : Panel
+    /// <summary>Biểu đồ số lượng bán theo sản phẩm (khung vẽ ở BieuDoCot).</summary>
+    public class BieuDoBan : BieuDoCot
     {
-        public int KieuBieuDo;
-        public DataTable BangDuLieu;
-
-        public BieuDoBan()
+        protected override string ThongBaoKhiTrong
         {
-            this.DoubleBuffered = true;
-            this.Resize += delegate { Invalidate(); };
+            get { return "Không tìm thấy dữ liệu."; }
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+        protected override List<KeyValuePair<string, long>> GomDuLieu(DataTable t)
         {
-            base.OnPaint(e);
-            Graphics g = e.Graphics;
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.Clear(Color.White);
-            DataTable t = BangDuLieu;
-            if (t == null || t.Rows.Count == 0)
-            {
-                using (Font f = new Font("Segoe UI", 9f))
-                    g.DrawString("Không tìm thấy dữ liệu.", f, Brushes.Gray, 12, 12);
-                return;
-            }
-
             Dictionary<string, long> sl = new Dictionary<string, long>();
+            List<string> thuTu = new List<string>();
             foreach (DataRow r in t.Rows)
             {
                 string ten = Convert.ToString(r["Tên SP"]);
                 if (ten.Length == 0) ten = Convert.ToString(r["Mã SP"]);
                 long cong = Convert.ToInt64(r["Số lượng bán"]);
-                long cu = 0;
-                if (sl.ContainsKey(ten)) cu = sl[ten];
-                sl[ten] = cu + cong;
+                if (!sl.ContainsKey(ten)) { sl[ten] = 0; thuTu.Add(ten); }
+                sl[ten] += cong;
             }
-            if (sl.Count == 0) return;
-
-            int kieu = KieuBieuDo;
-            List<string> tenList = new List<string>();
-            foreach (string k in sl.Keys) tenList.Add(k);
-            long max = 1;
-            foreach (long v in sl.Values) if (v > max) max = v;
-
-            Rectangle vung = new Rectangle(36, 16, Math.Max(20, Width - 52), Math.Max(20, Height - 48));
-            Color[] mau = new Color[] {
-                Color.FromArgb(46, 125, 90), Color.FromArgb(33, 115, 185), Color.DarkOrange,
-                Color.MediumPurple, Color.IndianRed, Color.Teal, Color.Goldenrod, Color.DimGray
-            };
-
-            if (kieu == 2)
-            {
-                float tong = 0;
-                foreach (long v in sl.Values) tong += v;
-                if (tong <= 0) tong = 1;
-                float goc = -90;
-                int canh = Math.Min(vung.Width, vung.Height) - 10;
-                Rectangle tron = new Rectangle(vung.X + 10, vung.Y, canh, canh);
-                int i = 0;
-                foreach (string ten in tenList)
-                {
-                    float quet = (float)(sl[ten] * 360.0 / tong);
-                    using (SolidBrush b = new SolidBrush(mau[i % mau.Length]))
-                        g.FillPie(b, tron, goc, quet);
-                    goc += quet;
-                    i++;
-                }
-                return;
-            }
-
-            int n = tenList.Count;
-            float bw = Math.Max(8, (vung.Width - 8) / (float)n);
-            using (Pen truc = new Pen(Color.Silver))
-                g.DrawLine(truc, vung.Left, vung.Bottom, vung.Right, vung.Bottom);
-
-            List<PointF> diem = new List<PointF>();
-            for (int i = 0; i < n; i++)
-            {
-                long v = sl[tenList[i]];
-                float h = (float)v / max * (vung.Height - 10);
-                float x = vung.Left + i * bw;
-                if (kieu == 0)
-                {
-                    using (SolidBrush b = new SolidBrush(mau[i % mau.Length]))
-                        g.FillRectangle(b, x + 2, vung.Bottom - h, Math.Max(4, bw - 6), h);
-                }
-                diem.Add(new PointF(x + bw / 2f, vung.Bottom - h));
-            }
-            if (kieu == 1 && diem.Count > 1)
-            {
-                using (Pen p = new Pen(Color.FromArgb(33, 115, 185), 2f))
-                    g.DrawLines(p, diem.ToArray());
-                foreach (PointF pt in diem)
-                    g.FillEllipse(Brushes.DarkOrange, pt.X - 3, pt.Y - 3, 6, 6);
-            }
+            List<KeyValuePair<string, long>> kq = new List<KeyValuePair<string, long>>();
+            foreach (string ten in thuTu) kq.Add(new KeyValuePair<string, long>(ten, sl[ten]));
+            return kq;
         }
     }
 }

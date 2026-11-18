@@ -441,8 +441,8 @@ namespace CuahangNongduoc
                 return;
             }
             DatCheDoSua(true);
-            long maphieu = ThamSo.PhieuChi;
-            ThamSo.PhieuChi = maphieu + 1;
+            long maphieu = ThamSo.LayMa(LoaiChungTu.PhieuChi);
+            ThamSo.GanMa(LoaiChungTu.PhieuChi, maphieu + 1);
             DataRow row = ctrl.NewRow();
             row["ID"] = maphieu;
             row["NGAY_CHI"] = DateTime.Now.Date;

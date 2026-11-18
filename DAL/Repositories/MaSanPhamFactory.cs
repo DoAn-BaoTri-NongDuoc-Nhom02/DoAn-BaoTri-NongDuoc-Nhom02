@@ -6,7 +6,8 @@ using System.Data.OleDb;
 
 namespace CuahangNongduoc.DataLayer
 {
-    public class MaSanPhanFactory
+    // REFACTOR #41 Rename Method – lớp MaSanPhanFactory (sai chính tả "Phan") đổi tên thành MaSanPhamFactory.
+    public class MaSanPhamFactory
     {
         DataService m_Ds = new DataService();
 
@@ -23,7 +24,7 @@ namespace CuahangNongduoc.DataLayer
             cmd.Parameters.Add("id", OleDbType.VarChar, 50).Value = sp;
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
         public DataTable DanhsachChiTiet(String sp)
         {
@@ -35,10 +36,10 @@ namespace CuahangNongduoc.DataLayer
             if (LastError.Length > 0)
                 throw new Exception("Khong doc duoc chi tiet phieu nhap: " + LastError);
 
-            if (m_Ds.Columns.Count == 0)
+            if (m_Ds.Bang.Columns.Count == 0)
                 LoadSchema();
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public DataTable LaySanPham(String idMaSanPham)
@@ -46,7 +47,7 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT SP.* FROM SAN_PHAM SP INNER JOIN MA_SAN_PHAM MSP ON SP.ID = MSP.ID_SAN_PHAM WHERE MSP.ID = @id");
             cmd.Parameters.Add("id", OleDbType.VarChar, 50).Value = idMaSanPham;
             m_Ds.Load(cmd);
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public DataTable LayMaSanPham(String idMaSanPham)
@@ -54,7 +55,7 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM MA_SAN_PHAM MSP WHERE MSP.ID = @id");
             cmd.Parameters.Add("id", OleDbType.VarChar, 50).Value = idMaSanPham;
             m_Ds.Load(cmd);
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public DataTable DanhsachMaSanPhamHetHan(DateTime dt)
@@ -63,7 +64,7 @@ namespace CuahangNongduoc.DataLayer
             cmd.Parameters.Add("ngay", OleDbType.Date).Value = dt;
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public DataTable DanhsachMaSanPham()
@@ -71,7 +72,7 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM MA_SAN_PHAM WHERE SO_LUONG > 0");
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         /// <summary>Tất cả lô (kể cả lô đã hết hàng) - dùng để hiển thị lại các phiếu bán cũ.</summary>
@@ -80,7 +81,7 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM MA_SAN_PHAM");
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         /// <summary>Số lượng tồn hiện tại của một lô (0 nếu không có lô).</summary>
@@ -107,7 +108,7 @@ namespace CuahangNongduoc.DataLayer
             cmd.Parameters.Add("id", OleDbType.VarChar, 50).Value = masp;
             cmd.Parameters.Add("so2", OleDbType.Integer).Value = so_luong;
 
-            if (ds.ExecuteNoneQuery(cmd) == 0)
+            if (ds.ExecuteNonQuery(cmd) == 0)
             {
                 throw new TonKhoException("Lô '" + masp + "' không đủ số lượng tồn để xuất (hoặc không tồn tại).");
             }
@@ -134,7 +135,7 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand upd = new OleDbCommand("UPDATE SAN_PHAM SET SO_LUONG = @tong WHERE ID = @sp");
             upd.Parameters.Add("tong", OleDbType.Integer).Value = (tong == null ? 0 : Convert.ToInt32(tong));
             upd.Parameters.Add("sp", OleDbType.VarChar, 50).Value = Convert.ToString(idSp);
-            ds.ExecuteNoneQuery(upd);
+            ds.ExecuteNonQuery(upd);
         }
 
         /// <summary>
@@ -143,10 +144,10 @@ namespace CuahangNongduoc.DataLayer
         /// </summary>
         private void DamBaoCoCauTruc()
         {
-            if (m_Ds.Columns.Count > 0) return;
+            if (m_Ds.Bang.Columns.Count > 0) return;
 
             LoadSchema();
-            if (m_Ds.Columns.Count == 0)
+            if (m_Ds.Bang.Columns.Count == 0)
                 throw new Exception("Khong doc duoc cau truc bang MA_SAN_PHAM. Hay kiem tra file CSDL (cuahang.dll) va ten bang/cot.");
         }
 
@@ -174,30 +175,30 @@ namespace CuahangNongduoc.DataLayer
 
             if (LastError.Length > 0)
                 throw new Exception("Khong doc duoc bang MA_SAN_PHAM: " + LastError);
-            if (m_Ds.Columns.Count == 0)
+            if (m_Ds.Bang.Columns.Count == 0)
                 throw new Exception("Khong doc duoc bang MA_SAN_PHAM (bang khong co cot nao). Hay kiem tra file CSDL.");
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public bool CoThayDoi()
         {
-            return m_Ds.GetChanges() != null;
+            return m_Ds.Bang.GetChanges() != null;
         }
 
         public DataRow NewRow()
         {
             DamBaoCoCauTruc();
-            return m_Ds.NewRow();
+            return m_Ds.Bang.NewRow();
         }
         public void Add(DataRow row)
         {
             DamBaoCoCauTruc();
-            m_Ds.Rows.Add(row);
+            m_Ds.Bang.Rows.Add(row);
         }
         public bool Save()
         {
-            return m_Ds.ExecuteNoneQuery() > 0;
+            return m_Ds.ExecuteNonQuery() > 0;
         }
     }
 }

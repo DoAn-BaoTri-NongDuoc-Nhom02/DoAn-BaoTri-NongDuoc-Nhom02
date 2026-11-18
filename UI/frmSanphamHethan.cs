@@ -262,7 +262,7 @@ namespace CuahangNongduoc
             {
                 DataService ncc = new DataService();
                 ncc.Load(new OleDbCommand("SELECT TEN_NHA_CUNG_CAP FROM NHA_CUNG_CAP ORDER BY TEN_NHA_CUNG_CAP"));
-                foreach (DataRow r in ncc.Rows)
+                foreach (DataRow r in ncc.Bang.Rows)
                     cmbNhaCungCap.Items.Add(Convert.ToString(r["TEN_NHA_CUNG_CAP"]));
             }
             catch
@@ -279,7 +279,7 @@ namespace CuahangNongduoc
             {
                 DataService dvt = new DataService();
                 dvt.Load(new OleDbCommand("SELECT TEN_DON_VI FROM DON_VI_TINH ORDER BY TEN_DON_VI"));
-                foreach (DataRow r in dvt.Rows)
+                foreach (DataRow r in dvt.Bang.Rows)
                     cmbLoai.Items.Add(Convert.ToString(r["TEN_DON_VI"]));
             }
             catch { }
@@ -394,7 +394,7 @@ namespace CuahangNongduoc
 
             Dictionary<string, string[]> cacheSp = new Dictionary<string, string[]>();
 
-            foreach (DataRow r in ds.Rows)
+            foreach (DataRow r in ds.Bang.Rows)
             {
                 string idSp = "";
                 if (r.Table.Columns.Contains("ID_SAN_PHAM") && r["ID_SAN_PHAM"] != DBNull.Value)
@@ -414,12 +414,12 @@ namespace CuahangNongduoc
                                 "LEFT JOIN DON_VI_TINH DVT ON SP.ID_DON_VI_TINH = DVT.ID WHERE SP.ID = @id");
                             c2.Parameters.Add("id", OleDbType.VarChar, 50).Value = idSp;
                             sp.Load(c2);
-                            if (sp.Rows.Count > 0)
+                            if (sp.Bang.Rows.Count > 0)
                             {
-                                if (sp.Rows[0]["TEN_SAN_PHAM"] != DBNull.Value)
-                                    info[0] = Convert.ToString(sp.Rows[0]["TEN_SAN_PHAM"]);
-                                if (sp.Columns.Contains("TEN_DON_VI") && sp.Rows[0]["TEN_DON_VI"] != DBNull.Value)
-                                    info[1] = Convert.ToString(sp.Rows[0]["TEN_DON_VI"]);
+                                if (sp.Bang.Rows[0]["TEN_SAN_PHAM"] != DBNull.Value)
+                                    info[0] = Convert.ToString(sp.Bang.Rows[0]["TEN_SAN_PHAM"]);
+                                if (sp.Bang.Columns.Contains("TEN_DON_VI") && sp.Bang.Rows[0]["TEN_DON_VI"] != DBNull.Value)
+                                    info[1] = Convert.ToString(sp.Bang.Rows[0]["TEN_DON_VI"]);
                             }
                         }
                         catch { }

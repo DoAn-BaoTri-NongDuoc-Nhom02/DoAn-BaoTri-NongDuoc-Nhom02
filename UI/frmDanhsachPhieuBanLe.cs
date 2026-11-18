@@ -61,7 +61,7 @@ namespace CuahangNongduoc
                 cboLocTrangThai = new ToolStripComboBox();
                 cboLocTrangThai.Name = "cboLocTrangThai";
                 cboLocTrangThai.DropDownStyle = ComboBoxStyle.DropDownList;
-                cboLocTrangThai.Items.AddRange(new object[] { "Tất cả", "Đã thanh toán", "Còn nợ" });
+                cboLocTrangThai.Items.AddRange(BoLocCongNo.DanhSach());
                 cboLocTrangThai.SelectedIndex = 0;
                 cboLocTrangThai.Size = new Size(110, 25);
                 cboLocTrangThai.SelectedIndexChanged += cboLocTrangThai_SelectedIndexChanged;
@@ -400,7 +400,7 @@ namespace CuahangNongduoc
                         try
                         {
                             if (ct.MaSanPham != null)
-                                CuahangNongduoc.DataLayer.MaSanPhanFactory.CapNhatSoLuong(ct.MaSanPham.Id, ct.SoLuong);
+                                CuahangNongduoc.DataLayer.MaSanPhamFactory.CapNhatSoLuong(ct.MaSanPham.Id, ct.SoLuong);
                         }
                         catch { }
                     }
@@ -421,7 +421,7 @@ namespace CuahangNongduoc
                 if (view == null) return;
                 string id = Convert.ToString(view["ID"]);
                 bindingNavigator.BindingSource.RemoveCurrent();
-                ctrl.Save();
+                ctrl.Save(PhienDangNhap.NguoiDungHienTai);
                 GhiAudit("Xóa phiếu bán lẻ (toolbar): " + id);
                 CapNhatCotAoPM23();
             }
@@ -451,7 +451,7 @@ namespace CuahangNongduoc
                 if (conNo < 0) conNo = 0;
                 if (rv.Row.Table.Columns.Contains("CON_NO"))
                     rv["CON_NO"] = conNo;
-                ctrl.Save();
+                ctrl.Save(PhienDangNhap.NguoiDungHienTai);
                 CapNhatCotAoPM23();
                 GhiAudit("Sửa nhanh Đã trả phiếu " + Convert.ToString(rv["ID"]) + " → " + daTra);
             }
@@ -680,23 +680,11 @@ namespace CuahangNongduoc
             try
             {
                 if (bindingNavigator.BindingSource == null) return;
-                string chon = "Tất cả";
-                try
-                {
-                    if (cboLocTrangThai != null && cboLocTrangThai.SelectedItem != null)
-                        chon = cboLocTrangThai.SelectedItem.ToString();
-                }
-                catch { }
-
-                if (chon == "Còn nợ")
-                    bindingNavigator.BindingSource.Filter = "CON_NO > 0";
-                else if (chon == "Đã thanh toán")
-                    bindingNavigator.BindingSource.Filter = "CON_NO <= 0 OR CON_NO IS NULL";
-                else
-                    bindingNavigator.BindingSource.Filter = "";
+                BoLocCongNo boLoc = BoLocDangChon();
+                bindingNavigator.BindingSource.Filter = boLoc.BieuThucLoc;
 
                 CapNhatCotAoPM23();
-                GhiAudit("Lọc trạng thái: " + chon);
+                GhiAudit("Lọc trạng thái: " + boLoc.Ten);
             }
             catch
             {
@@ -705,15 +693,15 @@ namespace CuahangNongduoc
             }
         }
 
+        BoLocCongNo BoLocDangChon()
+        {
+            BoLocCongNo boLoc = (cboLocTrangThai == null) ? null : cboLocTrangThai.SelectedItem as BoLocCongNo;
+            return boLoc ?? BoLocCongNo.TatCa;
+        }
+
         void LocThuCong()
         {
-            string chon = "Tất cả";
-            try
-            {
-                if (cboLocTrangThai != null && cboLocTrangThai.SelectedItem != null)
-                    chon = cboLocTrangThai.SelectedItem.ToString();
-            }
-            catch { }
+            BoLocCongNo boLoc = BoLocDangChon();
             foreach (DataGridViewRow row in dataGridView.Rows)
             {
                 if (row.IsNewRow) continue;
@@ -725,10 +713,7 @@ namespace CuahangNongduoc
                         conNo = Convert.ToInt64(rv["CON_NO"]);
                 }
                 catch { }
-                bool hien = true;
-                if (chon == "Còn nợ") hien = conNo > 0;
-                else if (chon == "Đã thanh toán") hien = conNo <= 0;
-                try { row.Visible = hien; } catch { }
+                try { row.Visible = boLoc.Khop(conNo); } catch { }
             }
         }
 

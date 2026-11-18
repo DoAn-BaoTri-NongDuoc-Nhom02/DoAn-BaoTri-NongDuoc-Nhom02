@@ -1,0 +1,358 @@
+﻿-- =====================================================================
+-- CÀI ĐẶT CSDL TỪ ĐẦU cho đồ án Cửa hàng Nông dược (Nhóm 02)
+-- Dùng cho máy CHƯA có database CuahangNongDuoc: mở file này trong SQL Server
+-- Management Studio (SSMS) rồi bấm Execute (F5) MỘT lần.
+-- File gộp theo thứ tự: tạo database -> CuaHangNongDuoc.sql -> dữ liệu THAM_SO và dữ liệu mẫu
+-- -> bảng nhật ký -> Sample_Data_PhieuNhap_DaiLy.sql -> CapNhat_YeuCau4.sql.
+-- Muốn cài lại từ đầu: xóa database CuahangNongDuoc trong SSMS rồi chạy lại file này.
+-- Tài khoản đăng nhập: admin / banhang / kho / ketoan, mật khẩu đều là 123.
+-- =====================================================================
+USE master;
+GO
+IF DB_ID('CuahangNongDuoc') IS NOT NULL
+BEGIN
+    PRINT N'Database CuahangNongDuoc đã có -> KHÔNG chạy tiếp. Muốn cài lại: xóa database rồi chạy lại file này.';
+    SET NOEXEC ON;   -- các lệnh phía dưới sẽ không được thực thi
+END
+GO
+CREATE DATABASE CuahangNongDuoc;
+GO
+USE CuahangNongDuoc;
+GO
+
+-- ===================== 1. Cấu trúc gốc (CuaHangNongDuoc.sql) =====================
+-- 1. Đơn vị tính
+CREATE TABLE DON_VI_TINH (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    TEN_DON_VI NVARCHAR(50) NOT NULL
+);
+
+-- 2. Nhà cung cấp
+CREATE TABLE NHA_CUNG_CAP (
+    ID VARCHAR(20) PRIMARY KEY,
+    HO_TEN NVARCHAR(100) NOT NULL,
+    DIA_CHI NVARCHAR(200),
+    DIEN_THOAI VARCHAR(20)
+);
+
+-- 3. Đại lý
+CREATE TABLE DAI_LY (
+    ID VARCHAR(20) PRIMARY KEY,
+    DAI_LY NVARCHAR(100) NOT NULL,
+    DIA_CHI NVARCHAR(200),
+    DIEN_THOAI VARCHAR(20)
+);
+
+-- 4. Khách hàng
+CREATE TABLE KHACH_HANG (
+    ID VARCHAR(20) PRIMARY KEY,
+    HO_TEN NVARCHAR(100) NOT NULL,
+    DIA_CHI NVARCHAR(200),
+    DIEN_THOAI VARCHAR(20),
+    LOAI_KH INT DEFAULT 0  -- 0: khách lẻ, 1: đại lý
+);
+
+-- 5. Lý do chi
+CREATE TABLE LY_DO_CHI (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    LY_DO NVARCHAR(100) NOT NULL
+);
+
+-- 6. Sản phẩm
+CREATE TABLE SAN_PHAM (
+    ID VARCHAR(20) PRIMARY KEY,
+    TEN_SAN_PHAM NVARCHAR(200) NOT NULL,
+    SO_LUONG INT DEFAULT 0,
+    DON_GIA_NHAP DECIMAL(18,0) DEFAULT 0,
+    GIA_BAN_SI DECIMAL(18,0) DEFAULT 0,
+    GIA_BAN_LE DECIMAL(18,0) DEFAULT 0,
+    ID_DON_VI_TINH INT FOREIGN KEY REFERENCES DON_VI_TINH(ID)
+);
+
+-- 7. Phiếu nhập
+CREATE TABLE PHIEU_NHAP (
+    ID VARCHAR(20) PRIMARY KEY,
+    NGAY_NHAP DATETIME DEFAULT GETDATE(),
+    TONG_TIEN DECIMAL(18,0) DEFAULT 0,
+    DA_TRA DECIMAL(18,0) DEFAULT 0,
+    CON_NO DECIMAL(18,0) DEFAULT 0,
+    ID_NHA_CUNG_CAP VARCHAR(20) FOREIGN KEY REFERENCES NHA_CUNG_CAP(ID)
+);
+
+-- 8. Mã sản phẩm (lô hàng)
+CREATE TABLE MA_SAN_PHAM (
+    ID VARCHAR(30) PRIMARY KEY,
+    ID_SAN_PHAM VARCHAR(20) FOREIGN KEY REFERENCES SAN_PHAM(ID),
+    ID_PHIEU_NHAP VARCHAR(20) FOREIGN KEY REFERENCES PHIEU_NHAP(ID),
+    DON_GIA_NHAP DECIMAL(18,0),
+    SO_LUONG INT DEFAULT 0,
+    NGAY_NHAP DATETIME,
+    NGAY_SAN_XUAT DATETIME,
+    NGAY_HET_HAN DATETIME
+);
+
+-- 9. Phiếu bán
+CREATE TABLE PHIEU_BAN (
+    ID VARCHAR(20) PRIMARY KEY,
+    ID_KHACH_HANG VARCHAR(20) FOREIGN KEY REFERENCES KHACH_HANG(ID),
+    NGAY_BAN DATETIME DEFAULT GETDATE(),
+    TONG_TIEN DECIMAL(18,0) DEFAULT 0,
+    DA_TRA DECIMAL(18,0) DEFAULT 0,
+    CON_NO DECIMAL(18,0) DEFAULT 0
+);
+
+-- 10. Chi tiết phiếu bán
+CREATE TABLE CHI_TIET_PHIEU_BAN (
+    ID_PHIEU_BAN VARCHAR(20) FOREIGN KEY REFERENCES PHIEU_BAN(ID),
+    ID_MA_SAN_PHAM VARCHAR(30) FOREIGN KEY REFERENCES MA_SAN_PHAM(ID),
+    SO_LUONG INT,
+    DON_GIA DECIMAL(18,0),
+    THANH_TIEN DECIMAL(18,0),
+    PRIMARY KEY (ID_PHIEU_BAN, ID_MA_SAN_PHAM)
+);
+
+-- 11. Phiếu thanh toán (Phiếu thu)
+CREATE TABLE PHIEU_THANH_TOAN (
+    ID VARCHAR(20) PRIMARY KEY,
+    NGAY_THANH_TOAN DATETIME DEFAULT GETDATE(),
+    TONG_TIEN DECIMAL(18,0),
+    ID_KHACH_HANG VARCHAR(20) FOREIGN KEY REFERENCES KHACH_HANG(ID),
+    GHI_CHU NVARCHAR(200)
+);
+
+-- 12. Phiếu chi
+CREATE TABLE PHIEU_CHI (
+    ID VARCHAR(20) PRIMARY KEY,
+    NGAY_CHI DATETIME DEFAULT GETDATE(),
+    TONG_TIEN DECIMAL(18,0),
+    ID_LY_DO_CHI INT FOREIGN KEY REFERENCES LY_DO_CHI(ID),
+    GHI_CHU NVARCHAR(200)
+);
+
+-- 13. Dư nợ khách hàng
+CREATE TABLE DU_NO_KH (
+    ID_KHACH_HANG VARCHAR(20) FOREIGN KEY REFERENCES KHACH_HANG(ID),
+    THANG INT,
+    NAM INT,
+    DAU_KY DECIMAL(18,0) DEFAULT 0,
+    PHAT_SINH DECIMAL(18,0) DEFAULT 0,
+    DA_TRA DECIMAL(18,0) DEFAULT 0,
+    CUOI_KY DECIMAL(18,0) DEFAULT 0,
+    PRIMARY KEY (ID_KHACH_HANG, THANG, NAM)
+);
+
+-- 14. Tham số hệ thống
+CREATE TABLE THAM_SO (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    PHIEU_BAN INT DEFAULT 0,
+    NHA_CUNG_CAP INT DEFAULT 0,
+    KHACH_HANG INT DEFAULT 0,
+    PHIEU_NHAP INT DEFAULT 0,
+    PHIEU_THANH_TOAN INT DEFAULT 0,
+    TEN_CUA_HANG NVARCHAR(100),
+    DIA_CHI NVARCHAR(200),
+    DIEN_THOAI VARCHAR(20),
+    SAN_PHAM INT DEFAULT 0,
+    PHIEU_CHI INT DEFAULT 0
+);
+-- 15. Cấu hình kho (STT 3/4): phương pháp xuất kho & phương pháp tính giá xuất
+CREATE TABLE CAU_HINH (
+    KHOA VARCHAR(50) NOT NULL PRIMARY KEY,
+    GIA_TRI VARCHAR(50)
+);
+GO
+INSERT INTO CAU_HINH (KHOA, GIA_TRI) VALUES
+('PHUONG_PHAP_XUAT_KHO', 'FIFO'),         -- FIFO | ChiDinh
+('PHUONG_PHAP_GIA_XUAT', 'BinhQuanGiaQuyen'); -- BinhQuanGiaQuyen | FIFO
+GO
+
+CREATE TABLE VAI_TRO (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    TEN_VAI_TRO NVARCHAR(50) NOT NULL,
+    MO_TA NVARCHAR(200)
+);
+GO
+
+CREATE TABLE NGUOI_DUNG (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    TEN_DANG_NHAP VARCHAR(50) NOT NULL UNIQUE,
+    MAT_KHAU VARCHAR(100) NOT NULL,
+    HO_TEN NVARCHAR(100) NOT NULL,
+    ID_VAI_TRO INT NOT NULL FOREIGN KEY REFERENCES VAI_TRO(ID),
+    TRANG_THAI BIT DEFAULT 1,
+    NGAY_TAO DATETIME DEFAULT GETDATE()
+);
+GO
+
+INSERT INTO VAI_TRO (TEN_VAI_TRO, MO_TA) VALUES
+(N'Admin', N'Quản trị viên'),
+(N'Nhân viên Bán hàng', N'Bán hàng'),
+(N'Nhân viên Kho', N'Quản lý kho'),
+(N'Kế toán', N'Kế toán');
+GO
+
+INSERT INTO NGUOI_DUNG (TEN_DANG_NHAP, MAT_KHAU, HO_TEN, ID_VAI_TRO) VALUES
+('admin', '123', N'Nguyễn Văn Admin', 1),
+('banhang', '123', N'Trần Thị Bán Hàng', 2),
+('kho', '123', N'Lê Văn Kho', 3),
+('ketoan', '123', N'Phạm Thị Kế Toán', 4);
+GO
+SELECT * FROM VAI_TRO;
+SELECT * FROM NGUOI_DUNG;
+
+GO
+
+-- ===================== 2. Tham số hệ thống (bắt buộc có 1 dòng) =====================
+-- Chương trình đọc/ghi số thứ tự phiếu và thông tin cửa hàng trong dòng này.
+INSERT INTO THAM_SO (PHIEU_BAN, NHA_CUNG_CAP, KHACH_HANG, PHIEU_NHAP, PHIEU_THANH_TOAN,
+                     TEN_CUA_HANG, DIA_CHI, DIEN_THOAI, SAN_PHAM, PHIEU_CHI)
+VALUES (1, 1, 2, 1, 1, N'Cửa hàng Nông dược An Giang', N'Long Xuyên, An Giang', '0296 3841 234', 1, 1);
+GO
+
+-- ===================== 3. Bảng nhật ký thay đổi (khách hàng, phiếu nhập) =====================
+CREATE TABLE NHAT_KY_KHACH_HANG (
+    ID BIGINT PRIMARY KEY,
+    THOI_GIAN DATETIME NOT NULL DEFAULT GETDATE(),
+    NGUOI_DUNG NVARCHAR(100),
+    HANH_DONG NVARCHAR(20),
+    ID_KHACH_HANG NVARCHAR(50),
+    TEN_KHACH_HANG NVARCHAR(100),
+    NOI_DUNG NVARCHAR(MAX)
+);
+CREATE TABLE NHAT_KY_PHIEU_NHAP (
+    ID BIGINT PRIMARY KEY,
+    THOI_GIAN DATETIME NOT NULL DEFAULT GETDATE(),
+    NGUOI_DUNG NVARCHAR(100),
+    HANH_DONG NVARCHAR(20),
+    ID_PHIEU_NHAP NVARCHAR(50),
+    TEN_NHA_CUNG_CAP NVARCHAR(100),
+    NOI_DUNG NVARCHAR(MAX)
+);
+GO
+
+-- ===================== 4. Dữ liệu mẫu nhà cung cấp, phiếu nhập, đại lý =====================
+IF NOT EXISTS (SELECT 1 FROM NHA_CUNG_CAP WHERE ID = 'NCC01')
+INSERT INTO NHA_CUNG_CAP (ID, HO_TEN, DIA_CHI, DIEN_THOAI) VALUES
+(N'NCC01', N'Công ty Nông dược Miền Nam', N'TP.HCM', '0901111222'),
+(N'NCC02', N'Công ty Thuốc BVTV Đà Nẵng', N'Đà Nẵng', '0903333444'),
+(N'NCC03', N'Đại lý Phân bón Cần Thơ', N'Cần Thơ', '0905555666');
+GO
+
+IF NOT EXISTS (SELECT 1 FROM PHIEU_NHAP WHERE ID = 'PN001')
+INSERT INTO PHIEU_NHAP (ID, NGAY_NHAP, TONG_TIEN, DA_TRA, CON_NO, ID_NHA_CUNG_CAP) VALUES
+(N'PN001', '2026-09-01', 5000000, 2000000, 3000000, N'NCC01'),
+(N'PN002', '2026-09-15', 3200000, 3200000, 0, N'NCC02'),
+(N'PN003', '2026-10-01', 7500000, 0, 7500000, N'NCC01'),
+(N'PN004', '2026-10-10', 1500000, 500000, 1000000, N'NCC03');
+GO
+
+IF COL_LENGTH('KHACH_HANG','MST') IS NULL
+ALTER TABLE KHACH_HANG ADD
+    MST VARCHAR(20) NULL,
+    EMAIL NVARCHAR(100) NULL,
+    NGUOI_LIEN_HE NVARCHAR(100) NULL,
+    HAN_MUC_CONG_NO DECIMAL(18,0) DEFAULT 0,
+    SO_NGAY_CONG_NO INT DEFAULT 30,
+    TRANG_THAI BIT DEFAULT 1,
+    CAP_DAI_LY INT DEFAULT 1;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM KHACH_HANG WHERE ID = 'DL01')
+INSERT INTO KHACH_HANG (ID, HO_TEN, DIA_CHI, DIEN_THOAI, LOAI_KH, MST, EMAIL, NGUOI_LIEN_HE, HAN_MUC_CONG_NO, SO_NGAY_CONG_NO, TRANG_THAI, CAP_DAI_LY)
+VALUES
+('DL01', N'Đại lý Miền Tây', N'An Giang', '0901111111', 1, '1800123456', 'mientay@email.com', N'Anh Hùng', 50000000, 30, 1, 1),
+('DL02', N'Đại lý Đồng Nai', N'Biên Hòa', '0902222222', 1, '1800654321', 'dongnai@email.com', N'Chị Lan', 30000000, 45, 1, 2),
+('DL03', N'Đại lý An Giang', N'Long Xuyên', '0903333333', 1, '1800987654', 'angiang@email.com', N'Anh Tuấn', 20000000, 30, 1, 1);
+GO
+
+UPDATE KHACH_HANG SET LOAI_KH = 1 WHERE ID IN ('DL01','DL02','DL03');
+GO
+
+GO
+
+-- ===================== 5. Dữ liệu mẫu đơn vị tính, sản phẩm, lô hàng, khách lẻ, lý do chi =====================
+INSERT INTO DON_VI_TINH (TEN_DON_VI) VALUES (N'Chai'), (N'Gói'), (N'Kg');
+
+INSERT INTO SAN_PHAM (ID, TEN_SAN_PHAM, SO_LUONG, DON_GIA_NHAP, GIA_BAN_SI, GIA_BAN_LE, ID_DON_VI_TINH) VALUES
+('SP001', N'Thuốc trừ sâu Regent 800WG', 150, 18000, 22000, 25000, 2),
+('SP002', N'Thuốc trừ bệnh Anvil 5SC', 80, 65000, 75000, 85000, 1),
+('SP003', N'Phân bón NPK 20-20-15', 200, 14000, 16500, 18000, 3);
+
+-- Mỗi sản phẩm có lô hạn dùng khác nhau để thử xuất kho FIFO
+INSERT INTO MA_SAN_PHAM (ID, ID_SAN_PHAM, ID_PHIEU_NHAP, DON_GIA_NHAP, SO_LUONG, NGAY_NHAP, NGAY_SAN_XUAT, NGAY_HET_HAN) VALUES
+('L001', 'SP001', 'PN001', 17500, 50, '2026-09-01', '2026-06-01', '2027-03-01'),
+('L002', 'SP001', 'PN003', 18500, 100, '2026-10-01', '2026-08-01', '2027-08-01'),
+('L003', 'SP002', 'PN002', 65000, 80, '2026-09-15', '2026-07-01', '2027-07-01'),
+('L004', 'SP003', 'PN004', 14000, 200, '2026-10-10', '2026-09-01', '2028-09-01');
+
+INSERT INTO KHACH_HANG (ID, HO_TEN, DIA_CHI, DIEN_THOAI, LOAI_KH) VALUES
+('KH1', N'Khách lẻ', N'An Giang', '0909000111', 0);
+
+INSERT INTO LY_DO_CHI (LY_DO) VALUES (N'Tiền điện'), (N'Thuê xe vận chuyển'), (N'Lương nhân viên');
+GO
+
+-- ===================== 6. Cập nhật cho yêu cầu 4 (CapNhat_YeuCau4.sql) =====================
+-- =====================================================================
+-- Cập nhật CSDL cho yêu cầu 4 (hóa đơn có dịch vụ, phí vận chuyển, chiết khấu,
+-- giảm giá; thống kê theo nhân viên). Chạy được nhiều lần (có kiểm tra trước).
+-- Chạy SAU file CuaHangNongDuoc.sql.
+-- =====================================================================
+
+-- 1. Các cột mới của PHIEU_BAN.
+--    Trước đây form Bán lẻ / Bán sỉ đã ghi CHIET_KHAU, PHI_VAN_CHUYEN, VAT, NHAN_VIEN...
+--    nhưng bảng chưa có các cột này nên dữ liệu bị bỏ qua mà không báo lỗi (lỗi 2).
+IF COL_LENGTH('PHIEU_BAN', 'TIEN_HANG') IS NULL        ALTER TABLE PHIEU_BAN ADD TIEN_HANG DECIMAL(18,0) NOT NULL DEFAULT 0;
+IF COL_LENGTH('PHIEU_BAN', 'CHIET_KHAU') IS NULL       ALTER TABLE PHIEU_BAN ADD CHIET_KHAU DECIMAL(18,0) NOT NULL DEFAULT 0;
+IF COL_LENGTH('PHIEU_BAN', 'GIAM_GIA') IS NULL         ALTER TABLE PHIEU_BAN ADD GIAM_GIA DECIMAL(18,0) NOT NULL DEFAULT 0;
+IF COL_LENGTH('PHIEU_BAN', 'KIEU_GIAM') IS NULL        ALTER TABLE PHIEU_BAN ADD KIEU_GIAM NVARCHAR(50) NULL;
+IF COL_LENGTH('PHIEU_BAN', 'PHI_VAN_CHUYEN') IS NULL   ALTER TABLE PHIEU_BAN ADD PHI_VAN_CHUYEN DECIMAL(18,0) NOT NULL DEFAULT 0;
+IF COL_LENGTH('PHIEU_BAN', 'TIEN_DICH_VU') IS NULL     ALTER TABLE PHIEU_BAN ADD TIEN_DICH_VU DECIMAL(18,0) NOT NULL DEFAULT 0;
+IF COL_LENGTH('PHIEU_BAN', 'VAT') IS NULL              ALTER TABLE PHIEU_BAN ADD VAT DECIMAL(5,2) NOT NULL DEFAULT 0;
+IF COL_LENGTH('PHIEU_BAN', 'TRANG_THAI') IS NULL       ALTER TABLE PHIEU_BAN ADD TRANG_THAI NVARCHAR(30) NULL;
+IF COL_LENGTH('PHIEU_BAN', 'GHI_CHU') IS NULL          ALTER TABLE PHIEU_BAN ADD GHI_CHU NVARCHAR(200) NULL;
+IF COL_LENGTH('PHIEU_BAN', 'SO_HD_VAT') IS NULL        ALTER TABLE PHIEU_BAN ADD SO_HD_VAT NVARCHAR(30) NULL;
+IF COL_LENGTH('PHIEU_BAN', 'HINH_THUC_TT') IS NULL     ALTER TABLE PHIEU_BAN ADD HINH_THUC_TT NVARCHAR(30) NULL;
+IF COL_LENGTH('PHIEU_BAN', 'NHAN_VIEN') IS NULL        ALTER TABLE PHIEU_BAN ADD NHAN_VIEN NVARCHAR(100) NULL;
+IF COL_LENGTH('PHIEU_BAN', 'NGUOI_TAO') IS NULL        ALTER TABLE PHIEU_BAN ADD NGUOI_TAO NVARCHAR(100) NULL;
+IF COL_LENGTH('PHIEU_BAN', 'DIEU_KHOAN_TT') IS NULL    ALTER TABLE PHIEU_BAN ADD DIEU_KHOAN_TT NVARCHAR(50) NULL;
+IF COL_LENGTH('PHIEU_BAN', 'HAN_MUC_NO') IS NULL       ALTER TABLE PHIEU_BAN ADD HAN_MUC_NO DECIMAL(18,0) NULL;
+IF COL_LENGTH('PHIEU_BAN', 'ID_NGUOI_DUNG') IS NULL    ALTER TABLE PHIEU_BAN ADD ID_NGUOI_DUNG INT NULL;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name = 'FK_PHIEU_BAN_NGUOI_DUNG')
+    ALTER TABLE PHIEU_BAN ADD CONSTRAINT FK_PHIEU_BAN_NGUOI_DUNG
+        FOREIGN KEY (ID_NGUOI_DUNG) REFERENCES NGUOI_DUNG(ID);
+GO
+
+-- Phiếu cũ: tiền hàng = tổng tiền (chưa có chiết khấu / phí), trạng thái suy từ còn nợ
+UPDATE PHIEU_BAN SET TIEN_HANG = TONG_TIEN WHERE TIEN_HANG = 0 AND TONG_TIEN > 0;
+UPDATE PHIEU_BAN SET TRANG_THAI = CASE WHEN CON_NO > 0 THEN N'Đã lưu' ELSE N'Đã thanh toán' END
+    WHERE TRANG_THAI IS NULL;
+GO
+
+-- 2. Dịch vụ phụ phát sinh trên từng hóa đơn (giao hàng, phun thuốc hộ, bốc xếp...)
+IF OBJECT_ID('CT_DICH_VU_PHIEU_BAN', 'U') IS NULL
+CREATE TABLE CT_DICH_VU_PHIEU_BAN (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    ID_PHIEU_BAN VARCHAR(20) NOT NULL FOREIGN KEY REFERENCES PHIEU_BAN(ID) ON DELETE CASCADE,
+    TEN_DICH_VU NVARCHAR(100) NOT NULL,
+    SO_TIEN DECIMAL(18,0) NOT NULL DEFAULT 0
+);
+GO
+
+-- 3. Bảng DAI_LY không được chương trình dùng (đại lý nằm trong KHACH_HANG.LOAI_KH = 1) - lỗi 5.
+--    Chỉ xóa khi bảng rỗng để không mất dữ liệu.
+IF OBJECT_ID('DAI_LY', 'U') IS NOT NULL AND NOT EXISTS (SELECT 1 FROM DAI_LY)
+    DROP TABLE DAI_LY;
+GO
+
+-- 4. Mật khẩu: cột đủ dài để lưu dạng băm SHA256 (lỗi 3). Chương trình tự đổi mật khẩu cũ
+--    sang dạng băm ở lần đăng nhập thành công đầu tiên.
+IF COL_LENGTH('NGUOI_DUNG', 'MAT_KHAU') < 100
+    ALTER TABLE NGUOI_DUNG ALTER COLUMN MAT_KHAU VARCHAR(100) NOT NULL;
+GO
+
+GO
+PRINT N'Cài đặt CSDL CuahangNongDuoc xong.';
+SET NOEXEC OFF;
+GO

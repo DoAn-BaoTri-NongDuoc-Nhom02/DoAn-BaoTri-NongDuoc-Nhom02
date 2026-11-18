@@ -80,7 +80,7 @@ namespace CuahangNongduoc.UI
 
                 // Mở form chính
                 PhienDangNhap.BatDau(nd);
-                frmMain frm = new frmMain(nd);
+                frmMain frm = new frmMain();
                 this.Hide();
                 frm.ShowDialog();
 

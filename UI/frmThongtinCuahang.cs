@@ -92,11 +92,11 @@ namespace CuahangNongduoc
                 return;
             }
 
-            // Lưu 3 field hiện có trong ThamSo (tương thích bản cũ)
-            ThamSo.GanCuaHang(ten, dc, dt);
-
-            // Sau khi thêm cột EMAIL, MA_SO_THUE vào DB + entity:
-            // ThamSo.GanCuaHang(ten, dc, dt, email, mst);
+            CuahangNongduoc.BusinessObject.CuaHang cuaHang = new CuahangNongduoc.BusinessObject.CuaHang();
+            cuaHang.TenCuaHang = ten;
+            cuaHang.DiaChi = dc;
+            cuaHang.DienThoai = dt;
+            ThamSo.GanCuaHang(cuaHang);
 
             MessageBox.Show("Đã lưu thông tin cửa hàng.", "Thông tin cửa hàng",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);

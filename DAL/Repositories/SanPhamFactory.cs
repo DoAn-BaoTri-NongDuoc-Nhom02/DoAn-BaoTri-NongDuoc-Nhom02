@@ -15,7 +15,7 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM SAN_PHAM");
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public DataTable TimMaSanPham(String id)
@@ -24,7 +24,7 @@ namespace CuahangNongduoc.DataLayer
             cmd.Parameters.Add("id", OleDbType.VarChar).Value = id;
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
         public DataTable TimTenSanPham(String ten)
         {
@@ -32,7 +32,7 @@ namespace CuahangNongduoc.DataLayer
             cmd.Parameters.Add("ten", OleDbType.VarChar).Value = ten;
             m_Ds.Load(cmd);
 
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
 
@@ -41,7 +41,7 @@ namespace CuahangNongduoc.DataLayer
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM SAN_PHAM WHERE ID = @id");
             cmd.Parameters.Add("id", OleDbType.VarChar, 50).Value = id;
             m_Ds.Load(cmd);
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
         public DataTable LaySoLuongTon()
@@ -50,21 +50,21 @@ namespace CuahangNongduoc.DataLayer
                 + " FROM SAN_PHAM SP LEFT JOIN MA_SAN_PHAM MA ON SP.ID = MA.ID_SAN_PHAM "
                 + " GROUP BY SP.ID, SP.TEN_SAN_PHAM, SP.DON_GIA_NHAP, SP.GIA_BAN_SI, SP.GIA_BAN_LE, SP.ID_DON_VI_TINH, SP.SO_LUONG");
             m_Ds.Load(cmd);
-            return m_Ds;
+            return m_Ds.Bang;
         }
 
 
         public DataRow NewRow()
         {
-            return m_Ds.NewRow();
+            return m_Ds.Bang.NewRow();
         }
         public void Add(DataRow row)
         {
-            m_Ds.Rows.Add(row);
+            m_Ds.Bang.Rows.Add(row);
         }
         public bool Save()
         {
-            return m_Ds.ExecuteNoneQuery() > 0;
+            return m_Ds.ExecuteNonQuery() > 0;
         }
     }
 }

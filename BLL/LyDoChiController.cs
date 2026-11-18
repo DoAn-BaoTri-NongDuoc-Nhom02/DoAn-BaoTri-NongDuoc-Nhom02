@@ -14,9 +14,7 @@ namespace CuahangNongduoc.Controller
 
         public void HienthiAutoComboBox(System.Windows.Forms.ComboBox cmb)
         {
-            cmb.DataSource = factory.DanhsachLyDo();
-            cmb.DisplayMember = "LY_DO";
-            cmb.ValueMember = "ID";
+            DanhMucHelper.GanComboBox(cmb, factory);
         }
 
         public void HienthiDataGridview(System.Windows.Forms.DataGridView dg, System.Windows.Forms.BindingNavigator bn)
